@@ -8,13 +8,15 @@ export class AuthService {
   public userId: string = "";
   public loggedInUser: User = {} as User;
   public isUserLoggedIn: boolean = false;
-  public loggedInUserEmail: string = "";
+  public loggedInUserEmail: string = ""; 
 
   constructor(
   ) {}
 
   ngOnInit(){
 
+
+    
   }
 
   getUser(): User {
