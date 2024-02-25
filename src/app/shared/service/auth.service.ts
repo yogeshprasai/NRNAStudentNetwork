@@ -16,7 +16,6 @@ export class AuthService {
   ngOnInit(){
 
 
-    
   }
 
   getUser(): User {
