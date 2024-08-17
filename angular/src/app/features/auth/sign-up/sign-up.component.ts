@@ -37,7 +37,7 @@ export class SignUpComponent  implements OnInit {
     console.log("hello");
   }
 
-
+  //Submit Creds
   submitCredentials(signUpForm: FormGroup){
     const email = signUpForm.get('email')?.value;
     const password = signUpForm.get('password')?.value;
