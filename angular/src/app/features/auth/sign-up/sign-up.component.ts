@@ -34,7 +34,7 @@ export class SignUpComponent  implements OnInit {
     }
 
   ngOnInit() {
-    console.log("hello 2");
+    console.log("hello practice");
   }
 
   //Submit Creds also 4
