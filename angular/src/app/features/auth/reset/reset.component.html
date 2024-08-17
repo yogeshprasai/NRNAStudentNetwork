@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="app-title">
+      NRNA Student Network
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div id="container">
+    <ion-card class="white">
+      <ion-card-header>
+        <ion-card-subtitle class="white ion-text-center"></ion-card-subtitle>
+        <ion-card-title class="nrna-card-title ion-text-center">Password Reset</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form [formGroup]="passwordResetForm">
+          <ion-item>
+            <ion-label class="white" position="stacked">Email</ion-label>
+            <ion-input class="white" formControlName="email" type="email" placeholder="Your email address" [class.invalid]="!passwordResetForm.controls['email'].valid &&
+            passwordResetForm.controls['email'].touched">
+            </ion-input>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationResetPass.email">
+              <div class="error-message" *ngIf="passwordResetForm.get('email')?.hasError(validation.type) && passwordResetForm.get('email')?.touched">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+          <br/> 
+        
+          <ion-button (click)="submitCredentials(passwordResetForm)" expand="block">
+            Reset Password
+          </ion-button>
+          <p class="ion-text-center">*An email will be sent once successful</p>
+        </form>
+
+        <ion-button expand="block" fill="clear" routerLink="/sign-in" class="link">
+          Login Instead
+        </ion-button>
+        
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

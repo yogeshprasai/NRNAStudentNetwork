@@ -1,0 +1,42 @@
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    
+    <ion-menu contentId="main-content" type="overlay" menuId =“menuAdmin” side="end">
+      <ion-content class="ion-menu-content">
+        <ion-list id="inbox-list" class="mt-35">
+          
+          <img class="nrna-image"  src="../../assets/icon/nrna.png">
+
+          <ion-list-header>Menu</ion-list-header>
+
+          <!-- Show UserEmail Once Logged In -->
+          <span *ngIf="loggedInUserEmail" class="ml-20 loggedin-user"><ion-note>{{loggedInUserEmail}}</ion-note></span>
+
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+            <ion-item (click)="selectedIndex = i" routerDirection="root" (click)="onClickingMenu(p)" lines="none" detail="false" [class.selected]="selectedIndex == i">
+              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <div class="mt-3"></div>
+
+          <ion-menu-toggle auto-hide="false">
+            <div class="theme-switcher-group ml-3" (click)="toggleTheme()">
+              <ion-label class="light-mode" *ngIf="currentColorMode == 'dark'">Light Mode</ion-label>
+              <ion-label class="super-light-mode" *ngIf="currentColorMode == 'light'">Super Light Mode</ion-label>
+              <ion-label class="dark-mode" *ngIf="currentColorMode == 'super-light'">Dark Mode</ion-label>
+              <ion-icon slot="start" name="color-wand" *ngIf="currentColorMode == 'dark'" class="light-mode ml-2"></ion-icon>
+              <ion-icon slot="start" name="color-wand" *ngIf="currentColorMode == 'light'" class="super-light-mode ml-2"></ion-icon>
+              <ion-icon slot="start" name="color-wand" *ngIf="currentColorMode == 'super-light'" class="dark-mode ml-2"></ion-icon>
+            </div>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+
+  </ion-split-pane>
+  
+</ion-app>

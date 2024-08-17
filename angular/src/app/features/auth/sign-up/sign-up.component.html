@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="app-title">
+      NRNA Student Network
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div id="container">
+    <ion-card class="white">
+      <ion-card-header>
+        <ion-card-subtitle class="white ion-text-center"></ion-card-subtitle>
+        <ion-card-title class="nrna-card-title ion-text-center">Sign Up User</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+
+        <ion-alert
+          [isOpen]="isEmailRegistered"
+          trigger="present-alert"
+          header="User Registration Successful!"
+          [buttons]="successButtons"
+        ></ion-alert>
+
+        <ion-alert
+          [isOpen]="isEmailAlreadyExist"
+          trigger="present-alert"
+          header="User Registration Failed!"
+          message="Email Already Exist"
+          [buttons]="failureButtons"
+        ></ion-alert>
+
+        <form [formGroup]="signUpForm">
+          <ion-item>
+            <ion-label class="white" position="stacked">Email</ion-label>
+            <ion-input class="white" formControlName="email" type="email" placeholder="Your email address" [class.invalid]="!signUpForm.controls['email'].valid &&
+            signUpForm.controls['email'].touched">
+            </ion-input>
+          </ion-item>
+          <app-nrna-error [form]="signUpForm" [controlName]="'email'" [page]="'signUp'"></app-nrna-error>
+          <!-- <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationSignUp.email">
+              <div class="error-message text-danger" *ngIf="signUpForm.get('email')?.hasError(validation.type) && signUpForm.get('email')?.touched">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div> -->
+          <br/> 
+        
+          <ion-item>
+            <ion-label class="white" position="stacked">Password</ion-label>
+            <ion-input class="white" formControlName="password" type="password" placeholder="Your password"
+              [class.invalid]="!signUpForm.controls['password'].valid&& signUpForm.controls['password'].touched">
+            </ion-input>
+          </ion-item>
+          <app-nrna-error [form]="signUpForm" [controlName]="'password'" [page]="'signUp'"></app-nrna-error>
+          <!-- <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationSignUp.password">
+              <div class="error-message" *ngIf="signUpForm.get('password')?.hasError(validation.type) && signUpForm.get('password')?.touched">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div> -->
+          <br/> 
+        
+          <ion-button (click)="submitCredentials(signUpForm)" expand="block">
+            Sign Up
+          </ion-button>
+          <p class="ion-text-center">*Passwords are encrypted and safely stored in google servers.</p>
+        </form>
+      
+        <ion-button expand="block" fill="clear" [routerLink]="['../sign-in']">
+          I already have an account
+        </ion-button>
+
+      </ion-card-content>
+    </ion-card>      
+  </div>
+
+</ion-content>
