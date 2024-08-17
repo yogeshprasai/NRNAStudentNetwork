@@ -34,10 +34,10 @@ export class SignUpComponent  implements OnInit {
     }
 
   ngOnInit() {
-    console.log("hello practice");
+
   }
 
-  //Submit Creds also 4
+
   submitCredentials(signUpForm: FormGroup){
     const email = signUpForm.get('email')?.value;
     const password = signUpForm.get('password')?.value;
