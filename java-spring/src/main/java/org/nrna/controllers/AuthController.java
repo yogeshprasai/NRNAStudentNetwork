@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.nrna.models.User;
 import org.nrna.payload.request.UserProfile;
 import org.nrna.payload.response.MessageResponse;
 import org.nrna.payload.response.UserResponse;
@@ -29,25 +30,21 @@ public class AuthController {
 	@Autowired
 	UserService userService;
 
+	@PostMapping("/signup")
+	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+		return userService.signUp(signUpRequest);
+	}
+
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		UserResponse userResponse = userService.signin(loginRequest);
 		return new ResponseEntity<>(userResponse, HttpStatus.OK);
 	}
 
-	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-		return userService.signUp(signUpRequest);
-	}
-
-	@PostMapping("/profile")
-	public ResponseEntity<?> updateProfile(@Valid @RequestBody UserProfile userProfile) {
-		UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(user.getId() != null){
-			userService.updateProfile(user.getId(), userProfile);
-			return ResponseEntity.ok(new MessageResponse("Success"));
-		}
-		return ResponseEntity.ok(new MessageResponse("Error"));
+	@PostMapping("/logout")
+	public ResponseEntity<?> logout() {
+		MessageResponse messageResponse = userService.logout();
+		return new ResponseEntity<>(messageResponse, HttpStatus.OK);
 	}
 	
 }

@@ -17,6 +17,8 @@ export class ProfileComponent implements OnInit {
   public statesList = StatesList;
 
   public profileForm: FormGroup = new FormGroup({});
+  public successMessage: boolean = false;
+  public successMessageWithLogout: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -31,7 +33,7 @@ export class ProfileComponent implements OnInit {
       firstName: ['Yogesh', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
       middleName: ['Kumar', [Validators.compose([Validators.minLength(1), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
       lastName: ['Prasai', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
-      email: ['yogeshprasai@hotmail.com', [Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)])]],
+      email: ['yogesh200@hotmail.com', [Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)])]],
       phoneNumber: ['2409936466', [Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(16), Validators.pattern(/^[0-9\s]*$/)])]]
     });
   }
@@ -55,8 +57,45 @@ export class ProfileComponent implements OnInit {
           !this.profileForm.controls['lastName'].errors && !this.profileForm.controls['email'].errors && 
           !this.profileForm.controls['phoneNumber'].errors){
           //Submit Form if there are no errors
-          console.log(this.profileForm.value);
-          this.profileService.updateProfile(this.profileForm.value);
+          this.profileService.updateProfile(this.profileForm.value).subscribe(response =>{
+            const successMessage = response.message;
+            if(successMessage){
+              if(successMessage === "Success"){
+                this.successMessage = true;
+              }else if(successMessage === "Success but Logout User"){
+                this.successMessageWithLogout = true;
+              }
+            }
+          });
     }
   }
+
+  private resetButtons(){
+    this.successMessage = false;
+    this.successMessageWithLogout = false;
+  }
+
+  public successButtons = [
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: () => {
+        this.resetButtons();
+      },
+    },
+  ];
+
+  public successButtonsWithLogout = [
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: () => {
+        this.resetButtons();
+        this.authService.logout().subscribe(() => {
+          this.authService.removeUserAndToken();
+          this.router.navigate(['auth/sign-in']);
+        });
+      },
+    },
+  ];
 }

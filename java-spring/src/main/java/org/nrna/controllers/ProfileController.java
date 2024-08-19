@@ -49,9 +49,12 @@ public class ProfileController {
 		UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(user.getId() != null){
 			userService.updateProfile(user.getId(), userProfile);
-			return ResponseEntity.ok(new MessageResponse("Success"));
+			if(user.getEmail().equals(userProfile.getEmail())){
+				return ResponseEntity.ok(new MessageResponse("Success"));
+			}
+			return ResponseEntity.ok(new MessageResponse("Success but Logout User"));
 		}
-		return ResponseEntity.ok(new MessageResponse("Error"));
+		return null;
 	}
 	
 	@PostMapping("/profile/address")

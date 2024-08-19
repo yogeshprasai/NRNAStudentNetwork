@@ -30,9 +30,7 @@ export class ProfileService {
           console.log(err);
           return of(err);
         })
-    ).subscribe(data =>{
-      console.log(data)
-    })
+    );
   }
 
   // async getUserProfile(): Promise<Observable<UserProfile>> {

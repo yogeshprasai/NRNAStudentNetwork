@@ -20,6 +20,20 @@
         <ion-card-subtitle class="white ion-text-center font-size-24">Profile Information</ion-card-subtitle>
         <ion-card-title class="nrna-card-title ion-text-center"></ion-card-title>
       </ion-card-header>
+
+        <ion-alert
+                [isOpen]="successMessage"
+                trigger="present-alert"
+                header="Profile Update Successful!"
+                [buttons]="successButtons"
+        ></ion-alert>
+
+        <ion-alert
+                [isOpen]="successMessageWithLogout"
+                trigger="present-alert"
+                header="Profile Update Successful! Since Email has changed, Please login again."
+                [buttons]="successButtonsWithLogout"
+        ></ion-alert>
       
       <form [formGroup]="profileForm">
 

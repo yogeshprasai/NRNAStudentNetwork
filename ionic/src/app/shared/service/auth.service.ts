@@ -48,6 +48,10 @@ export class AuthService {
     this.localStorageService.saveTokenToLocalStorage(token);
   }
 
+  removeUserAndToken(): void{
+    this.localStorageService.removeTokenAndUserFromLocalStorage();
+  }
+
   public signup(email: string, password: string): Observable<any> {
     return this.apiService.post(environment.server_url + "/api/auth/signup", {email, password}).pipe(
       catchError(err => {
@@ -62,8 +66,7 @@ export class AuthService {
   }
 
   public logout() {
-    this.localStorageService.removeTokenAndUserFromLocalStorage();
-    this.login$.next(this.isLoggedIn);
+    return this.apiService.post(environment.server_url + '/api/auth/logout');
   }
 
   public resetPassword(email: string) {

@@ -2,11 +2,13 @@ package org.nrna.security.services;
 
 import java.util.List;
 
+import org.nrna.exception.ErrorMessage;
 import org.nrna.payload.request.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,14 +60,23 @@ public class UserService {
 		
 		return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
 	}
+
+	public MessageResponse logout(){
+		SecurityContextHolder.getContext().setAuthentication(null);
+		return new MessageResponse("Logout Successful");
+	}
 	
 	public UserResponse signin(LoginRequest loginRequest) {
 		Authentication authentication = null;
 		String jwt = null;
 		UserDetailsImpl userDetails = null;
+		try{
+			authentication = authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+		} catch (BadCredentialsException ex) {
+			throw new BadCredentialsException("Bad Credentials, Try again");
+		}
 
-		authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		jwt = jwtUtils.generateJwtToken(authentication);
@@ -89,10 +100,6 @@ public class UserService {
 	public void updateProfile(Long id, UserProfile userProfile){
 
 		User user = getUser(id);
-			
-//		if(user.getPassword() != null) {
-//			user.setPassword(encoder.encode(userRequest.getPassword()));
-//		}
 
 		if(user.getFirstName() == null || !user.getFirstName().equals(userProfile.getFirstName())){
 			user.setFirstName(userProfile.getFirstName());
@@ -113,8 +120,12 @@ public class UserService {
 		if(user.getPhoneNumber() == null || !user.getPhoneNumber().equals(userProfile.getPhoneNumber())) {
 			user.setPhoneNumber(userProfile.getPhoneNumber());
 		}
-		
-		userRepository.save(user);
+		try{
+			userRepository.save(user);
+		} catch (Exception e) {
+			throw new RuntimeException("Error saving user");
+		}
+
 	}
 	
 	public UserAddress getAddressForUser(Long id){

@@ -33,10 +33,10 @@ public class ControllerExceptionHandler {
     ErrorMessage message = new ErrorMessage(
         HttpStatus.BAD_REQUEST.value(),
         new Date(),
-        ex.getMessage(),
+        "Bad Credentials",
         request.getDescription(false));
     
-    logger.debug("this is a error message");
+    logger.debug("Bad Credentials", ex);
     
     return new ResponseEntity<ErrorMessage>(message, HttpStatus.NOT_FOUND);
   }
