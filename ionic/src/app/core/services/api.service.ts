@@ -1,20 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from "rxjs";
-import { HttpHeaders, HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { throwError } from "rxjs";
-import { catchError, retry } from "rxjs/operators";
+import { catchError, } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*"
-    })
-  };
   constructor(private http: HttpClient) { }
 
   private formatErrors(error: any) {
@@ -34,20 +28,10 @@ export class ApiService {
     ));
   }
 
-  put(path: string, body: Object = {}): Observable<any> {
-    return this.http
-      .put(path, body, this.httpOptions)
-      .pipe(catchError(this.formatErrors));
-  }
-
   post(path: string, body: Object = {}): Observable<any> {
     return this.http
       .post(path, body)
       .pipe(catchError(this.formatErrors));
   }
-
-  // delete(path): Observable<any> {
-  //   return this.http.delete(path).pipe(catchError(this.formatErrors));
-  // }
 }
 

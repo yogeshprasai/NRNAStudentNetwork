@@ -60,9 +60,10 @@ export class SignInComponent  implements OnInit {
         if(loginResponse.token){
           this.isLoggedIn = true;
           const user: User = {
-            email: email
+            id: loginResponse.id,
           }
           this.authService.loggedInUser = user;
+          this.authService.token = loginResponse.token;
           this.router.navigate([NrnaRoutes.Profile]);
         }else{
           this.isLoggedIn = false;

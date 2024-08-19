@@ -10,7 +10,7 @@
           <ion-list-header>Menu</ion-list-header>
 
           <!-- Show UserEmail Once Logged In -->
-          <span *ngIf="loggedInUserEmail" class="ml-20 loggedin-user"><ion-note>{{loggedInUserEmail}}</ion-note></span>
+          <span *ngIf="id" class="ml-20 loggedin-user"><ion-note>{{id}}</ion-note></span>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item (click)="selectedIndex = i" routerDirection="root" (click)="onClickingMenu(p)" lines="none" detail="false" [class.selected]="selectedIndex == i">

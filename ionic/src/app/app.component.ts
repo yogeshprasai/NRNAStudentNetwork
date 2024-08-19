@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
 
   public currentColorMode = 'dark';
   public selectedIndex: number = 0;
-  public loggedInUserEmail: string = "";
+  public id: number = 0;
   public appPages: NavigationMetaData[] = [
     { title: NrnaLinks.Helper, url: NrnaRoutes.Helper, icon: 'help' },
     { title: NrnaLinks.Favorites, url: NrnaRoutes.Favorites, icon: 'heart' },
@@ -64,8 +64,8 @@ export class AppComponent implements OnInit {
 
   public update(){
     const loggedInUser = this.authService.loggedInUser;
-    if(loggedInUser && loggedInUser.email){
-      this.loggedInUserEmail = loggedInUser.email;
+    if(loggedInUser && loggedInUser.id){
+      this.id = loggedInUser.id;
     }
   }
 

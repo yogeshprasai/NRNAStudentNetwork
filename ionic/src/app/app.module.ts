@@ -9,9 +9,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './shared/service/auth.service';
 import { Storage } from '@ionic/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { LoadingService } from './shared/service/loading.service';
 import { ProfileService } from './shared/service/profile.service';
+import {AuthInterceptor} from "./shared/service/interceptors/auth-interceptors";
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,9 @@ import { ProfileService } from './shared/service/profile.service';
     HttpClientModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, AuthService, Storage, 
-                LoadingService, ProfileService],
+                LoadingService, ProfileService,
+                { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

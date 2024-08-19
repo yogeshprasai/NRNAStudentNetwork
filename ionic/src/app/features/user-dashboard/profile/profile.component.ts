@@ -28,11 +28,11 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(){
     this.profileForm = this.fb.group({
-      firstName: ['', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
-      middleName: ['', [Validators.compose([Validators.minLength(1), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
-      lastName: ['', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
-      email: ['', [Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)])]],
-      phoneNumber: ['', [Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(16), Validators.pattern(/^[0-9\s]*$/)])]]
+      firstName: ['Yogesh', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
+      middleName: ['Kumar', [Validators.compose([Validators.minLength(1), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
+      lastName: ['Prasai', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
+      email: ['yogeshprasai@hotmail.com', [Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)])]],
+      phoneNumber: ['2409936466', [Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(16), Validators.pattern(/^[0-9\s]*$/)])]]
     });
   }
 
@@ -54,8 +54,9 @@ export class ProfileComponent implements OnInit {
     if(!this.profileForm.controls['firstName'].errors && !this.profileForm.controls['middleName'].errors && 
           !this.profileForm.controls['lastName'].errors && !this.profileForm.controls['email'].errors && 
           !this.profileForm.controls['phoneNumber'].errors){
-          //Submit Form
-          alert();
+          //Submit Form if there are no errors
+          console.log(this.profileForm.value);
+          this.profileService.updateProfile(this.profileForm.value);
     }
   }
 }

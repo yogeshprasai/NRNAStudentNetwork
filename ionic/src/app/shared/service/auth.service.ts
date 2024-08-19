@@ -19,12 +19,12 @@ export class AuthService {
   ) {}
 
   public resetUser(user: User){
-    user.email = "";
+    user.id = 0;
     return user;
   }
 
   get isLoggedIn(){
-    if(this.loggedInUser && this.loggedInUser.email){
+    if(this.loggedInUser && this.loggedInUser.id){
       return true;
     }else {
       return false;
@@ -38,6 +38,14 @@ export class AuthService {
   set loggedInUser(user: User){
     this.localStorageService.saveUserToLocalStorage(user);
     this.login$.next(this.isLoggedIn);
+  }
+
+  get token(): string | null{
+    return this.localStorageService.getTokenFromLocalStorage();
+  }
+
+  set token(token: string){
+    this.localStorageService.saveTokenToLocalStorage(token);
   }
 
   public signup(email: string, password: string): Observable<any> {

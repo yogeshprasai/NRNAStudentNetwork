@@ -54,7 +54,7 @@ export class AddressComponent  implements OnInit {
           !this.addressForm.controls['city'].errors && !this.addressForm.controls['state'].errors && 
           !this.addressForm.controls['zipCode'].errors){
           //Submit Form
-          alert();
+          console.log(this.addressForm.value);
     }
 
   }

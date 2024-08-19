@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { UserProfile } from '../model/constants';
+import {Profile} from "../model/profile";
+import {environment} from "../../../environments/environment";
+import {catchError, of} from "rxjs";
+import {ApiService} from "../../core/services/api.service";
+import {LocalStorageService} from "../../core/services/local-storage.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +18,22 @@ export class ProfileService {
   };
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private apiService: ApiService,
+    private localStorageService: LocalStorageService
   ) {}
+
+  updateProfile(profile: Profile){
+    console.log(this.localStorageService.getUserFromLocalStorage());
+    return this.apiService.post(environment.server_url + "/api/user/profile", profile, ).pipe(
+        catchError(err => {
+          console.log(err);
+          return of(err);
+        })
+    ).subscribe(data =>{
+      console.log(data)
+    })
+  }
 
   // async getUserProfile(): Promise<Observable<UserProfile>> {
   //   const user: firebase.User = await this.authService.getUser();

@@ -33,6 +33,6 @@ export class LocalStorageService {
     if (user) {
       return JSON.parse(user);
     }
-    return {email: ''};
+    return {id: 0};
   }
 }
