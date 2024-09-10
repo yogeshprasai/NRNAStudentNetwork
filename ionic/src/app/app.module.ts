@@ -11,7 +11,7 @@ import { Storage } from '@ionic/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { LoadingService } from './shared/service/loading.service';
-import { ProfileService } from './shared/service/profile.service';
+import { ProfileAddressService } from './shared/service/profile-address.service';
 import {AuthInterceptor} from "./shared/service/interceptors/auth-interceptors";
 
 @NgModule({
@@ -25,7 +25,7 @@ import {AuthInterceptor} from "./shared/service/interceptors/auth-interceptors";
     HttpClientModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, AuthService, Storage, 
-                LoadingService, ProfileService,
+                LoadingService, ProfileAddressService,
                 { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     ],
   bootstrap: [AppComponent],

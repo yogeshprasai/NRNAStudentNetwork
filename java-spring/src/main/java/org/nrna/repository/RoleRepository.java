@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import org.nrna.models.ERole;
-import org.nrna.models.Role;
+import org.nrna.models.enums.ERole;
+import org.nrna.models.dto.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {

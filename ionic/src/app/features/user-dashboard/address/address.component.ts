@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/shared/service/auth.service';
-import { ProfileService } from 'src/app/shared/service/profile.service';
+import { ProfileAddressService } from 'src/app/shared/service/profile-address.service';
 import { StatesList } from 'src/app/shared/validation';
 
 @Component({
@@ -20,18 +20,18 @@ export class AddressComponent  implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private profileService: ProfileService,
+    private profileAddressService: ProfileAddressService,
     private alertCtrl: AlertController,
     public fb: FormBuilder
   ) {}
 
   ngOnInit(){
     this.addressForm = this.fb.group({
-      addressLine1: ['', [Validators.compose([Validators.required, Validators.maxLength(32), Validators.pattern("^[a-zA-Z0-9.,#:&apos;&quot; ]*$")])]],
-      addressLine2: ['', [Validators.compose([Validators.maxLength(32), Validators.pattern("^[a-zA-Z0-9.,#:&apos;&quot; ]*$")])]],
-      city: ['', [Validators.compose([Validators.required, Validators.maxLength(32), Validators.pattern("^[a-zA-Z ]*$")])]],
-      state: ['', [Validators.compose([Validators.required, Validators.pattern("^[a-zA-Z ]*$")])]],
-      zipCode: ['', [Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern("^[0-9]*$")])]]
+      addressLine1: ['2336 Montauk Dr', [Validators.compose([Validators.required, Validators.maxLength(32), Validators.pattern("^[a-zA-Z0-9.,#:&apos;&quot; ]*$")])]],
+      addressLine2: ['Suite 101', [Validators.compose([Validators.maxLength(32), Validators.pattern("^[a-zA-Z0-9.,#:&apos;&quot; ]*$")])]],
+      city: ['Crofton', [Validators.compose([Validators.required, Validators.maxLength(32), Validators.pattern("^[a-zA-Z ]*$")])]],
+      state: ['Maryland', [Validators.compose([Validators.required, Validators.pattern("^[a-zA-Z ]*$")])]],
+      zipCode: ['21114', [Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern("^[0-9]*$")])]]
     });
   }
 
@@ -55,6 +55,9 @@ export class AddressComponent  implements OnInit {
           !this.addressForm.controls['zipCode'].errors){
           //Submit Form
           console.log(this.addressForm.value);
+          this.profileAddressService.saveOrUpdateAddress(this.addressForm.value).subscribe(values => {
+            console.log(values);
+          })
     }
 
   }

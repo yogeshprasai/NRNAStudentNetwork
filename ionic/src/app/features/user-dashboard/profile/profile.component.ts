@@ -3,8 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { UserProfile } from 'src/app/shared/model/constants';
+import { Profile } from 'src/app/shared/model/profile';
 import { AuthService } from 'src/app/shared/service/auth.service';
-import { ProfileService } from 'src/app/shared/service/profile.service';
+import { ProfileAddressService } from 'src/app/shared/service/profile-address.service';
 import { StatesList } from 'src/app/shared/validation';
 
 @Component({
@@ -19,27 +20,37 @@ export class ProfileComponent implements OnInit {
   public profileForm: FormGroup = new FormGroup({});
   public successMessage: boolean = false;
   public successMessageWithLogout: boolean = false;
+  public profileValues: Profile = <Profile>{};
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private profileService: ProfileService,
+    private profileAddressService: ProfileAddressService,
     private alertCtrl: AlertController,
     public fb: FormBuilder
   ) {}
 
   ngOnInit(){
     this.profileForm = this.fb.group({
-      firstName: ['Yogesh', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
-      middleName: ['Kumar', [Validators.compose([Validators.minLength(1), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
-      lastName: ['Prasai', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
-      email: ['yogesh200@hotmail.com', [Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)])]],
-      phoneNumber: ['2409936466', [Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(16), Validators.pattern(/^[0-9\s]*$/)])]]
+      firstName: ['', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
+      middleName: ['', [Validators.compose([Validators.minLength(1), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
+      lastName: ['', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
+      email: ['', [Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)])]],
+      phoneNumber: ['', [Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(16), Validators.pattern(/^[0-9\s]*$/)])]]
     });
   }
 
   ionViewWillEnter() {
-    
+    this.profileAddressService.getUserProfile().subscribe((response: Profile)=> {
+      this.profileValues = response;
+      if(this.profileValues){
+        this.profileForm.get('firstName')?.patchValue(this.profileValues.firstName);
+        this.profileForm.get('middleName')?.patchValue(this.profileValues.middleName);
+        this.profileForm.get('lastName')?.patchValue(this.profileValues.lastName);
+        this.profileForm.get('email')?.patchValue(this.profileValues.email);
+        this.profileForm.get('phoneNumber')?.patchValue(this.profileValues.phoneNumber);
+      }
+    });
   }
 
   async logOut(): Promise<void> {
@@ -57,8 +68,8 @@ export class ProfileComponent implements OnInit {
           !this.profileForm.controls['lastName'].errors && !this.profileForm.controls['email'].errors && 
           !this.profileForm.controls['phoneNumber'].errors){
           //Submit Form if there are no errors
-          this.profileService.updateProfile(this.profileForm.value).subscribe(response =>{
-            const successMessage = response.message;
+          this.profileAddressService.updateProfile(this.profileForm.value).subscribe((response: any) =>{
+            const successMessage: string = response.message;
             if(successMessage){
               if(successMessage === "Success"){
                 this.successMessage = true;

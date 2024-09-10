@@ -2,8 +2,8 @@ package org.nrna.security.services;
 
 import java.util.List;
 
-import org.nrna.exception.ErrorMessage;
-import org.nrna.payload.request.UserProfile;
+import org.nrna.models.dto.UserDetailsImpl;
+import org.nrna.models.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +15,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import org.nrna.models.User;
-import org.nrna.models.UserAddress;
-import org.nrna.payload.request.LoginRequest;
-import org.nrna.payload.request.SignupRequest;
-import org.nrna.payload.response.MessageResponse;
-import org.nrna.payload.response.UserResponse;
+import org.nrna.models.dto.User;
+import org.nrna.models.dto.Address;
+import org.nrna.models.request.LoginRequest;
+import org.nrna.models.request.SignupRequest;
+import org.nrna.models.response.MessageResponse;
+import org.nrna.models.response.UserResponse;
 import org.nrna.repository.AddressRepository;
 import org.nrna.repository.UserRepository;
 import org.nrna.security.jwt.JwtUtils;
@@ -57,7 +57,7 @@ public class UserService {
 		user.setEmail(signUpRequest.getEmail());
 		user.setRole("Student");
 		userRepository.save(user);
-		
+
 		return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
 	}
 
@@ -70,6 +70,7 @@ public class UserService {
 		Authentication authentication = null;
 		String jwt = null;
 		UserDetailsImpl userDetails = null;
+		UserResponse userResponse = null;
 		try{
 			authentication = authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -82,8 +83,10 @@ public class UserService {
 		jwt = jwtUtils.generateJwtToken(authentication);
 
 		userDetails = (UserDetailsImpl) authentication.getPrincipal();
+		userResponse = UserResponse.userDetailsToUserResponse(userDetails);
+		userResponse.setToken(jwt);
 
-		return UserResponse.userDetailsToUserResponse(jwt, userDetails);
+		return userResponse;
 	}
 	
 	public User getUser(Long id){
@@ -93,8 +96,8 @@ public class UserService {
 	
 	public ResponseEntity<?> getProfile(Long id) {
 		User user = getUser(id);
-		//UserResponse userResp =  UserResponse.userToUserResponse(user);
-		return new ResponseEntity<>(user, HttpStatus.OK);
+		UserProfile userProfile = UserProfile.userDetailsToUserProfile(user);
+		return new ResponseEntity<>(userProfile, HttpStatus.OK);
 	}
 	
 	public void updateProfile(Long id, UserProfile userProfile){
@@ -123,39 +126,46 @@ public class UserService {
 		try{
 			userRepository.save(user);
 		} catch (Exception e) {
-			throw new RuntimeException("Error saving user");
+			throw new RuntimeException("Error Saving Profile" + e);
 		}
 
 	}
 	
-	public UserAddress getAddressForUser(Long id){
-		UserAddress userAdd = addressRepository.getOne(id);
-		return userAdd;
+	public Address getAddressForUser(Long id){
+		Address userAddress = addressRepository.getOne(id);
+		addressRepository.getOne(id);
+		return userAddress;
 	}
 	
-	public void saveAddress(Long id, UserAddress address) {
+	public void saveAddress(Long id, Address address) {
 		User user = getUser(id);
 		user.getUserAddress().add(address);
 		userRepository.save(user);
 	}
 	
-	public void editAddress(Long id, UserAddress addressToBeUpdated) {
+	public void saveOrUpdateAddress(Long id, Address addressToBeUpdated) {
 		User user = getUser(id);
-		List<UserAddress> userAddresses = user.getUserAddress();
-		UserAddress userAddress = userAddresses.stream().filter(address -> address.getId() == addressToBeUpdated.getId()).findFirst().get();
-		userAddress.setName(addressToBeUpdated.getName());
-		userAddress.setAddLine1(addressToBeUpdated.getAddLine1());
+		Address userAddress = new Address();
+		userAddress.setAddressLine1(addressToBeUpdated.getAddressLine1());
+		userAddress.setAddressLine2(addressToBeUpdated.getAddressLine2());
 		userAddress.setCity(addressToBeUpdated.getCity());
 		userAddress.setState(addressToBeUpdated.getState());
 		userAddress.setZipCode(addressToBeUpdated.getZipCode());
+		userAddress.setUser(user);
 		user.getUserAddress().add(userAddress);
-		userRepository.save(user);
+		try{
+			userRepository.save(user);
+		}catch (Exception e){
+			System.out.println("ErrorMessage: " + e.getMessage());
+			throw new BadCredentialsException("Bad Data");
+		}
+
 	}
 	
-	public ResponseEntity<?> deleteAddress(Long id, UserAddress addressToDelete) {
+	public ResponseEntity<?> deleteAddress(Long id, Address addressToDelete) {
 		User user = getUser(id);
-		List<UserAddress> userAddresses = user.getUserAddress();
-		UserAddress userAddress = userAddresses.stream().filter(address -> address.getId() == addressToDelete.getId()).findFirst().get();
+		List<Address> addresses = user.getUserAddress();
+		Address address = addresses.stream().filter(eachAddress -> eachAddress.getId() == addressToDelete.getId()).findFirst().get();
 //		user.getUserAddress().remove(userAddress);
 //		userRepository.save(user);
 		userRepository.deleteByUserId(addressToDelete.getId());

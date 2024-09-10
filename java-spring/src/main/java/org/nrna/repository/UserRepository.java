@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.nrna.models.User;
+import org.nrna.models.dto.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	
 	@Transactional
 	@Modifying
-	@Query("delete from UserAddress u where u.id = ?1")
+	@Query("delete from Address u where u.id = ?1")
 	void deleteByUserId(long id);
 	
 }
