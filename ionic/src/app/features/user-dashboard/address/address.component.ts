@@ -5,6 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/shared/service/auth.service';
 import { ProfileAddressService } from 'src/app/shared/service/profile-address.service';
 import { StatesList } from 'src/app/shared/validation';
+import {Address} from "../../../shared/model/address";
 
 @Component({
   selector: 'app-address',
@@ -16,6 +17,7 @@ export class AddressComponent  implements OnInit {
   public statesList = StatesList;
 
   public addressForm: FormGroup = new FormGroup({});
+  public addressValues: Address = <Address>{};
 
   constructor(
     private authService: AuthService,
@@ -27,16 +29,25 @@ export class AddressComponent  implements OnInit {
 
   ngOnInit(){
     this.addressForm = this.fb.group({
-      addressLine1: ['2336 Montauk Dr', [Validators.compose([Validators.required, Validators.maxLength(32), Validators.pattern("^[a-zA-Z0-9.,#:&apos;&quot; ]*$")])]],
-      addressLine2: ['Suite 101', [Validators.compose([Validators.maxLength(32), Validators.pattern("^[a-zA-Z0-9.,#:&apos;&quot; ]*$")])]],
-      city: ['Crofton', [Validators.compose([Validators.required, Validators.maxLength(32), Validators.pattern("^[a-zA-Z ]*$")])]],
-      state: ['Maryland', [Validators.compose([Validators.required, Validators.pattern("^[a-zA-Z ]*$")])]],
-      zipCode: ['21114', [Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern("^[0-9]*$")])]]
+      addressLine1: ['', [Validators.compose([Validators.required, Validators.maxLength(32), Validators.pattern("^[a-zA-Z0-9.,#:&apos;&quot; ]*$")])]],
+      addressLine2: ['', [Validators.compose([Validators.maxLength(32), Validators.pattern("^[a-zA-Z0-9.,#:&apos;&quot; ]*$")])]],
+      city: ['', [Validators.compose([Validators.required, Validators.maxLength(32), Validators.pattern("^[a-zA-Z ]*$")])]],
+      state: ['', [Validators.compose([Validators.required, Validators.pattern("^[a-zA-Z ]*$")])]],
+      zipCode: ['', [Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern("^[0-9]*$")])]]
     });
   }
 
   ionViewWillEnter() {
-    
+    this.profileAddressService.getUserAddress().subscribe((response: Address)=> {
+      this.addressValues = response;
+      if(this.addressValues){
+        this.addressForm.get('addressLine1')?.patchValue(this.addressValues.addressLine1);
+        this.addressForm.get('addressLine2')?.patchValue(this.addressValues.addressLine2);
+        this.addressForm.get('city')?.patchValue(this.addressValues.city);
+        this.addressForm.get('state')?.patchValue(this.addressValues.state);
+        this.addressForm.get('zipCode')?.patchValue(this.addressValues.zipCode);
+      }
+    });
   }
 
   async logOut(): Promise<void> {

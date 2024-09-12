@@ -1,7 +1,7 @@
 package org.nrna.security.services;
 
-import java.util.List;
-
+import org.nrna.exception.ResourceNotFoundException;
+import org.nrna.models.UserAddress;
 import org.nrna.models.dto.UserDetailsImpl;
 import org.nrna.models.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -61,19 +62,19 @@ public class UserService {
 		return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
 	}
 
-	public MessageResponse logout(){
+	public ResponseEntity<?> logout(){
 		SecurityContextHolder.getContext().setAuthentication(null);
-		return new MessageResponse("Logout Successful");
+		return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
 	}
 	
-	public UserResponse signin(LoginRequest loginRequest) {
+	public ResponseEntity<?> signin(LoginRequest loginRequest) throws AuthenticationException {
 		Authentication authentication = null;
 		String jwt = null;
 		UserDetailsImpl userDetails = null;
 		UserResponse userResponse = null;
 		try{
 			authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+						new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 		} catch (BadCredentialsException ex) {
 			throw new BadCredentialsException("Bad Credentials, Try again");
 		}
@@ -86,23 +87,23 @@ public class UserService {
 		userResponse = UserResponse.userDetailsToUserResponse(userDetails);
 		userResponse.setToken(jwt);
 
-		return userResponse;
+		return new ResponseEntity<>(userResponse, HttpStatus.OK);
 	}
 	
 	public User getUser(Long id){
-		User user = userRepository.findById(id).get();
-		return user;
+		return userRepository.findById(id)
+				.orElseThrow(()-> new ResourceNotFoundException("User not found"));
 	}
 	
-	public ResponseEntity<?> getProfile(Long id) {
-		User user = getUser(id);
-		UserProfile userProfile = UserProfile.userDetailsToUserProfile(user);
+	public ResponseEntity<?> getProfile(UserDetailsImpl sessionUser) {
+		User user = getUser(sessionUser.getId());
+		UserProfile userProfile =  UserProfile.userDetailsToUserProfile(user);
 		return new ResponseEntity<>(userProfile, HttpStatus.OK);
 	}
 	
-	public void updateProfile(Long id, UserProfile userProfile){
+	public void updateProfile(UserDetailsImpl sessionUser, UserProfile userProfile){
 
-		User user = getUser(id);
+		User user = getUser(sessionUser.getId());
 
 		if(user.getFirstName() == null || !user.getFirstName().equals(userProfile.getFirstName())){
 			user.setFirstName(userProfile.getFirstName());
@@ -123,28 +124,33 @@ public class UserService {
 		if(user.getPhoneNumber() == null || !user.getPhoneNumber().equals(userProfile.getPhoneNumber())) {
 			user.setPhoneNumber(userProfile.getPhoneNumber());
 		}
+
 		try{
 			userRepository.save(user);
 		} catch (Exception e) {
 			throw new RuntimeException("Error Saving Profile" + e);
 		}
-
 	}
 	
-	public Address getAddressForUser(Long id){
-		Address userAddress = addressRepository.getOne(id);
-		addressRepository.getOne(id);
-		return userAddress;
+	public ResponseEntity<?> getAddressForUser(UserDetailsImpl sessionUser){
+		UserAddress userAddress = null;
+		User user = getUser(sessionUser.getId());
+		Address address = user.getAddress();
+		if(address == null){
+			return new ResponseEntity<>(new MessageResponse("No Saved Address"), HttpStatus.OK);
+		}
+		userAddress = UserAddress.converterAddressToUserAddress(address);
+		return new ResponseEntity<>(userAddress, HttpStatus.OK);
 	}
 	
 	public void saveAddress(Long id, Address address) {
 		User user = getUser(id);
-		user.getUserAddress().add(address);
+		user.setAddress(address);
 		userRepository.save(user);
 	}
 	
-	public void saveOrUpdateAddress(Long id, Address addressToBeUpdated) {
-		User user = getUser(id);
+	public void saveOrUpdateAddress(UserDetailsImpl sessionUser, Address addressToBeUpdated) {
+		User user = getUser(sessionUser.getId());
 		Address userAddress = new Address();
 		userAddress.setAddressLine1(addressToBeUpdated.getAddressLine1());
 		userAddress.setAddressLine2(addressToBeUpdated.getAddressLine2());
@@ -152,20 +158,19 @@ public class UserService {
 		userAddress.setState(addressToBeUpdated.getState());
 		userAddress.setZipCode(addressToBeUpdated.getZipCode());
 		userAddress.setUser(user);
-		user.getUserAddress().add(userAddress);
+		user.setAddress(userAddress);
 		try{
 			userRepository.save(user);
 		}catch (Exception e){
 			System.out.println("ErrorMessage: " + e.getMessage());
 			throw new BadCredentialsException("Bad Data");
 		}
-
 	}
 	
 	public ResponseEntity<?> deleteAddress(Long id, Address addressToDelete) {
 		User user = getUser(id);
-		List<Address> addresses = user.getUserAddress();
-		Address address = addresses.stream().filter(eachAddress -> eachAddress.getId() == addressToDelete.getId()).findFirst().get();
+		Address addresses = user.getAddress();
+		//Address address = addresses.stream().filter(eachAddress -> eachAddress.getId() == addressToDelete.getId()).findFirst().get();
 //		user.getUserAddress().remove(userAddress);
 //		userRepository.save(user);
 		userRepository.deleteByUserId(addressToDelete.getId());

@@ -4,9 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.nrna.models.UserAddress;
 import org.nrna.models.UserProfile;
 import org.nrna.models.dto.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,41 +34,31 @@ public class ProfileController {
 	@GetMapping("/profile")
 	public ResponseEntity<?> getProfile() {
 		UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return userService.getProfile(user.getId());
+		return userService.getProfile(user);
 	}
 	
 	@PostMapping("/profile")
 	public ResponseEntity<?> updateProfile(HttpServletRequest request, @Valid @RequestBody UserProfile userProfile) {
-		UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(user.getId() != null){
-			userService.updateProfile(user.getId(), userProfile);
-			if(user.getEmail().equals(userProfile.getEmail())){
-				return ResponseEntity.ok(new MessageResponse("Success"));
-			}
-			return ResponseEntity.ok(new MessageResponse("Success but Logout User"));
+		UserDetailsImpl sessionUser = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		userService.updateProfile(sessionUser, userProfile);
+		if(sessionUser.getEmail().equals(userProfile.getEmail())){
+			return ResponseEntity.ok(new MessageResponse("Success"));
 		}
-		return null;
+		return ResponseEntity.ok(new MessageResponse("Success but Logout User"));
+
 	}
 	
 	@PostMapping("/address")
 	public ResponseEntity<?> saveOrUpdateAddress(HttpServletRequest request, @Valid @RequestBody Address userAddress) {
-		UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(user.getId() != null){
-			userService.saveOrUpdateAddress(user.getId(), userAddress);
-			return ResponseEntity.ok(new MessageResponse("Success: User Address Updated."));
-		}
-		return null;
+		UserDetailsImpl sessionUser = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		userService.saveOrUpdateAddress(sessionUser, userAddress);
+		return ResponseEntity.ok(new MessageResponse("Success: User Address Updated."));
 	}
 
 	@GetMapping("/address")
 	public ResponseEntity<?> getUserAddress() {
-		UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(user.getId() != null){
-			userService.getAddressForUser(user.getId());
-		}
-		//UserAddress userAddress = userAddress.userAddressRequestToUserAddress(user, userAddress);
-//		userService.saveAddress(id, address);
-		return ResponseEntity.ok(new MessageResponse("Success"));
+		UserDetailsImpl sessionUser = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return userService.getAddressForUser(sessionUser);
 	}
 	
 	@PutMapping("/profile/address_delete")

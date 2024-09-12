@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import {Profile} from "../model/profile";
 import {environment} from "../../../environments/environment";
 import {catchError, Observable, of, tap} from "rxjs";
@@ -35,7 +34,7 @@ export class ProfileAddressService {
   }
 
   getUserAddress(): Observable<Address>{
-    return this.apiService.post(environment.server_url + "/api/user/address").pipe(catchError(err => {
+    return this.apiService.get(environment.server_url + "/api/user/address").pipe(catchError(err => {
       throw new Error("Error while retrieving Address" + err);
     }));
   }

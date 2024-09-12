@@ -41,13 +41,11 @@ public class User {
 	@Size(max = 15)
 	private String phoneNumber;
 	
-	@OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Address> addresses;
+	@OneToOne(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Address address;
 	
 	public User() {
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -113,11 +111,11 @@ public class User {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public List<Address> getUserAddress() {
-		return addresses;
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setUserAddress(List<Address> addresses) {
-		this.addresses = addresses;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 }

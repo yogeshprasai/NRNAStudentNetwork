@@ -29,14 +29,12 @@ public class AuthController {
 
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		UserResponse userResponse = userService.signin(loginRequest);
-		return new ResponseEntity<>(userResponse, HttpStatus.OK);
+		return userService.signin(loginRequest);
 	}
 
 	@PostMapping("/logout")
 	public ResponseEntity<?> logout() {
-		MessageResponse messageResponse = userService.logout();
-		return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+		return userService.logout();
 	}
 	
 }

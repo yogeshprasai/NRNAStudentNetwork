@@ -40,7 +40,7 @@ public class Address {
 	@Column(name = "zip_code")
 	private String zipCode;
 	
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="person_user_id", nullable=false)
 	@JsonIgnore
 	private User user;

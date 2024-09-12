@@ -1,5 +1,7 @@
 package org.nrna.models;
 
+import org.nrna.models.dto.Address;
+
 import java.io.Serializable;
 
 public class UserAddress implements Serializable {
@@ -50,5 +52,15 @@ public class UserAddress implements Serializable {
 
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
+	}
+
+	public static UserAddress converterAddressToUserAddress(Address address){
+		UserAddress userAddress = new UserAddress();
+		userAddress.setAddressLine1(address.getAddressLine1());
+		userAddress.setAddressLine2(address.getAddressLine2());
+		userAddress.setCity(address.getCity());
+		userAddress.setState(address.getState());
+		userAddress.setZipCode(address.getZipCode());
+		return userAddress;
 	}
 }
