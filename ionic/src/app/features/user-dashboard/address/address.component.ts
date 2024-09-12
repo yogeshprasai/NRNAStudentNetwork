@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/shared/service/auth.service';
 import { ProfileAddressService } from 'src/app/shared/service/profile-address.service';
@@ -24,7 +24,8 @@ export class AddressComponent  implements OnInit {
     private router: Router,
     private profileAddressService: ProfileAddressService,
     private alertCtrl: AlertController,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(){
@@ -38,8 +39,8 @@ export class AddressComponent  implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.profileAddressService.getUserAddress().subscribe((response: Address)=> {
-      this.addressValues = response;
+    this.route.data.subscribe(addressResponse => {
+      this.addressValues = addressResponse['address'];
       if(this.addressValues){
         this.addressForm.get('addressLine1')?.patchValue(this.addressValues.addressLine1);
         this.addressForm.get('addressLine2')?.patchValue(this.addressValues.addressLine2);

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {ActivatedRoute, ActivatedRouteSnapshot, Router} from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { UserProfile } from 'src/app/shared/model/constants';
 import { Profile } from 'src/app/shared/model/profile';
@@ -27,7 +27,8 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private profileAddressService: ProfileAddressService,
     private alertCtrl: AlertController,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    public route: ActivatedRoute
   ) {}
 
   ngOnInit(){
@@ -41,8 +42,8 @@ export class ProfileComponent implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.profileAddressService.getUserProfile().subscribe((response: Profile)=> {
-      this.profileValues = response;
+    this.route.data.subscribe(profileResponse => {
+      this.profileValues = profileResponse['profile'];
       if(this.profileValues){
         this.profileForm.get('firstName')?.patchValue(this.profileValues.firstName);
         this.profileForm.get('middleName')?.patchValue(this.profileValues.middleName);

@@ -43,9 +43,6 @@ export class SignInComponent  implements OnInit {
     if(this.authService.isLoggedIn){
       this.router.navigate(['user-dashboard/profile']);
     }
-    console.log('Reseting Login Form');
-    //this.loginForm.get('email').reset();
-    //this.loginForm.get('password').reset();
   }
 
   submitCredentials(loginForm: FormGroup): void {
