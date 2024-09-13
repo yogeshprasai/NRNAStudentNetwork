@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {ActivatedRoute, ActivatedRouteSnapshot, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { UserProfile } from 'src/app/shared/model/constants';
 import { Profile } from 'src/app/shared/model/profile';
 import { AuthService } from 'src/app/shared/service/auth.service';
 import { ProfileAddressService } from 'src/app/shared/service/profile-address.service';
@@ -37,7 +36,8 @@ export class ProfileComponent implements OnInit {
       middleName: ['', [Validators.compose([Validators.minLength(1), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
       lastName: ['', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
       email: ['', [Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)])]],
-      phoneNumber: ['', [Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(16), Validators.pattern(/^[0-9\s]*$/)])]]
+      phoneNumber: ['', [Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(16), Validators.pattern(/^[0-9\s]*$/)])]],
+      isHelper: ['']
     });
   }
 
@@ -50,6 +50,7 @@ export class ProfileComponent implements OnInit {
         this.profileForm.get('lastName')?.patchValue(this.profileValues.lastName);
         this.profileForm.get('email')?.patchValue(this.profileValues.email);
         this.profileForm.get('phoneNumber')?.patchValue(this.profileValues.phoneNumber);
+        this.profileForm.get('isHelper')?.patchValue(this.profileValues.isHelper);
       }
     });
   }

@@ -3,7 +3,7 @@ import { User } from '../interface/user';
 import { ApiService } from 'src/app/core/services/api.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, Subject, catchError, of } from 'rxjs';
+import {Observable, Subject, catchError, of, tap, map} from 'rxjs';
 import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 
 @Injectable({

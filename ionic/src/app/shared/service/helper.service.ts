@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+import {environment} from "../../../environments/environment";
+import {Observable, catchError, map, filter} from "rxjs";
+import {ApiService} from "../../core/services/api.service";
+import {Profile} from "../model/profile";
 
 @Injectable({
   providedIn: 'root'
@@ -7,14 +11,12 @@ export class HelperService {
 
   private listOfMembers: any = [];
 
-  constructor() { }
+  constructor(private apiService: ApiService) { }
 
-  getAllHelpers(): any{
-    return this.listOfMembers = [
-      { firstName: "Yogesh", lastName: "Prasai", city: "Los Angeles", state: "CA" },
-      { firstName: "Yashu", lastName: "Bharati", city: "Germantown", state: "MD" },
-      { firstName: "Jaden", lastName: "Smith", city: "Atlanta", state: "GA" },
-      { firstName: "Jenisha", lastName: "Jones", city: "Baltimore", state: "MD" }
-    ];
+    getAllHelpers(): Observable<any>{
+    return this.apiService.get(environment.server_url + "/api/helper/getAllHelpers").pipe(
+        catchError(err => {
+          throw new Error("Error while retrieving Profile. " + err);
+        }));
   }
 }

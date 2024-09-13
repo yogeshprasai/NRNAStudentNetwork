@@ -18,6 +18,7 @@ export class AddressComponent  implements OnInit {
 
   public addressForm: FormGroup = new FormGroup({});
   public addressValues: Address = <Address>{};
+  public addressUpdateSuccessful: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -66,12 +67,26 @@ export class AddressComponent  implements OnInit {
           !this.addressForm.controls['city'].errors && !this.addressForm.controls['state'].errors && 
           !this.addressForm.controls['zipCode'].errors){
           //Submit Form
-          console.log(this.addressForm.value);
-          this.profileAddressService.saveOrUpdateAddress(this.addressForm.value).subscribe(values => {
-            console.log(values);
+          this.profileAddressService.saveOrUpdateAddress(this.addressForm.value).subscribe(response => {
+            if(response.message.includes("Success")){
+              this.addressUpdateSuccessful = true;
+            }
           })
     }
+  }
 
+  public successButtons = [
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: () => {
+        this.resetButtons();
+      },
+    },
+  ];
+
+  private resetButtons(){
+    this.addressUpdateSuccessful = false;
   }
 
 }

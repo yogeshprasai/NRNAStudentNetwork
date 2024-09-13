@@ -1,5 +1,7 @@
 package org.nrna.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import org.nrna.models.dto.User;
 
 import java.io.Serializable;
@@ -13,6 +15,7 @@ public class UserProfile implements Serializable {
 	private String lastName;
 	private String email;
 	private String phoneNumber;
+	private boolean isHelper;
 
 	public UserProfile() {
 
@@ -58,6 +61,16 @@ public class UserProfile implements Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 
+	@JsonGetter("isHelper")
+	public boolean isHelper() {
+		return isHelper;
+	}
+
+	@JsonSetter("isHelper")
+	public void setHelper(boolean helper) {
+		isHelper = helper;
+	}
+
 	public static UserProfile userDetailsToUserProfile(User user) {
 		UserProfile userProfile = new UserProfile();
 		userProfile.setFirstName(user.getFirstName());
@@ -65,7 +78,7 @@ public class UserProfile implements Serializable {
 		userProfile.setLastName(user.getLastName());
 		userProfile.setEmail(user.getEmail());
 		userProfile.setPhoneNumber(user.getPhoneNumber());
-
+		userProfile.setHelper(user.isHelper());
 		return userProfile;
 	}
 }

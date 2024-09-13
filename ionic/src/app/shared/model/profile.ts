@@ -5,4 +5,5 @@ export interface Profile{
     lastName: string;
     email: string;
     phoneNumber: number;
+    isHelper: boolean;
 }

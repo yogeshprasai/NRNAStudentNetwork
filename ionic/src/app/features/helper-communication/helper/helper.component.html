@@ -19,7 +19,7 @@
     
       <ion-card-content>
         <div>
-          <ion-item class="mb-15 green" *ngFor="let eachMember of listOfMembers">
+          <ion-item class="mb-15 green" *ngFor="let eachMember of helpers">
             
             <ion-label class="white profile-container">
               <div style="flex-grow: 1.2">
@@ -27,10 +27,11 @@
                   <img src="../../assets/icon/helper.png">
                 </ion-thumbnail>
               </div>
-              <div style="flex-grow: 1">
-                <h2>{{eachMember.firstName}}</h2>
-                <p class="white">{{eachMember.lastName}}</p>
-                <p class="white">{{eachMember.city}}, {{eachMember.state}}</p>
+              <div style="">
+                <h2>{{eachMember.firstName}} {{eachMember.lastName}}</h2>
+                <p class="white" *ngIf="eachMember.city">{{eachMember.city}}, {{eachMember?.state}}</p>
+                  <p class="nrna-phone" *ngIf="eachMember.phoneNumber"><ion-icon name="call-outline"></ion-icon> {{eachMember.phoneNumber}}</p>
+                  <p class="nrna-email" *ngIf="eachMember.email"><ion-icon name="mail-outline"></ion-icon> {{eachMember.email}}</p>
               </div>
               <div style="flex-grow: 3"></div>
               <div class="communication-icon">

@@ -52,7 +52,7 @@ public class ProfileController {
 	public ResponseEntity<?> saveOrUpdateAddress(HttpServletRequest request, @Valid @RequestBody Address userAddress) {
 		UserDetailsImpl sessionUser = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		userService.saveOrUpdateAddress(sessionUser, userAddress);
-		return ResponseEntity.ok(new MessageResponse("Success: User Address Updated."));
+		return ResponseEntity.ok(new MessageResponse("Success"));
 	}
 
 	@GetMapping("/address")

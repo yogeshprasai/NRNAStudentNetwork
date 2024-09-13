@@ -24,18 +24,14 @@ public class UserDetailsImpl implements UserDetails {
 	private String language;
 	
 	private String name;
-	
-	private String role;
 
 	@JsonIgnore
 	private String password;
 
-	public UserDetailsImpl(Long id, String email, String password,
-			String role) {
+	public UserDetailsImpl(Long id, String email, String password) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
-		this.role = role;
 	}
 
 	public static UserDetailsImpl build(User user) {
@@ -43,8 +39,7 @@ public class UserDetailsImpl implements UserDetails {
 		return new UserDetailsImpl(
 				user.getId(), 
 				user.getEmail(),
-				user.getPassword(), 
-				user.getRole()
+				user.getPassword()
 				);
 	}
 
@@ -122,14 +117,6 @@ public class UserDetailsImpl implements UserDetails {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
 	}
 
 	@Override

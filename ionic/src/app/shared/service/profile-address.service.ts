@@ -18,7 +18,7 @@ export class ProfileAddressService {
 
   updateProfile(profile: Profile){
     console.log(this.localStorageService.getUserFromLocalStorage());
-    return this.apiService.post(environment.server_url + "/api/user/profile", profile, ).pipe(
+    return this.apiService.post(environment.server_url + "/api/user/profile", profile).pipe(
         catchError(err => {
           throw new Error("Error while updating Profile. " + err);
         })

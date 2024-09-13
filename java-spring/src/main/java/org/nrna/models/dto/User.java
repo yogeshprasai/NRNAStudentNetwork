@@ -35,11 +35,10 @@ public class User {
 	@Size(max = 32)
 	private String lastName;
 	
-	@Size(max = 32)
-	private String role;
-	
 	@Size(max = 15)
 	private String phoneNumber;
+
+	private boolean isHelper;
 	
 	@OneToOne(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Address address;
@@ -95,20 +94,20 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public @Size(max = 32) String getRole() {
-		return role;
-	}
-
-	public void setRole(@Size(max = 32) String role) {
-		this.role = role;
-	}
-
 	public @Size(max = 15) String getPhoneNumber() {
 		return phoneNumber;
 	}
 
 	public void setPhoneNumber(@Size(max = 15) String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public boolean isHelper() {
+		return isHelper;
+	}
+
+	public void setHelper(boolean helper) {
+		isHelper = helper;
 	}
 
 	public Address getAddress() {

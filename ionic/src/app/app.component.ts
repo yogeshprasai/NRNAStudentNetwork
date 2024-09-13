@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { NavigationMetaData } from './shared/interface/navigation';
 import { NrnaLinks, NrnaRoutes } from './shared/service/constant';
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -71,16 +72,19 @@ export class AppComponent implements OnInit {
 
   public onClickingMenu(navigationData: NavigationMetaData){
     if(this.authService.isLoggedIn && navigationData.title === NrnaLinks.Logout && navigationData.url === NrnaRoutes.Logout){
-      this.authService.logout().subscribe(()=> {
-        this.authService.removeUserAndToken();
-        this.router.navigate(['auth/sign-in']);
-        this.appPages.forEach(eachNav => {
-          if(eachNav.title === NrnaLinks.Logout && navigationData.url === NrnaRoutes.Logout){
-            eachNav.title = NrnaLinks.Login;
-            eachNav.url = NrnaRoutes.Login;
-          }
-        });
-      })
+      this.authService.logout().pipe(
+          finalize (() => {
+            this.authService.removeUserAndToken();
+            this.menuBarHideShow(false);
+            this.router.navigate(['auth/sign-in']);
+            this.appPages.forEach(eachNav => {
+              if(eachNav.title === NrnaLinks.Logout && navigationData.url === NrnaRoutes.Logout){
+                eachNav.title = NrnaLinks.Login;
+                eachNav.url = NrnaRoutes.Login;
+              }
+            });
+          })
+      ).subscribe();
     }
     this.router.navigate([navigationData.url]);
   }

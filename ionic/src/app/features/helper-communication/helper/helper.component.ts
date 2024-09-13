@@ -11,12 +11,15 @@ export class HelperComponent  implements OnInit {
 
   public folder!: string;
   private activatedRoute = inject(ActivatedRoute);
-  public listOfMembers: any = [];
+  public helpers: any = [];
 
   constructor(private router: Router, private helperService: HelperService) {}
 
   ngOnInit() {
-    this.listOfMembers = this.helperService.getAllHelpers();
+    this.helperService.getAllHelpers().subscribe(response => {
+      console.log(response);
+      this.helpers = response
+    })
   }
 
 }

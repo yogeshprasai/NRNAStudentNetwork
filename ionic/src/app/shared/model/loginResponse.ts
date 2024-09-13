@@ -8,7 +8,6 @@ export interface loginResponse {
 	gender: string;
 	language: string;
 	name: string;
-	role: string;
 	phoneNumber: string;
 	userAddress: any;
 }

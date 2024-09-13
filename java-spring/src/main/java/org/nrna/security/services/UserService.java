@@ -26,6 +26,9 @@ import org.nrna.repository.AddressRepository;
 import org.nrna.repository.UserRepository;
 import org.nrna.security.jwt.JwtUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserService {
 	
@@ -56,7 +59,6 @@ public class UserService {
 		User user = new User();
 		user.setPassword(encoder.encode(signUpRequest.getPassword()));
 		user.setEmail(signUpRequest.getEmail());
-		user.setRole("Student");
 		userRepository.save(user);
 
 		return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
@@ -125,6 +127,10 @@ public class UserService {
 			user.setPhoneNumber(userProfile.getPhoneNumber());
 		}
 
+		if(user.isHelper() != userProfile.isHelper()){
+			user.setHelper(userProfile.isHelper());
+		}
+
 		try{
 			userRepository.save(user);
 		} catch (Exception e) {
@@ -151,7 +157,10 @@ public class UserService {
 	
 	public void saveOrUpdateAddress(UserDetailsImpl sessionUser, Address addressToBeUpdated) {
 		User user = getUser(sessionUser.getId());
-		Address userAddress = new Address();
+		Address userAddress = user.getAddress();
+		if(userAddress == null){
+			userAddress = new Address();
+		}
 		userAddress.setAddressLine1(addressToBeUpdated.getAddressLine1());
 		userAddress.setAddressLine2(addressToBeUpdated.getAddressLine2());
 		userAddress.setCity(addressToBeUpdated.getCity());
@@ -159,6 +168,7 @@ public class UserService {
 		userAddress.setZipCode(addressToBeUpdated.getZipCode());
 		userAddress.setUser(user);
 		user.setAddress(userAddress);
+
 		try{
 			userRepository.save(user);
 		}catch (Exception e){
@@ -175,5 +185,11 @@ public class UserService {
 //		userRepository.save(user);
 		userRepository.deleteByUserId(addressToDelete.getId());
 		return ResponseEntity.ok(new MessageResponse("Success"));
+	}
+
+	public ResponseEntity<?> getAllHelpers(){
+		List<UserProfile> userProfiles = new ArrayList<>();
+		userRepository.findAll().forEach(user -> userProfiles.add(UserProfile.userDetailsToUserProfile(user)));
+		return new ResponseEntity<>(userProfiles,HttpStatus.OK);
 	}
 }

@@ -20,6 +20,13 @@
         <ion-card-subtitle class="white ion-text-center font-size-24">Profile Information</ion-card-subtitle>
         <ion-card-title class="nrna-card-title ion-text-center"></ion-card-title>
       </ion-card-header>
+
+        <ion-alert
+                [isOpen]="addressUpdateSuccessful"
+                trigger="present-alert"
+                header="Profile Update Successful!"
+                [buttons]="successButtons"
+        ></ion-alert>
       
       <form [formGroup]="addressForm">
 
