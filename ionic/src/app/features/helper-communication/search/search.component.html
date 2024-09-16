@@ -23,31 +23,24 @@
         <div>
           <form [formGroup]="searchForm">
             <ion-item class="mt-3">
-              <ion-searchbar formControlName = "search" placeholder="Search" (keyup)="filterMemberList()"></ion-searchbar>
+              <ion-searchbar formControlName = "search" placeholder="Search" (keyup)="filterHelperList()"></ion-searchbar>
             </ion-item>
           </form>
 
           <br/>
-          <br/>
-          <br/>
-          <br/>
 
-          <ion-item class="mb-15 green" *ngFor="let eachMember of searchedMemberList">
-            
+          <ion-item class="mb-15 green" *ngFor="let eachMember of helpersFilteredList">
             <ion-label class="white profile-container">
-              <div style="flex-grow: 1.2">
+              <div class="profile-picture">
                 <ion-thumbnail slot="start">
                   <img src="../../assets/icon/helper.png">
                 </ion-thumbnail>
               </div>
-              <div style="flex-grow: 1">
-                <h2>{{eachMember.firstName}}</h2>
-                <p class="white">{{eachMember.lastName}}</p>
-                <p class="white">{{eachMember.city}}, {{eachMember.state}}</p>
-              </div>
-              <div style="flex-grow: 3"></div>
-              <div class="communication-icon">
-                <ion-icon name="send-outline" size="large"></ion-icon>
+              <div>
+                <h2 *ngIf="eachMember.firstName && eachMember.lastName" class="font-bold">{{eachMember.firstName}} {{eachMember.lastName}}</h2>
+                <div class="white mt-1" *ngIf="eachMember.userAddress && eachMember.userAddress.city && eachMember.userAddress && eachMember.userAddress.state">{{eachMember.userAddress.city}}, {{eachMember.userAddress.state}}</div>
+                <div class="nrna-phone mt-1" *ngIf="eachMember.phoneNumber"><ion-icon name="call-outline"></ion-icon> {{eachMember.phoneNumber}}</div>
+                <div class="nrna-email mt-1" *ngIf="eachMember.email"><ion-icon name="mail-outline" class="mr-2 mail-icon"></ion-icon><span>{{eachMember.email}}</span></div>
               </div>
             </ion-label>
           </ion-item>

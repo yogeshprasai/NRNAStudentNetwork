@@ -12,20 +12,12 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   private formatErrors(error: any) {
-    console.log(error);
-    if(error.status == 404){
-      return of([]);
-    }else if(error.status = 500){
-      //retry one more time
-      return throwError(error.error);
-    }
     return throwError(error.error);
   }
 
   get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
     return this.http.get(path, {params}).pipe(
-      catchError(this.formatErrors
-    ));
+      catchError(this.formatErrors));
   }
 
   post(path: string, body: Object = {}): Observable<any> {

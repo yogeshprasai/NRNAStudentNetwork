@@ -2,6 +2,7 @@ package org.nrna.security.services;
 
 import org.nrna.exception.ResourceNotFoundException;
 import org.nrna.models.UserAddress;
+import org.nrna.models.UserProfileAndAddress;
 import org.nrna.models.dto.UserDetailsImpl;
 import org.nrna.models.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -188,8 +189,9 @@ public class UserService {
 	}
 
 	public ResponseEntity<?> getAllHelpers(){
-		List<UserProfile> userProfiles = new ArrayList<>();
-		userRepository.findAll().forEach(user -> userProfiles.add(UserProfile.userDetailsToUserProfile(user)));
-		return new ResponseEntity<>(userProfiles,HttpStatus.OK);
+		List<UserProfileAndAddress> userProfileAndAddress = new ArrayList<>();
+		userRepository.findAll().forEach(user -> userProfileAndAddress.add(UserProfileAndAddress.userToUserProfileAndAddress(user)));
+		System.out.println(userProfileAndAddress);
+		return new ResponseEntity<>(userProfileAndAddress,HttpStatus.OK);
 	}
 }

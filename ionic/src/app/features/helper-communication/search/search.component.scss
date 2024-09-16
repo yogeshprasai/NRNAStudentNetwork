@@ -2,7 +2,42 @@
     display: flex;
     align-items: center;
 }
-  
+
+.profile-picture{
+    width: 70px;
+}
+
 .communication-icon{
     color: rgb(112, 116, 162);
+}
+
+.nrna-phone{
+    color: #559555;
+}
+
+.nrna-email{
+    color: #4369e7;
+}
+
+.mail-icon{
+    margin-bottom: -3px;
+}
+
+
+@media only screen and (max-width: 500px) {
+    .nrna-email {
+        max-width: 230px
+    }
+}
+
+@media only screen and (max-width: 414px) {
+    .nrna-email {
+        max-width: 220px
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    .nrna-email {
+        max-width: 180px
+    }
 }

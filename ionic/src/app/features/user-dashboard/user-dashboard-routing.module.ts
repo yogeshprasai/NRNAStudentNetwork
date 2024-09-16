@@ -15,7 +15,10 @@ const routes: Routes = [
       {
         path: '',
         component: ProfileComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        resolve: {
+          profile: ProfileResolverService
+        }
       },
       {
         path: 'profile',

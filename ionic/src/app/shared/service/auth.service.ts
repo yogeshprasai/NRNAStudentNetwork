@@ -62,7 +62,13 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.apiService.post(environment.server_url + "/api/auth/authenticate", {email, password});
+    return this.apiService.post(environment.server_url + "/api/auth/authenticate", {email, password}).pipe(
+        catchError(err => {
+          console.log("Bad Credentials");
+          //Show user failed message if server error or bad credentials
+          return of([]);
+        })
+    );
   }
 
   public logout() {

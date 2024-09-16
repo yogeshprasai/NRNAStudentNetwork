@@ -21,6 +21,15 @@ public class UserProfile implements Serializable {
 
 	}
 
+	public UserProfile(String firstName, String middleName, String lastName, String email, String phoneNumber, boolean isHelper) {
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.isHelper = isHelper;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
