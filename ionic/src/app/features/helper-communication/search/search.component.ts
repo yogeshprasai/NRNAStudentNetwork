@@ -31,8 +31,8 @@ export class SearchComponent  implements OnInit {
     this.helpersFilteredList = this.allHelpers.filter((member: any) => {
       const firstName = member.firstName && member.firstName.toLowerCase().includes(text.toLowerCase());
       const lastName = member.lastName && member.lastName.toLowerCase().includes(text.toLowerCase());
-      const city = member.city && member.city.toLowerCase().includes(text.toLowerCase());
-      const state = member.state && member.state.toLowerCase().includes(text.toLowerCase());
+      const city = member.userAddress && member.userAddress.city && member.userAddress.city.toLowerCase().includes(text.toLowerCase());
+      const state = member.userAddress && member.userAddress.state && member.userAddress.state.toLowerCase().includes(text.toLowerCase());
       return firstName || lastName || city || state;
     });
   }
