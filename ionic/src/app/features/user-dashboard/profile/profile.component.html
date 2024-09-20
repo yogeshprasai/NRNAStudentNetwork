@@ -22,13 +22,6 @@
       </ion-card-header>
 
         <ion-alert
-                [isOpen]="successMessage"
-                trigger="present-alert"
-                header="Profile Update Successful!"
-                [buttons]="successButtons"
-        ></ion-alert>
-
-        <ion-alert
                 [isOpen]="successMessageWithLogout"
                 trigger="present-alert"
                 header="Profile Update Successful! Since Email has changed, Please login again."
@@ -36,6 +29,23 @@
         ></ion-alert>
       
       <form [formGroup]="profileForm">
+          <div *ngIf="profilePicture">
+              <img src={{profilePicture}}>
+          </div>
+          <div *ngIf="!profilePicture">
+              <img src="../../../../../assets/icon/defaultProfilePic.jpeg">
+          </div>
+
+          <ion-list>
+              <div class="profile-pic-icons">
+                  <ion-button fill="clear" (click)="uploadFromCameraOrGallery()">
+                      <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>Upload
+                  </ion-button>
+                  <ion-button fill="clear" (click)="deleteImage()" *ngIf="profilePicture">
+                      <ion-icon slot="icon-only" name="trash"></ion-icon>
+                  </ion-button>
+              </div>
+          </ion-list>
 
         <ion-item class="mt-3">
           <ion-input label="First Name*" formControlName="firstName" placeholder="First Name" class="ion-text-right"></ion-input>

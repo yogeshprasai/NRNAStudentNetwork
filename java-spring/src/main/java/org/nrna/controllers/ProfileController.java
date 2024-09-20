@@ -11,13 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import org.nrna.models.dto.Address;
 import org.nrna.models.response.MessageResponse;
@@ -66,6 +60,18 @@ public class ProfileController {
 		HttpSession session = request.getSession();
 		Long id = (Long) session.getAttribute("id");
 		return userService.deleteAddress(id, address);
+	}
+
+	@PostMapping("/saveOrUpdateProfilePic")
+	public ResponseEntity<?> saveOrUpdateProfilePic(@RequestParam("image") String base64Image) {
+		UserDetailsImpl sessionUser = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return userService.addOrUpdateProfilePicture(sessionUser, base64Image);
+	}
+
+	@PutMapping("/deleteProfilePicture")
+	public ResponseEntity<?> deleteProfilePicture() {
+		UserDetailsImpl sessionUser = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return userService.deleteProfilePicture(sessionUser);
 	}
 
 }

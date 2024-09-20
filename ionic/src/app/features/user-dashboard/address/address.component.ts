@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController} from '@ionic/angular';
 import { AuthService } from 'src/app/shared/service/auth.service';
 import { ProfileAddressService } from 'src/app/shared/service/profile-address.service';
 import { StatesList } from 'src/app/shared/validation';
 import {Address} from "../../../shared/model/address";
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'app-address',
@@ -18,15 +19,16 @@ export class AddressComponent  implements OnInit {
 
   public addressForm: FormGroup = new FormGroup({});
   public addressValues: Address = <Address>{};
-  public addressUpdateSuccessful: boolean = false;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private profileAddressService: ProfileAddressService,
-    private alertCtrl: AlertController,
     public fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
+    private alertController: AlertController
   ) {}
 
   ngOnInit(){
@@ -57,36 +59,62 @@ export class AddressComponent  implements OnInit {
     this.router.navigateByUrl('login');
   }
 
-  submitAddressForm(){
+  async submitAddressForm(){
+    const loading = await this.loadingCtrl.create({
+      message: 'Updating Profile...',
+    });
+
     this.addressForm.controls['addressLine1'].markAsTouched();
     this.addressForm.controls['city'].markAsTouched();
     this.addressForm.controls['state'].markAsTouched();
     this.addressForm.controls['zipCode'].markAsTouched();
 
+    await loading.present();
     if(!this.addressForm.controls['addressLine1'].errors && !this.addressForm.controls['addressLine2'].errors && 
           !this.addressForm.controls['city'].errors && !this.addressForm.controls['state'].errors && 
           !this.addressForm.controls['zipCode'].errors){
           //Submit Form
-          this.profileAddressService.saveOrUpdateAddress(this.addressForm.value).subscribe(response => {
-            if(response.message.includes("Success")){
-              this.addressUpdateSuccessful = true;
-            }
-          })
+          this.profileAddressService.saveOrUpdateAddress(this.addressForm.value)
+              .pipe(
+                  finalize(() => {
+                    loading.dismiss()
+                  })
+              )
+              .subscribe({
+                next: response => {
+                  if(response.message.includes("Success")){
+                    this.presentToast("Address Update Complete.")
+                  }
+                },
+                error: () => {
+                  this.showErrorAlert("Error! Please Try Again.");
+                }
+              });
     }
   }
 
-  public successButtons = [
-    {
-      text: 'OK',
-      role: 'confirm',
-      handler: () => {
-        this.resetButtons();
-      },
-    },
-  ];
+  async presentToast(text: any) {
+    const toast = await this.toastCtrl.create({
+      message: text,
+      duration: 3000
+    });
+    toast.present();
+  }
 
-  private resetButtons(){
-    this.addressUpdateSuccessful = false;
+    //Error Popup
+  async showErrorAlert(message: string){
+    const showErrorPopup = await this.alertController.create({
+      header: message,
+      buttons: [
+        {
+          text: 'OK',
+          htmlAttributes: {
+            'aria-label': 'close',
+          },
+        },
+      ],
+    });
+    showErrorPopup.present();
   }
 
 }

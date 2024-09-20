@@ -1,5 +1,7 @@
 package org.nrna.models.dto;
 
+import org.hibernate.annotations.Type;
+
 import java.util.List;
 
 import javax.persistence.*;
@@ -39,6 +41,10 @@ public class User {
 	private String phoneNumber;
 
 	private boolean isHelper;
+
+	@Lob
+	@Type(type = "org.hibernate.type.ImageType")
+	private byte[] profilePicture;
 	
 	@OneToOne(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Address address;
@@ -108,6 +114,14 @@ public class User {
 
 	public void setHelper(boolean helper) {
 		isHelper = helper;
+	}
+
+	public byte[] getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(byte[] profilePicture) {
+		this.profilePicture = profilePicture;
 	}
 
 	public Address getAddress() {

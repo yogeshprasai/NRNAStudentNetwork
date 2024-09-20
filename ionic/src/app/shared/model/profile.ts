@@ -6,4 +6,5 @@ export interface Profile{
     email: string;
     phoneNumber: number;
     isHelper: boolean;
+    profilePicture: any;
 }

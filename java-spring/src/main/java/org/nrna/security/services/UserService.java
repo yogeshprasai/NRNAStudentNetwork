@@ -26,8 +26,11 @@ import org.nrna.models.response.UserResponse;
 import org.nrna.repository.AddressRepository;
 import org.nrna.repository.UserRepository;
 import org.nrna.security.jwt.JwtUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -188,10 +191,37 @@ public class UserService {
 		return ResponseEntity.ok(new MessageResponse("Success"));
 	}
 
+	public ResponseEntity<?> addOrUpdateProfilePicture(UserDetailsImpl sessionUser, String base64Image){
+		User user = getUser(sessionUser.getId());
+		byte[] imageData = base64Image.getBytes();
+		user.setProfilePicture(imageData);
+
+		try{
+			userRepository.save(user);
+		}catch (Exception e){
+			System.out.println("ErrorMessage: " + e.getMessage());
+			throw new BadCredentialsException("Bad Data");
+		}
+		return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
+
+	}
+
 	public ResponseEntity<?> getAllHelpers(){
 		List<UserProfileAndAddress> userProfileAndAddress = new ArrayList<>();
 		userRepository.findAll().forEach(user -> userProfileAndAddress.add(UserProfileAndAddress.userToUserProfileAndAddress(user)));
 		System.out.println(userProfileAndAddress);
 		return new ResponseEntity<>(userProfileAndAddress,HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> deleteProfilePicture(UserDetailsImpl userSession) {
+		User user = getUser(userSession.getId());
+		user.setProfilePicture(null);
+		try{
+			userRepository.save(user);
+		}catch (Exception e){
+			System.out.println("ErrorMessage: " + e.getMessage());
+			throw new BadCredentialsException("Bad Data");
+		}
+		return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
 	}
 }

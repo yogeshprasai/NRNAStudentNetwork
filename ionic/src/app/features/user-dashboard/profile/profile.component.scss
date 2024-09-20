@@ -10,3 +10,17 @@ ion-list-header {
 .input-label {
   display: inline-block;
 }
+
+img{
+  margin: auto;
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  box-shadow: 0 0 40px #6c6ce2;
+  display: block;
+}
+
+.profile-pic-icons{
+  display: flex;
+  justify-content: center;
+ }

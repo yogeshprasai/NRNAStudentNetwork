@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import org.nrna.models.dto.User;
 
 import java.io.Serializable;
+import java.util.Base64;
 
 public class UserProfile implements Serializable {
 
@@ -16,6 +17,7 @@ public class UserProfile implements Serializable {
 	private String email;
 	private String phoneNumber;
 	private boolean isHelper;
+	private String profilePicture;
 
 	public UserProfile() {
 
@@ -80,6 +82,14 @@ public class UserProfile implements Serializable {
 		isHelper = helper;
 	}
 
+	public String getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
+	}
+
 	public static UserProfile userDetailsToUserProfile(User user) {
 		UserProfile userProfile = new UserProfile();
 		userProfile.setFirstName(user.getFirstName());
@@ -88,6 +98,9 @@ public class UserProfile implements Serializable {
 		userProfile.setEmail(user.getEmail());
 		userProfile.setPhoneNumber(user.getPhoneNumber());
 		userProfile.setHelper(user.isHelper());
+		if(user.getProfilePicture() != null) {
+			userProfile.setProfilePicture(new String(user.getProfilePicture()));
+		}
 		return userProfile;
 	}
 }
