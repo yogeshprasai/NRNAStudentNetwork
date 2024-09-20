@@ -5,6 +5,7 @@ import { HelperCommunicationPage } from './helper-communication.page';
 import { SearchComponent } from './search/search.component';
 import { HelperComponent } from './helper/helper.component';
 import { CommunicationComponent } from './communication/communication.component';
+import { HelperResolverService } from 'src/app/shared/resolvers/helper-resolver.service';
 
 const routes: Routes = [
   {
@@ -18,7 +19,10 @@ const routes: Routes = [
       },
       {
         path: 'helper',
-        component: HelperComponent
+        component: HelperComponent,
+        resolve: {
+          helper: HelperResolverService
+        }
       },
       {
         path: 'communication',

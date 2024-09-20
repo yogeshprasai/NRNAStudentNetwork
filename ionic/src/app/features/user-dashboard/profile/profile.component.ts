@@ -43,6 +43,7 @@ export class ProfileComponent implements OnInit {
       lastName: ['', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
       email: ['', [Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)])]],
       phoneNumber: ['', [Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(16), Validators.pattern(/^[0-9\s]*$/)])]],
+      showPhoneNumber: [''],
       isHelper: [''],
       profilePicture: ['']
     });
@@ -57,6 +58,7 @@ export class ProfileComponent implements OnInit {
         this.profileForm.get('lastName')?.patchValue(this.profileValues.lastName);
         this.profileForm.get('email')?.patchValue(this.profileValues.email);
         this.profileForm.get('phoneNumber')?.patchValue(this.profileValues.phoneNumber);
+        this.profileForm.get('showPhoneNumber')?.patchValue(this.profileValues.showPhoneNumber);
         this.profileForm.get('isHelper')?.patchValue(this.profileValues.isHelper);
         if(this.profileValues.profilePicture){
           this.profilePicture = "data:image/jpeg;base64," + this.profileValues.profilePicture;

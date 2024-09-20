@@ -22,14 +22,19 @@
           <ion-item class="mb-15 green" *ngFor="let eachMember of helpers">
             <ion-label class="white profile-container">
               <div class="profile-picture">
-                <ion-thumbnail slot="start">
-                  <img src="../../assets/icon/helper.png">
-                </ion-thumbnail>
+                
+                  <div *ngIf="eachMember.profilePicture">
+                    <img src= {{getProfilePic(eachMember.profilePicture)}}>
+                  </div>
+                  <div *ngIf="!eachMember.profilePicture">
+                      <img src="../../assets/icon/helper.png">
+                  </div>
+                
               </div>
-              <div>
+              <div class="helper-info">
                   <h2 *ngIf="eachMember.firstName && eachMember.lastName" class="font-bold">{{eachMember.firstName}} {{eachMember.lastName}}</h2>
                   <div class="white mt-1" *ngIf="eachMember.userAddress && eachMember.userAddress.city && eachMember.userAddress && eachMember.userAddress.state">{{eachMember.userAddress.city}}, {{eachMember.userAddress.state}}</div>
-                  <div class="nrna-phone mt-1" *ngIf="eachMember.phoneNumber"><ion-icon name="call-outline"></ion-icon> {{eachMember.phoneNumber}}</div>
+                  <div *ngIf="eachMember.showPhoneNumber && eachMember.phoneNumber" class="nrna-phone mt-1"><ion-icon name="call-outline"></ion-icon> {{eachMember.phoneNumber}}</div>
                   <div class="nrna-email mt-1" *ngIf="eachMember.email"><ion-icon name="mail-outline" class="mr-2 mail-icon"></ion-icon><span>{{eachMember.email}}</span></div>
               </div>
             </ion-label>

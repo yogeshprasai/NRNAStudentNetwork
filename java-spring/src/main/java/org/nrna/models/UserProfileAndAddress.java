@@ -9,7 +9,9 @@ public class UserProfileAndAddress {
     private String lastName;
     private String email;
     private String phoneNumber;
+    private boolean showPhoneNumber;
     private boolean isHelper;
+    private String profilePicture;
     private UserAddress userAddress;
 
     public UserProfileAndAddress(){
@@ -22,6 +24,7 @@ public class UserProfileAndAddress {
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.showPhoneNumber = showPhoneNumber;
         this.isHelper = isHelper;
         this.userAddress = userAddress;
     }
@@ -66,12 +69,28 @@ public class UserProfileAndAddress {
         this.phoneNumber = phoneNumber;
     }
 
+    public boolean isShowPhoneNumber() {
+        return showPhoneNumber;
+    }
+
+    public void setShowPhoneNumber(boolean showPhoneNumber) {
+        this.showPhoneNumber = showPhoneNumber;
+    }
+
     public boolean isHelper() {
         return isHelper;
     }
 
     public void setHelper(boolean helper) {
         isHelper = helper;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     public UserAddress getUserAddress() {
@@ -89,7 +108,11 @@ public class UserProfileAndAddress {
         userProfileAndAddress.setLastName(user.getLastName());
         userProfileAndAddress.setEmail(user.getEmail());
         userProfileAndAddress.setPhoneNumber(user.getPhoneNumber());
+        userProfileAndAddress.setShowPhoneNumber(user.isShowPhoneNumber());
         userProfileAndAddress.setHelper(user.isHelper());
+        if(user.getProfilePicture() != null) {
+            userProfileAndAddress.setProfilePicture(new String(user.getProfilePicture()));
+        }
         if(user.getAddress() != null) {
             userProfileAndAddress.setUserAddress(UserAddress.converterAddressToUserAddress(user.getAddress()));
         }else {

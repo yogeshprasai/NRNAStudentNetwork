@@ -27,6 +27,19 @@
     border: none;
 }
 
+img{
+    margin: auto;
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    // box-shadow: 0 0 40px #6c6ce2;
+    display: block;
+}
+
+.helper-info{
+    margin-left: 1rem;
+}
+
 @media only screen and (max-width: 500px) {
     .nrna-email {
         max-width: 230px

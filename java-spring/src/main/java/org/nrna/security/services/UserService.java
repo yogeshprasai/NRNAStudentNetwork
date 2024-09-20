@@ -131,6 +131,10 @@ public class UserService {
 			user.setPhoneNumber(userProfile.getPhoneNumber());
 		}
 
+		if(user.isShowPhoneNumber() != userProfile.isShowPhoneNumber()){
+			user.setShowPhoneNumber(userProfile.isShowPhoneNumber());
+		}
+
 		if(user.isHelper() != userProfile.isHelper()){
 			user.setHelper(userProfile.isHelper());
 		}

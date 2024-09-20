@@ -19,7 +19,18 @@ export class HelperComponent  implements OnInit {
     this.helperService.getAllHelpers().subscribe(response => {
       console.log(response);
       this.helpers = response
-    })
+    });
+  }
+
+  ionViewWillEnter() {
+    this.helperService.getAllHelpers().subscribe(response => {
+      console.log(response);
+      this.helpers = response
+    });
+  }
+
+  getProfilePic(base64String: string): string{
+    return "data:image/jpeg;base64," + base64String;
   }
 
 }

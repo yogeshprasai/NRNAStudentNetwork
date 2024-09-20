@@ -5,6 +5,7 @@ export interface Profile{
     lastName: string;
     email: string;
     phoneNumber: number;
+    showPhoneNumber: boolean;
     isHelper: boolean;
     profilePicture: any;
 }

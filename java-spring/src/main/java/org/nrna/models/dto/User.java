@@ -40,6 +40,8 @@ public class User {
 	@Size(max = 15)
 	private String phoneNumber;
 
+	private boolean showPhoneNumber;
+
 	private boolean isHelper;
 
 	@Lob
@@ -106,6 +108,14 @@ public class User {
 
 	public void setPhoneNumber(@Size(max = 15) String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public boolean isShowPhoneNumber() {
+		return showPhoneNumber;
+	}
+
+	public void setShowPhoneNumber(boolean showPhoneNumber) {
+		this.showPhoneNumber = showPhoneNumber;
 	}
 
 	public boolean isHelper() {
