@@ -11,7 +11,7 @@ import {finalize} from "rxjs";
 
 
 @Component({
-  selector: 'app-profile',
+  selector: 'nrna-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })

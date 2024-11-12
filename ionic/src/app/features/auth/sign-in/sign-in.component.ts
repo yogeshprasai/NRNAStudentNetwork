@@ -10,7 +10,7 @@ import { User } from 'src/app/shared/interface/user';
 import { NrnaRoutes } from 'src/app/shared/service/constant';
 
 @Component({
-  selector: 'app-sign-in',
+  selector: 'nrna-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss'],
 })

@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Validation_AddressPage, Validation_Login, Validation_ProfilePage, Validation_SignUp } from '../../validation';
 
 @Component({
-  selector: 'app-nrna-error',
+  selector: 'nrna-error',
   templateUrl: './nrna-error.component.html',
   styleUrls: ['./nrna-error.component.scss'],
 })

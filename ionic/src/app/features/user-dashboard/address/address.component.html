@@ -28,29 +28,29 @@
             <ion-item class="mt-3">
               <ion-input label="Address Line 1" formControlName="addressLine1" placeholder="Enter Address Line 1" class="ion-text-right"></ion-input>
             </ion-item>
-            <app-nrna-error [form]="addressForm" [controlName]="'addressLine1'" [page]="'address'"></app-nrna-error>
+            <nrna-error [form]="addressForm" [controlName]="'addressLine1'" [page]="'address'"></nrna-error>
 
             <ion-item class="mt-3">
               <ion-input label="Address Line 2" formControlName="addressLine2" placeholder="Enter Address Line 2" class="ion-text-right"></ion-input>
             </ion-item>
-            <app-nrna-error [form]="addressForm" [controlName]="'addressLine2'" [page]="'address'"></app-nrna-error>
+            <nrna-error [form]="addressForm" [controlName]="'addressLine2'" [page]="'address'"></nrna-error>
 
             <ion-item class="mt-3">
               <ion-input label="City" formControlName="city" placeholder="Enter City" class="ion-text-right"></ion-input>
             </ion-item>
-            <app-nrna-error [form]="addressForm" [controlName]="'city'" [page]="'address'"></app-nrna-error>
+            <nrna-error [form]="addressForm" [controlName]="'city'" [page]="'address'"></nrna-error>
 
             <ion-item class="mt-3">
               <ion-select label="State" placeholder="Select State" formControlName = "state">
                 <ion-select-option *ngFor="let state of statesList">{{state.name}}</ion-select-option>
               </ion-select>
             </ion-item>
-            <app-nrna-error [form]="addressForm" [controlName]="'state'" [page]="'address'"></app-nrna-error>
+            <nrna-error [form]="addressForm" [controlName]="'state'" [page]="'address'"></nrna-error>
 
             <ion-item class="mt-3">
               <ion-input label="Zip Code" formControlName="zipCode" placeholder="Enter Zip Code" class="ion-text-right"></ion-input>
             </ion-item>
-            <app-nrna-error [form]="addressForm" [controlName]="'zipCode'" [page]="'address'"></app-nrna-error>
+            <nrna-error [form]="addressForm" [controlName]="'zipCode'" [page]="'address'"></nrna-error>
 
             <div class="ion-text-center mt-3" (click)="submitAddressForm()"><ion-button>Submit</ion-button></div>
 

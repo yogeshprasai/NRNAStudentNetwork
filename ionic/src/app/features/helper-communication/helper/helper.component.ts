@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HelperService } from 'src/app/shared/service/helper.service';
 
 @Component({
-  selector: 'app-helper',
+  selector: 'nrna-helper',
   templateUrl: './helper.component.html',
   styleUrls: ['./helper.component.scss'],
 })

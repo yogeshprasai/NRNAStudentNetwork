@@ -9,7 +9,7 @@ import {Address} from "../../../shared/model/address";
 import {finalize} from "rxjs";
 
 @Component({
-  selector: 'app-address',
+  selector: 'nrna-address',
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.scss'],
 })
@@ -69,7 +69,6 @@ export class AddressComponent  implements OnInit {
     this.addressForm.controls['state'].markAsTouched();
     this.addressForm.controls['zipCode'].markAsTouched();
 
-    await loading.present();
     if(!this.addressForm.controls['addressLine1'].errors && !this.addressForm.controls['addressLine2'].errors && 
           !this.addressForm.controls['city'].errors && !this.addressForm.controls['state'].errors && 
           !this.addressForm.controls['zipCode'].errors){
@@ -90,6 +89,8 @@ export class AddressComponent  implements OnInit {
                   this.showErrorAlert("Error! Please Try Again.");
                 }
               });
+    }else {
+      loading.dismiss();
     }
   }
 

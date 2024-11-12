@@ -42,7 +42,7 @@
             signUpForm.controls['email'].touched">
             </ion-input>
           </ion-item>
-          <app-nrna-error [form]="signUpForm" [controlName]="'email'" [page]="'signUp'"></app-nrna-error>
+          <nrna-error [form]="signUpForm" [controlName]="'email'" [page]="'signUp'"></nrna-error>
           <!-- <div class="validation-errors">
             <ng-container *ngFor="let validation of validationSignUp.email">
               <div class="error-message text-danger" *ngIf="signUpForm.get('email')?.hasError(validation.type) && signUpForm.get('email')?.touched">
@@ -58,7 +58,7 @@
               [class.invalid]="!signUpForm.controls['password'].valid&& signUpForm.controls['password'].touched">
             </ion-input>
           </ion-item>
-          <app-nrna-error [form]="signUpForm" [controlName]="'password'" [page]="'signUp'"></app-nrna-error>
+          <nrna-error [form]="signUpForm" [controlName]="'password'" [page]="'signUp'"></nrna-error>
           <!-- <div class="validation-errors">
             <ng-container *ngFor="let validation of validationSignUp.password">
               <div class="error-message" *ngIf="signUpForm.get('password')?.hasError(validation.type) && signUpForm.get('password')?.touched">

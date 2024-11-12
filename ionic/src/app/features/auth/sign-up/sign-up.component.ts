@@ -6,7 +6,7 @@ import { Validation_SignUp } from 'src/app/shared/validation';
 import { AuthService } from 'src/app/shared/service/auth.service';
 
 @Component({
-  selector: 'app-sign-up',
+  selector: 'nrna-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
 })

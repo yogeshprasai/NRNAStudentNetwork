@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-communication',
+  selector: 'nrna-communication',
   templateUrl: './communication.component.html',
   styleUrls: ['./communication.component.scss'],
 })

@@ -3,7 +3,8 @@ export const NrnaLinks = {
     Helper: 'Helper',
     Favorites: 'Favorites',
     Login: 'Login',
-    Logout: 'Logout'
+    Logout: 'Logout',
+    Info: 'Info'
 };
 
 export const NrnaRoutes = {
@@ -11,5 +12,6 @@ export const NrnaRoutes = {
     Helper: '/helper-communication/helper',
     Favorites: '/helper/favorites',
     Login: '/auth/sign-in',
-    Logout: '/auth/sign-in'
+    Logout: '/auth/sign-in',
+    Info: '/info/'
 }

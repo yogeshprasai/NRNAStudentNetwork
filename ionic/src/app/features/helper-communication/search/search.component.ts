@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HelperService } from 'src/app/shared/service/helper.service';
 
 @Component({
-  selector: 'app-search',
+  selector: 'nrna-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
@@ -33,7 +33,8 @@ export class SearchComponent  implements OnInit {
       const lastName = member.lastName && member.lastName.toLowerCase().includes(text.toLowerCase());
       const city = member.userAddress && member.userAddress.city && member.userAddress.city.toLowerCase().includes(text.toLowerCase());
       const state = member.userAddress && member.userAddress.state && member.userAddress.state.toLowerCase().includes(text.toLowerCase());
-      return firstName || lastName || city || state;
+      const zipCode = member.userAddress.zipCode && member.userAddress.zipCode && member.userAddress.zipCode.toLowerCase().includes(text.toLowerCase());
+      return firstName || lastName || city || state || zipCode;
     });
   }
 

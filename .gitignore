@@ -1,1 +1,11 @@
 /ionic/node_modules/
+/ionic/.angular
+/java-spring/target
+.idea
+angular/.idea/workspace.xml
+ionic/capacitor.config.ts
+ionic/ionic.config.json
+ionic/package-lock.json
+ionic/ios
+ionic/ionic.config.json
+ionic/ionic.config.json

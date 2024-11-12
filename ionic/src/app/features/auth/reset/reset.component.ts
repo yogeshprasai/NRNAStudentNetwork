@@ -5,7 +5,7 @@ import { AlertController, LoadingController } from '@ionic/angular';
 import { Validation_ResetPassword } from 'src/app/shared/validation';
 
 @Component({
-  selector: 'app-reset',
+  selector: 'nrna-reset',
   templateUrl: './reset.component.html',
   styleUrls: ['./reset.component.scss'],
 })
