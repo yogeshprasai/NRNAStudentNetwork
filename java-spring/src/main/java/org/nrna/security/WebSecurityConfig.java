@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import org.nrna.security.jwt.AuthEntryPointJwt;
 import org.nrna.security.jwt.AuthTokenFilter;
-import org.nrna.security.services.UserDetailsServiceImpl;
+import org.nrna.services.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity

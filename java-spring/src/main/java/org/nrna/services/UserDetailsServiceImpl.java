@@ -1,4 +1,4 @@
-package org.nrna.security.services;
+package org.nrna.services;
 
 import org.nrna.models.dto.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;

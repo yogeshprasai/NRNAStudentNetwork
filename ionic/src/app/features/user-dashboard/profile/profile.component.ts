@@ -72,7 +72,7 @@ export class ProfileComponent implements OnInit {
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.Base64,
-      source: CameraSource.Photos // Camera, Photos or Prompt!
+      source: CameraSource.Prompt // Camera, Photos or Prompt!
     });
 
     if (image) {

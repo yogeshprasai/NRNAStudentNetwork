@@ -1,11 +1,10 @@
-package org.nrna.security.services;
+package org.nrna.services;
 
 import org.nrna.exception.ResourceNotFoundException;
 import org.nrna.models.UserAddress;
 import org.nrna.models.UserProfileAndAddress;
 import org.nrna.models.dto.UserDetailsImpl;
 import org.nrna.models.UserProfile;
-import org.nrna.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +26,8 @@ import org.nrna.models.response.UserResponse;
 import org.nrna.repository.AddressRepository;
 import org.nrna.repository.UserRepository;
 import org.nrna.security.jwt.JwtUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 

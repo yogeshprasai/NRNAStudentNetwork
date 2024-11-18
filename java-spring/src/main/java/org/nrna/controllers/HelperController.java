@@ -1,6 +1,6 @@
 package org.nrna.controllers;
 
-import org.nrna.security.services.UserService;
+import org.nrna.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;

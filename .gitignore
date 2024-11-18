@@ -7,5 +7,9 @@ ionic/capacitor.config.ts
 ionic/ionic.config.json
 ionic/package-lock.json
 ionic/ios
-ionic/ionic.config.json
-ionic/ionic.config.json
+ionic/www
+ionic/src/app/package.json
+java-spring/.DS_Store
+java-spring/src/main/.DS_Store
+ionic/.DS_Store
+.DS_Store

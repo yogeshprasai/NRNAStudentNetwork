@@ -4,7 +4,6 @@ import com.sun.mail.smtp.SMTPTransport;
 import org.nrna.models.UserProfile;
 import org.nrna.models.dto.User;
 import org.nrna.models.dto.UserDetailsImpl;
-import org.nrna.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
