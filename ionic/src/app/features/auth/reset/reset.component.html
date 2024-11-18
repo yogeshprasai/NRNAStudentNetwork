@@ -34,13 +34,13 @@
           </div>
           <br/> 
         
-          <ion-button (click)="submitCredentials(passwordResetForm)" expand="block">
+          <ion-button (click)="checkIfEmailExist(passwordResetForm)" expand="block">
             Reset Password
           </ion-button>
           <p class="ion-text-center">*An email will be sent once successful</p>
         </form>
 
-        <ion-button expand="block" fill="clear" routerLink="/sign-in" class="link">
+        <ion-button expand="block" fill="clear" routerLink="../sign-in" class="link">
           Login Instead
         </ion-button>
         

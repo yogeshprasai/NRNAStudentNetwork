@@ -5,6 +5,7 @@ import org.nrna.models.UserAddress;
 import org.nrna.models.UserProfileAndAddress;
 import org.nrna.models.dto.UserDetailsImpl;
 import org.nrna.models.UserProfile;
+import org.nrna.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -50,6 +52,9 @@ public class UserService {
 	
 	@Autowired
 	JwtUtils jwtUtils;
+
+	@Autowired
+	EmailService emailService;
 	
 	UserService(){
 		
@@ -99,6 +104,17 @@ public class UserService {
 	public User getUser(Long id){
 		return userRepository.findById(id)
 				.orElseThrow(()-> new ResourceNotFoundException("User not found"));
+	}
+
+	public ResponseEntity<?> findUserByEmail(String email){
+		Optional<User> user = userRepository.findByEmail(email);
+		if (user.isPresent()) {
+			UserProfile userProfile = new UserProfile();
+			userProfile = UserProfile.userDetailsToUserProfile(user.get());
+			emailService.sendEmail(userProfile);
+			return new ResponseEntity<>(new MessageResponse("Email Exist"), HttpStatus.OK);
+		}
+		return new ResponseEntity<>(new MessageResponse("No Email Exist"), HttpStatus.BAD_REQUEST);
 	}
 	
 	public ResponseEntity<?> getProfile(UserDetailsImpl sessionUser) {

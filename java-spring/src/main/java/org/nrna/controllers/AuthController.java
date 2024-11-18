@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.nrna.models.dto.UserDetailsImpl;
+import org.nrna.models.request.EmailExist;
 import org.nrna.models.response.MessageResponse;
 import org.nrna.models.response.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,11 @@ public class AuthController {
 	@PostMapping("/logout")
 	public ResponseEntity<?> logout() {
 		return userService.logout();
+	}
+
+	@PostMapping("/isEmailExist")
+	public ResponseEntity<?> isEmailExist(@Valid @RequestBody EmailExist emailExist) {
+		return userService.findUserByEmail(emailExist.getEmail());
 	}
 	
 }

@@ -16,10 +16,18 @@ export class SearchComponent  implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   constructor(private router: Router, private helperService: HelperService, private fb: FormBuilder) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.searchForm = this.fb.group({
       search: [''],
     });
+    this.getHelpers();
+  }
+
+  ionViewWillEnter(): void{
+    this.getHelpers();
+  }
+
+  getHelpers(): void{
     this.helperService.getAllHelpers().subscribe(response => {
       this.allHelpers = response
       this.helpersFilteredList = this.allHelpers;
@@ -29,11 +37,11 @@ export class SearchComponent  implements OnInit {
   filterHelperList(){
     const text = this.searchForm.controls['search']?.value;
     this.helpersFilteredList = this.allHelpers.filter((member: any) => {
-      const firstName = member.firstName && member.firstName.toLowerCase().includes(text.toLowerCase());
-      const lastName = member.lastName && member.lastName.toLowerCase().includes(text.toLowerCase());
-      const city = member.userAddress && member.userAddress.city && member.userAddress.city.toLowerCase().includes(text.toLowerCase());
-      const state = member.userAddress && member.userAddress.state && member.userAddress.state.toLowerCase().includes(text.toLowerCase());
-      const zipCode = member.userAddress.zipCode && member.userAddress.zipCode && member.userAddress.zipCode.toLowerCase().includes(text.toLowerCase());
+      const firstName: string = member.firstName && member.firstName.toLowerCase().includes(text.toLowerCase());
+      const lastName: string = member.lastName && member.lastName.toLowerCase().includes(text.toLowerCase());
+      const city: string = member.userAddress && member.userAddress.city && member.userAddress.city.toLowerCase().includes(text.toLowerCase());
+      const state: string = member.userAddress && member.userAddress.state && member.userAddress.state.toLowerCase().includes(text.toLowerCase());
+      const zipCode: number = member.userAddress.zipCode && member.userAddress.zipCode && member.userAddress.zipCode.toLowerCase().includes(text.toLowerCase());
       return firstName || lastName || city || state || zipCode;
     });
   }

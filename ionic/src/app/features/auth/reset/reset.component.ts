@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
+import {AlertController, LoadingController, ToastController} from '@ionic/angular';
 import { Validation_ResetPassword } from 'src/app/shared/validation';
+import {AuthService} from "../../../shared/service/auth.service";
 
 @Component({
   selector: 'nrna-reset',
@@ -18,7 +19,9 @@ export class ResetComponent  implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private loadingCtrl: LoadingController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private authService: AuthService,
+    private toastCtrl: ToastController
   ) { }
 
   ngOnInit() {
@@ -30,19 +33,33 @@ export class ResetComponent  implements OnInit {
     });
   }
 
-  submitCredentials(passwordResetForm: FormGroup): void {
+  checkIfEmailExist(passwordResetForm: FormGroup): void {
     if (!passwordResetForm.valid) {
       console.log('Form is not valid yet, current value:', passwordResetForm.value);
     } else {
       const credentials = {
         email: passwordResetForm.value.email,
       };
-      this.resetPassword(credentials);
+      this.authService.isEmailExist(credentials.email).subscribe(res => {
+        if(res.message === "Email Exist") {
+          this.presentToast("Reset Password Email Sent. Check your spam too");
+        }else {
+          this.presentToast("No Email Registered with above id");
+        }
+      })
     }
   }
 
   private resetPassword(credentials: any){
 
+  }
+
+  async presentToast(text: any) {
+    const toast = await this.toastCtrl.create({
+      message: text,
+      duration: 3000
+    });
+    toast.present();
   }
 
 }

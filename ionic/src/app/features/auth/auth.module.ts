@@ -8,8 +8,6 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { ResetComponent } from './reset/reset.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
-
-
 @NgModule({
   declarations: [
     SignInComponent,

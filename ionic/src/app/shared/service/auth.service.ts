@@ -75,8 +75,14 @@ export class AuthService {
     return this.apiService.post(environment.server_url + '/api/auth/logout');
   }
 
-  public resetPassword(email: string) {
-    //return this.afAuth.sendPasswordResetEmail(email);
+  public isEmailExist(email: string) {
+    return this.apiService.post(environment.server_url + '/api/auth/isEmailExist', {email}).pipe(
+        catchError(err => {
+          console.log("Email Not Exist");
+          //Show user failed message if server error or bad credentials
+          return of([]);
+        })
+    );
   }
 
 }

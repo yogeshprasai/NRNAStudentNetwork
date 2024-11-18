@@ -13,20 +13,27 @@ export class HelperComponent  implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   public helpers: any = [];
 
-  constructor(private router: Router, private helperService: HelperService) {}
+  constructor(private router: Router, private helperService: HelperService) {
+    this.updateHelperInfo();
+  }
 
   ngOnInit() {
+
+  }
+
+  updateHelperInfo(){
     this.helperService.getAllHelpers().subscribe(response => {
       console.log(response);
-      this.helpers = response
+      this.helpers = response;
     });
   }
 
   ionViewWillEnter() {
-    this.helperService.getAllHelpers().subscribe(response => {
-      console.log(response);
-      this.helpers = response
-    });
+    this.updateHelperInfo();
+  }
+
+  ionViewDidEnter(){
+    this.updateHelperInfo();
   }
 
   getProfilePic(base64String: string): string{

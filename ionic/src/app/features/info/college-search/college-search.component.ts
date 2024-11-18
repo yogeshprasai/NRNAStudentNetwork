@@ -14,6 +14,6 @@ export class CollegeSearchComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        alert();
+
     }
 }

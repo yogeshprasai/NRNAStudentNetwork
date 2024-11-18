@@ -4,13 +4,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { HelperCommunicationPage } from './helper-communication.page';
 import { SearchComponent } from './search/search.component';
 import { HelperComponent } from './helper/helper.component';
-import { CommunicationComponent } from './communication/communication.component';
 import { HelperResolverService } from 'src/app/shared/resolvers/helper-resolver.service';
 
 const routes: Routes = [
   {
     path: '',
     component: HelperCommunicationPage,
+    resolve: {
+      helper: HelperResolverService
+    },
     children: [
       {
         path: '',
@@ -20,17 +22,12 @@ const routes: Routes = [
       {
         path: 'helper',
         component: HelperComponent,
-        resolve: {
-          helper: HelperResolverService
-        }
-      },
-      {
-        path: 'communication',
-        component: CommunicationComponent
+        pathMatch: 'full'
       },
       {
         path: 'search',
-        component: SearchComponent
+        component: SearchComponent,
+        pathMatch: 'full'
       }
     ]
   }

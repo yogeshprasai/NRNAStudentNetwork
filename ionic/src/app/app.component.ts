@@ -1,10 +1,11 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import { AuthService } from './shared/service/auth.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { NavigationMetaData } from './shared/interface/navigation';
 import { NrnaLinks, NrnaRoutes } from './shared/service/constant';
 import {finalize} from "rxjs";
+import {App, URLOpenListenerEvent} from "@capacitor/app";
 
 @Component({
   selector: 'app-root',
@@ -27,8 +28,11 @@ export class AppComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private storage: Storage,
-    private router: Router
-  ) {}
+    private router: Router,
+    private zone: NgZone
+  ) {
+    this.initializeApp();
+  }
 
   ngOnInit(): void {
     this.menuBarHideShow(this.authService.isLoggedIn);
@@ -39,6 +43,22 @@ export class AppComponent implements OnInit {
 
   ionViewWillEnter(): void {
     
+  }
+
+  initializeApp() {
+    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      this.zone.run(() => {
+        // Example url: https://beerswift.app/tabs/tab2
+        // slug = /tabs/tab2
+        const slug = event.url.split(".app").pop();
+        if (slug) {
+          this.router.navigateByUrl(slug);
+        }
+        // If no match, do nothing - let regular routing
+        // logic take over
+        this.router.navigateByUrl("/");
+      });
+    });
   }
 
   private menuBarHideShow(isLoggedIn: boolean){
