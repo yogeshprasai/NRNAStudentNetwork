@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import { AlertController, LoadingController, ToastController} from '@ionic/angular';
-import { Profile } from 'src/app/shared/model/profile';
-import { AuthService } from 'src/app/shared/service/auth.service';
-import { ProfileAddressService } from 'src/app/shared/service/profile-address.service';
-import { StatesList } from 'src/app/shared/validation';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import {AlertController, LoadingController, Platform, ToastController} from '@ionic/angular';
+import {Profile} from 'src/app/shared/model/profile';
+import {AuthService} from 'src/app/shared/service/auth.service';
+import {ProfileAddressService} from 'src/app/shared/service/profile-address.service';
+import {StatesList} from 'src/app/shared/validation';
+import {Camera, CameraResultType, CameraSource} from '@capacitor/camera';
 import {finalize} from "rxjs";
 
 
@@ -33,7 +33,9 @@ export class ProfileComponent implements OnInit {
     public route: ActivatedRoute,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private platForm: Platform
+
   ) {}
 
   async ngOnInit(){
@@ -68,11 +70,12 @@ export class ProfileComponent implements OnInit {
   }
 
   async uploadFromCameraOrGallery() {
+    let isLocal = document.URL.startsWith('http://localhost:42');
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.Base64,
-      source: CameraSource.Prompt // Camera, Photos or Prompt!
+      source: isLocal ? CameraSource.Photos : CameraSource.Prompt // Camera, Photos or Prompt!
     });
 
     if (image) {
