@@ -18,7 +18,6 @@ public class ControllerExceptionHandler {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 
-
   @ExceptionHandler(ResourceNotFoundException.class)
   public ResponseEntity<ErrorMessage> resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
     ErrorMessage message = new ErrorMessage(
@@ -43,15 +42,15 @@ public class ControllerExceptionHandler {
     return new ResponseEntity<ErrorMessage>(message, HttpStatus.NOT_FOUND);
   }
 
-  @ExceptionHandler(ServerErrorException.class)
-  public ResponseEntity<ErrorMessage> globalExceptionHandler(Exception ex, WebRequest request) {
+  @ExceptionHandler(CustomGenericException.class)
+  public ResponseEntity<ErrorMessage> customGenericException(Exception ex, WebRequest request) {
     ErrorMessage message = new ErrorMessage(
         HttpStatus.INTERNAL_SERVER_ERROR.value(),
         new Date(),
         ex.getMessage(),
         request.getDescription(false));
 
-    logger.debug("Global Exception: ", ex);
+    logger.debug("Generic Exception: ", ex);
     return new ResponseEntity<ErrorMessage>(message, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

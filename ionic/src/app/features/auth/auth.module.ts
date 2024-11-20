@@ -5,14 +5,16 @@ import { AuthRouterModule } from './auth-routing.module';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SignUpComponent } from './sign-up/sign-up.component';
-import { ResetComponent } from './reset/reset.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import {PasswordResetSendComponent} from "./reset/password-reset-token/password-reset-send.component";
+import {PasswordResetVerifyComponent} from "./reset/password-reset-verify/password-reset-verify.component";
 
 @NgModule({
   declarations: [
     SignInComponent,
     SignUpComponent,
-    ResetComponent
+    PasswordResetSendComponent,
+    PasswordResetVerifyComponent
   ],
   imports: [
     CommonModule,

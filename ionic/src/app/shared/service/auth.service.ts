@@ -75,8 +75,18 @@ export class AuthService {
     return this.apiService.post(environment.server_url + '/api/auth/logout');
   }
 
-  public isEmailExist(email: string) {
-    return this.apiService.post(environment.server_url + '/api/auth/isEmailExist', {email}).pipe(
+  public sendEmailAndToken(email: string) {
+    return this.apiService.post(environment.server_url + '/api/auth/passwordResetRequest', {email}).pipe(
+        catchError(err => {
+          console.log("Email Not Exist");
+          //Show user failed message if server error or bad credentials
+          return of([]);
+        })
+    );
+  }
+
+  public passwordResetWithToken(email: string, token: string, password: string) {
+    return this.apiService.post(environment.server_url + '/api/auth/passwordResetWithToken', {email: email, token: token, password: password}).pipe(
         catchError(err => {
           console.log("Email Not Exist");
           //Show user failed message if server error or bad credentials

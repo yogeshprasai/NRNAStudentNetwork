@@ -47,13 +47,6 @@
             </ion-input>
           </ion-item>
           <nrna-error [form]="loginForm" [controlName]="'email'" [page]="'login'"></nrna-error>
-          <!-- <div class="validation-errors">
-            <ng-container *ngFor="let validation of validationLogin.email">
-              <div class="error-message" *ngIf="loginForm.get('email')?.hasError(validation.type) && loginForm.get('email')?.touched">
-                {{ validation.message }}
-              </div>
-            </ng-container>
-          </div> -->
           <br/> 
 
           <ion-item>
@@ -75,7 +68,7 @@
           Create a new account
         </ion-button>
       
-        <ion-button expand="block" fill="clear" [routerLink]="['../reset-password']" class="link">
+        <ion-button expand="block" fill="clear" [routerLink]="['../password-reset']" class="link">
           I forgot my password :(
         </ion-button>
 

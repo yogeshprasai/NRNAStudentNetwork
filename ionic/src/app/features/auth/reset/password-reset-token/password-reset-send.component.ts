@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AlertController, LoadingController, ToastController} from '@ionic/angular';
-import { Validation_ResetPassword } from 'src/app/shared/validation';
-import {AuthService} from "../../../shared/service/auth.service";
+import {AuthService} from "../../../../shared/service/auth.service";
+import {Validation_Password_Reset_Send} from "../../../../shared/validation";
 
 @Component({
-  selector: 'nrna-reset',
-  templateUrl: './reset.component.html',
-  styleUrls: ['./reset.component.scss'],
+  selector: 'nrna-password-reset-token',
+  templateUrl: './password-reset-send.component.html',
+  styleUrls: ['./password-reset-send.component.scss'],
 })
-export class ResetComponent  implements OnInit {
+export class PasswordResetSendComponent implements OnInit {
 
   public passwordResetForm: FormGroup = new FormGroup({});
-  public validationResetPass = Validation_ResetPassword;
+  public Validation_Password_Reset_Send = Validation_Password_Reset_Send;
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private loadingCtrl: LoadingController,
     private alertController: AlertController,
@@ -33,16 +34,16 @@ export class ResetComponent  implements OnInit {
     });
   }
 
-  checkIfEmailExist(passwordResetForm: FormGroup): void {
+  sendEmailAndToken(passwordResetForm: FormGroup): void {
     if (!passwordResetForm.valid) {
       console.log('Form is not valid yet, current value:', passwordResetForm.value);
     } else {
       const credentials = {
         email: passwordResetForm.value.email,
       };
-      this.authService.isEmailExist(credentials.email).subscribe(res => {
+      this.authService.sendEmailAndToken(credentials.email).subscribe(res => {
         if(res.message === "Email Exist") {
-          this.presentToast("Reset Password Email Sent. Check your spam too");
+          this.router.navigate(['./password-reset-verify', {email: credentials.email}], {relativeTo: this.route});
         }else {
           this.presentToast("No Email Registered with above id");
         }
@@ -50,7 +51,7 @@ export class ResetComponent  implements OnInit {
     }
   }
 
-  private resetPassword(credentials: any){
+  private passwordReset(credentials: any){
 
   }
 

@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.nrna.models.dto.UserDetailsImpl;
 import org.nrna.models.request.EmailExist;
+import org.nrna.models.request.PasswordResetWithToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,9 +53,14 @@ public class AuthController {
 		return userService.logout();
 	}
 
-	@PostMapping("/isEmailExist")
-	public ResponseEntity<?> isEmailExist(@Valid @RequestBody EmailExist emailExist) {
-		return userService.findUserByEmail(emailExist.getEmail());
+	@PostMapping("/passwordResetRequest")
+	public ResponseEntity<?> passwordResetRequest(@Valid @RequestBody EmailExist emailExist) {
+		return userService.passwordResetRequest(emailExist.getEmail());
+	}
+
+	@PostMapping("/passwordResetWithToken")
+	public ResponseEntity<?> passwordResetWithToken(@Valid @RequestBody PasswordResetWithToken passwordResetWithToken) {
+		return userService.passwordResetWithToken(passwordResetWithToken);
 	}
 	
 }

@@ -39,6 +39,8 @@ export class SignUpComponent  implements OnInit {
 
 
   submitCredentials(signUpForm: FormGroup){
+    signUpForm.get('email')?.markAsTouched();
+    signUpForm.get('password')?.markAsTouched();
     const email = signUpForm.get('email')?.value;
     const password = signUpForm.get('password')?.value;
     if(signUpForm.get('email')?.invalid || signUpForm.get('password')?.invalid){

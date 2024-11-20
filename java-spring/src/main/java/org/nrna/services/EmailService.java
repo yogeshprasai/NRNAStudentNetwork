@@ -80,7 +80,7 @@ public class EmailService {
         return null;
     }
 
-    public void sendEmail(UserProfile userProfile) {
+    public void sendEmail(UserProfile userProfile, String emailType, String token) {
 
         Properties props = new Properties();
         props.put("mail.transport.protocol", mail_protocol);
@@ -102,7 +102,12 @@ public class EmailService {
             MimeMessage msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress(userProfile.getEmail()));
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(userProfile.getEmail()));
-            msg.setSubject("Password Reset");
+            if(emailType == "password-reset"){
+                msg.setSubject("Password Reset");
+            }else {
+                msg.setSubject("Profile Created");
+            }
+
             msg.setContent("<h3>Hello " + getNameOrEmail(userProfile) + "</h3>" +
                     "<div class=\"preheader\" style=\"display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;\">\n" +
                     "    A preheader is the short summary text that follows the subject line when an email is viewed in the inbox.\n" +
@@ -146,7 +151,8 @@ public class EmailService {
                     "        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width: 600px;\">\n" +
                     "          <tr>\n" +
                     "            <td align=\"left\" bgcolor=\"#ffffff\" style=\"padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; border-top: 3px solid #d4dadf;\">\n" +
-                    "              <h1 style=\"margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;\">Reset Your Password</h1>\n" +
+                    "              <h1 style=\"margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -1px; text-align: center; line-height: 48px;\">NRNA Student Network</h1>\n" +
+                    "              <h1 style=\"margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -1px; text-align: center; line-height: 48px;\">Reset Your Password</h1>\n" +
                     "            </td>\n" +
                     "          </tr>\n" +
                     "        </table>\n" +
@@ -172,7 +178,8 @@ public class EmailService {
                     "          <!-- start copy -->\n" +
                     "          <tr>\n" +
                     "            <td align=\"left\" bgcolor=\"#ffffff\" style=\"padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">\n" +
-                    "              <p style=\"margin: 0;\">Tap the button below to reset your account password. If you didn't request a new password, you can safely delete this email.</p>\n" +
+                    "              <p style=\"margin: 0;\">We received a request to reset your password for your NRNA Student Network account. If you didn't request a new password, you can safely delete this email.</p>\n" +
+                    "              <p style=\"margin: 0;\">Please enter this token in the app.</p>\n" +
                     "            </td>\n" +
                     "          </tr>\n" +
                     "          <!-- end copy -->\n" +
@@ -182,14 +189,8 @@ public class EmailService {
                     "            <td align=\"left\" bgcolor=\"#ffffff\">\n" +
                     "              <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n" +
                     "                <tr>\n" +
-                    "                  <td align=\"center\" bgcolor=\"#ffffff\" style=\"padding: 12px;\">\n" +
-                    "                    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n" +
-                    "                      <tr>\n" +
-                    "                        <td align=\"center\" bgcolor=\"#1a82e2\" style=\"border-radius: 6px;\">\n" +
-                    "                          <a href=\"https://sendgrid.com\" target=\"_blank\" style=\"display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;\">Reset Password</a>\n" +
-                    "                        </td>\n" +
-                    "                      </tr>\n" +
-                    "                    </table>\n" +
+                    "                  <td align=\"center\" bgcolor=\"#ffffff\" style=\"padding: 8px; font-weight: 700\">\n" +
+                                            token +
                     "                  </td>\n" +
                     "                </tr>\n" +
                     "              </table>\n" +

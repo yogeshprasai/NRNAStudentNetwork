@@ -23,11 +23,23 @@ export const Validation_Login = {
 }
 
 
-export const Validation_ResetPassword = {
+export const Validation_Password_Reset_Send = {
     'email': [
             { type: 'required', message: 'Email is required.' },
             { type: 'pattern', message: 'Please enter a valid Email' },
         ]
+}
+
+export const Validation_Password_Reset_Verify = {
+    'token': [
+        { type: 'required', message: 'Token is required.' },
+        { type: 'minlength', message: 'Token should be 6 characters long.' },
+        { type: 'maxlength', message: 'Token should be 6 characters long.' },
+    ],
+    'password': [
+        { type: 'required', message: 'Password is required.' },
+        { type: 'minlength', message: 'Password must be at least 6 characters long.' },
+    ]
 }
 
 export  const Validation_ProfilePage = {

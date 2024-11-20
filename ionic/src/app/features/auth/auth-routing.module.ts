@@ -2,8 +2,9 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { SignInComponent } from "./sign-in/sign-in.component";
 import { SignUpComponent } from "./sign-up/sign-up.component";
-import { ResetComponent } from "./reset/reset.component";
 import { LoggedInUserGuard } from "src/app/shared/guards/logged-in-user.guard";
+import {PasswordResetSendComponent} from "./reset/password-reset-token/password-reset-send.component";
+import {PasswordResetVerifyComponent} from "./reset/password-reset-verify/password-reset-verify.component";
 
 
 const routes: Routes = [
@@ -22,8 +23,18 @@ const routes: Routes = [
         component: SignUpComponent
     },
     {
-        path: 'reset-password',
-        component: ResetComponent
+        path: 'password-reset',
+        children : [
+            {
+                path: '',
+                component: PasswordResetSendComponent,
+                pathMatch: "full"
+            },
+            {
+                path: 'password-reset-verify',
+                component: PasswordResetVerifyComponent,
+            }
+        ]
     }
 ];
 

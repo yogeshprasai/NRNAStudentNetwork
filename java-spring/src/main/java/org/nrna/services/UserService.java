@@ -1,10 +1,14 @@
 package org.nrna.services;
 
+import org.nrna.exception.CustomGenericException;
 import org.nrna.exception.ResourceNotFoundException;
 import org.nrna.models.UserAddress;
 import org.nrna.models.UserProfileAndAddress;
+import org.nrna.models.dto.PasswordResetToken;
 import org.nrna.models.dto.UserDetailsImpl;
 import org.nrna.models.UserProfile;
+import org.nrna.models.request.PasswordResetWithToken;
+import org.nrna.repository.PasswordResetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +31,8 @@ import org.nrna.repository.AddressRepository;
 import org.nrna.repository.UserRepository;
 import org.nrna.security.jwt.JwtUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -42,6 +45,9 @@ public class UserService {
 	
 	@Autowired
 	AddressRepository addressRepository;
+
+	@Autowired
+	PasswordResetRepository passwordResetRepository;
 	
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -57,15 +63,18 @@ public class UserService {
 	}
 	
 	public ResponseEntity<?> signUp(SignupRequest signUpRequest) {
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity.badRequest().body(new MessageResponse("EmailExist"));
+		try {
+			if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+				return ResponseEntity.badRequest().body(new MessageResponse("EmailExist"));
+			}
+
+			User user = new User();
+			user.setPassword(encoder.encode(signUpRequest.getPassword()));
+			user.setEmail(signUpRequest.getEmail());
+			userRepository.save(user);
+		}catch (Exception e) {
+			throw new CustomGenericException("Cannot Retrieve and Save User");
 		}
-
-		User user = new User();
-		user.setPassword(encoder.encode(signUpRequest.getPassword()));
-		user.setEmail(signUpRequest.getEmail());
-		userRepository.save(user);
-
 		return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
 	}
 
@@ -102,15 +111,82 @@ public class UserService {
 				.orElseThrow(()-> new ResourceNotFoundException("User not found"));
 	}
 
-	public ResponseEntity<?> findUserByEmail(String email){
-		Optional<User> user = userRepository.findByEmail(email);
+	public ResponseEntity<?> passwordResetRequest(String email){
+		Optional<User> user = null;
+		try{
+			user = userRepository.findByEmail(email);
+		}catch (Exception e){
+			System.out.println("ErrorMessage: " + e.getMessage());
+			throw new BadCredentialsException("Bad Data");
+		}
+
 		if (user.isPresent()) {
-			UserProfile userProfile = new UserProfile();
-			userProfile = UserProfile.userDetailsToUserProfile(user.get());
-			emailService.sendEmail(userProfile);
+			UserProfile userProfile = UserProfile.userDetailsToUserProfile(user.get());
+			String longToken = String.valueOf(Math.round(Math.random()*1000000));
+			String shortToken = longToken.substring(0, 6);
+			expireAllPreviousTokens(user.get());
+			//For Local Testing
+			//createPasswordResetTokenForUser(user.get(), "123456");
+			createPasswordResetTokenForUser(user.get(), shortToken);
+			emailService.sendEmail(userProfile, "password-reset", shortToken);
 			return new ResponseEntity<>(new MessageResponse("Email Exist"), HttpStatus.OK);
 		}
 		return new ResponseEntity<>(new MessageResponse("No Email Exist"), HttpStatus.BAD_REQUEST);
+	}
+
+	private void expireAllPreviousTokens(User user){
+		try{
+			List<PasswordResetToken> passwordResetTokens = passwordResetRepository.findByUserId(user.getId());
+			for(PasswordResetToken passwordResetToken : passwordResetTokens){
+				passwordResetToken.setExpired(true);
+				passwordResetRepository.save(passwordResetToken);
+			}
+		}catch (Exception e) {
+			throw new CustomGenericException("Cannot Expire Tokens");
+		}
+	}
+
+	private void createPasswordResetTokenForUser(User user, String token) {
+		LocalDateTime expiryDate = LocalDateTime.now().plusMinutes(30);
+		PasswordResetToken myToken = new PasswordResetToken(user, token, expiryDate);
+		try{
+			passwordResetRepository.save(myToken);
+		}catch (Exception e) {
+			throw new CustomGenericException("Cannot Save User");
+		}
+	}
+
+	public ResponseEntity<?> passwordResetWithToken(PasswordResetWithToken passwordResetWithToken) {
+		Optional<User> user = userRepository.findByEmail(passwordResetWithToken.getEmail());
+		if (user.isPresent()) {
+			User newUserToBeUpdated = user.get();
+			if(verifyToken(newUserToBeUpdated, passwordResetWithToken)){
+				try{
+					newUserToBeUpdated.setPassword(encoder.encode(passwordResetWithToken.getPassword()));
+					userRepository.save(newUserToBeUpdated);
+				} catch (Exception e) {
+					throw new CustomGenericException("Cannot Save User");
+				}
+				return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<>(new MessageResponse("Password Reset Failed"), HttpStatus.BAD_REQUEST);
+	}
+
+	private boolean verifyToken(User user, PasswordResetWithToken passwordResetWithToken){
+		Optional<PasswordResetToken> savedUnExpiredPasswordToken = null;
+		try{
+			savedUnExpiredPasswordToken = passwordResetRepository.findByUserId(user.getId())
+					.stream()
+					.filter(val -> !val.isExpired()).findFirst();
+		}catch (Exception e) {
+			throw new ResourceNotFoundException("Cannot Find User");
+		}
+
+		if(savedUnExpiredPasswordToken.isPresent()){
+            return savedUnExpiredPasswordToken.get().getToken().equals(passwordResetWithToken.getToken());
+        }
+		return false;
 	}
 	
 	public ResponseEntity<?> getProfile(UserDetailsImpl sessionUser) {
@@ -154,7 +230,7 @@ public class UserService {
 		try{
 			userRepository.save(user);
 		} catch (Exception e) {
-			throw new RuntimeException("Error Saving Profile" + e);
+			throw new CustomGenericException("Error Saving User " + e);
 		}
 	}
 	
@@ -172,7 +248,12 @@ public class UserService {
 	public void saveAddress(Long id, Address address) {
 		User user = getUser(id);
 		user.setAddress(address);
-		userRepository.save(user);
+		try{
+			userRepository.save(user);
+		}catch (Exception e) {
+			throw new CustomGenericException("Error Saving User " + e);
+		}
+
 	}
 	
 	public void saveOrUpdateAddress(UserDetailsImpl sessionUser, Address addressToBeUpdated) {
@@ -193,18 +274,18 @@ public class UserService {
 			userRepository.save(user);
 		}catch (Exception e){
 			System.out.println("ErrorMessage: " + e.getMessage());
-			throw new BadCredentialsException("Bad Data");
+			throw new CustomGenericException("Bad Data");
 		}
 	}
 	
 	public ResponseEntity<?> deleteAddress(Long id, Address addressToDelete) {
-		User user = getUser(id);
-		Address addresses = user.getAddress();
-		//Address address = addresses.stream().filter(eachAddress -> eachAddress.getId() == addressToDelete.getId()).findFirst().get();
-//		user.getUserAddress().remove(userAddress);
-//		userRepository.save(user);
-		userRepository.deleteByUserId(addressToDelete.getId());
-		return ResponseEntity.ok(new MessageResponse("Success"));
+		try{
+			userRepository.deleteByUserId(addressToDelete.getId());
+			return ResponseEntity.ok(new MessageResponse("Success"));
+		}catch (Exception e){
+			System.out.println("ErrorMessage: " + e.getMessage());
+			throw new CustomGenericException("Error Deletting User ");
+		}
 	}
 
 	public ResponseEntity<?> addOrUpdateProfilePicture(UserDetailsImpl sessionUser, String base64Image){

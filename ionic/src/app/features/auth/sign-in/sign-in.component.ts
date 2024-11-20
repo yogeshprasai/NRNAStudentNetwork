@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Validation_Login } from 'src/app/shared/validation';
 import { loginResponse } from 'src/app/shared/model/loginResponse';
@@ -22,7 +22,7 @@ export class SignInComponent  implements OnInit {
   isLoggedIn: boolean = false;
   showFailMessage: boolean = false;
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private loadingService: LoadingService,
+  constructor(private router: Router, private activiatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private loadingService: LoadingService,
     private loadingCtrl: LoadingController, private alertController: AlertController, private authService: AuthService) { 
       this.loginForm = this.formBuilder.group({
         email: ['', Validators.compose([
@@ -36,7 +36,10 @@ export class SignInComponent  implements OnInit {
     }
 
   ngOnInit() {
-    
+    const passwordResetSuccess = this.activiatedRoute.snapshot.params['data'];
+    if(passwordResetSuccess){
+
+    }
   }
 
   ionViewWillEnter(){
@@ -46,6 +49,8 @@ export class SignInComponent  implements OnInit {
   }
 
   submitCredentials(loginForm: FormGroup): void {
+    loginForm.get('email')?.markAsTouched();
+    loginForm.get('password')?.markAsTouched();
     if (!loginForm.valid) {
       console.log('Form is not valid yet, current value:', loginForm.value);
     } else {

@@ -43,29 +43,15 @@
             </ion-input>
           </ion-item>
           <nrna-error [form]="signUpForm" [controlName]="'email'" [page]="'signUp'"></nrna-error>
-          <!-- <div class="validation-errors">
-            <ng-container *ngFor="let validation of validationSignUp.email">
-              <div class="error-message text-danger" *ngIf="signUpForm.get('email')?.hasError(validation.type) && signUpForm.get('email')?.touched">
-                {{ validation.message }}
-              </div>
-            </ng-container>
-          </div> -->
           <br/> 
         
           <ion-item>
             <ion-label class="white" position="stacked">Password</ion-label>
             <ion-input class="white" formControlName="password" type="password" placeholder="Your password"
-              [class.invalid]="!signUpForm.controls['password'].valid&& signUpForm.controls['password'].touched">
+              [class.invalid]="!signUpForm.controls['password'].valid && signUpForm.controls['password'].touched">
             </ion-input>
           </ion-item>
           <nrna-error [form]="signUpForm" [controlName]="'password'" [page]="'signUp'"></nrna-error>
-          <!-- <div class="validation-errors">
-            <ng-container *ngFor="let validation of validationSignUp.password">
-              <div class="error-message" *ngIf="signUpForm.get('password')?.hasError(validation.type) && signUpForm.get('password')?.touched">
-                {{ validation.message }}
-              </div>
-            </ng-container>
-          </div> -->
           <br/> 
         
           <ion-button (click)="submitCredentials(signUpForm)" expand="block">
