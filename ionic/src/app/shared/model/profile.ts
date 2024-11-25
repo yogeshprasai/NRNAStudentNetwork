@@ -7,5 +7,7 @@ export interface Profile{
     phoneNumber: number;
     showPhoneNumber: boolean;
     isHelper: boolean;
+    isStudent: boolean;
+    university: string;
     profilePicture: any;
 }

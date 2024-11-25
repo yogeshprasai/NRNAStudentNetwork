@@ -1,41 +1,40 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {UsersService} from "../../../shared/service/users.service";
+import { UsersService} from 'src/app/shared/service/users.service';
 
 @Component({
-  selector: 'nrna-helper',
-  templateUrl: './helper.component.html',
-  styleUrls: ['./helper.component.scss'],
+  selector: 'nrna-student',
+  templateUrl: './student.component.html',
+  styleUrls: ['./student.component.scss'],
 })
-export class HelperComponent implements OnInit {
+export class StudentComponent implements OnInit {
 
   public folder!: string;
   private activatedRoute = inject(ActivatedRoute);
-  public helpers: any = [];
+  public students: any = [];
 
   constructor(private route: ActivatedRoute, private usersService: UsersService) {
-    this.updateHelperInfo();
+    this.updateStudentsInfo();
   }
 
   ngOnInit() {
 
   }
 
-  updateHelperInfo(){
-    //console.log(this.route);
+  updateStudentsInfo(){
     this.route?.data.subscribe((response: any) => {
-      if(response.allHelpers){
-        this.helpers = response.allHelpers.filter((helper: any) => helper.isHelper);
+      if(response.allStudents){
+        this.students = response.allStudents.filter((student: any) => student.isStudent);
       }
     });
   }
 
   ionViewWillEnter() {
-    this.updateHelperInfo();
+    this.updateStudentsInfo();
   }
 
   ionViewDidEnter(){
-    this.updateHelperInfo();
+    this.updateStudentsInfo();
   }
 
   getProfilePic(base64String: string): string{

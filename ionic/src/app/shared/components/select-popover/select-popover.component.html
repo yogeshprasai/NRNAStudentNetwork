@@ -1,0 +1,9 @@
+<ion-toolbar [formGroup]="searchUniversityForm">
+    <ion-searchbar animated="true" mode="ios" formControlName="searchTerm" ></ion-searchbar>
+</ion-toolbar>
+
+<ion-list>
+    <ion-item class="ion-border" *ngFor="let item of items" (click)="selectItem(item)" tappable>
+        <ion-label > {{ item?.name }}</ion-label>
+    </ion-item>
+</ion-list>

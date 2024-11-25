@@ -1,5 +1,7 @@
 package org.nrna.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import org.nrna.models.dto.User;
 
 public class UserProfileAndAddress {
@@ -10,6 +12,8 @@ public class UserProfileAndAddress {
     private String email;
     private String phoneNumber;
     private boolean showPhoneNumber;
+    private boolean isStudent;
+    private String university;
     private boolean isHelper;
     private String profilePicture;
     private UserAddress userAddress;
@@ -25,6 +29,8 @@ public class UserProfileAndAddress {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.showPhoneNumber = showPhoneNumber;
+        this.isStudent = isStudent;
+        this.university = university;
         this.isHelper = isHelper;
         this.userAddress = userAddress;
     }
@@ -77,10 +83,30 @@ public class UserProfileAndAddress {
         this.showPhoneNumber = showPhoneNumber;
     }
 
+    @JsonGetter("isStudent")
+    public boolean isStudent() {
+        return isStudent;
+    }
+
+    @JsonSetter("isStudent")
+    public void setStudent(boolean student) {
+        isStudent = student;
+    }
+
+    public String getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(String university) {
+        this.university = university;
+    }
+
+    @JsonGetter("isHelper")
     public boolean isHelper() {
         return isHelper;
     }
 
+    @JsonSetter("isHelper")
     public void setHelper(boolean helper) {
         isHelper = helper;
     }
@@ -109,6 +135,8 @@ public class UserProfileAndAddress {
         userProfileAndAddress.setEmail(user.getEmail());
         userProfileAndAddress.setPhoneNumber(user.getPhoneNumber());
         userProfileAndAddress.setShowPhoneNumber(user.isShowPhoneNumber());
+        userProfileAndAddress.setStudent(user.isStudent());
+        userProfileAndAddress.setUniversity(user.getUniversity());
         userProfileAndAddress.setHelper(user.isHelper());
         if(user.getProfilePicture() != null) {
             userProfileAndAddress.setProfilePicture(new String(user.getProfilePicture()));

@@ -223,6 +223,14 @@ public class UserService {
 			user.setShowPhoneNumber(userProfile.isShowPhoneNumber());
 		}
 
+		if(user.isStudent() != userProfile.isStudent()){
+			user.setStudent(userProfile.isStudent());
+		}
+
+		if(null == user.getUniversity() || !user.getUniversity().equals(userProfile.getUniversity())){
+			user.setUniversity(userProfile.getUniversity());
+		}
+
 		if(user.isHelper() != userProfile.isHelper()){
 			user.setHelper(userProfile.isHelper());
 		}
@@ -303,9 +311,10 @@ public class UserService {
 
 	}
 
-	public ResponseEntity<?> getAllHelpers(){
+	public ResponseEntity<?> getAllUsers(){
 		List<UserProfileAndAddress> userProfileAndAddress = new ArrayList<>();
-		userRepository.findAll().forEach(user -> userProfileAndAddress.add(UserProfileAndAddress.userToUserProfileAndAddress(user)));
+		List<User> allUsers = userRepository.findAllUsers();
+		allUsers.forEach(user -> userProfileAndAddress.add(UserProfileAndAddress.userToUserProfileAndAddress(user)));
 		System.out.println(userProfileAndAddress);
 		return new ResponseEntity<>(userProfileAndAddress,HttpStatus.OK);
 	}

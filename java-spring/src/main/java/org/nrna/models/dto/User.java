@@ -44,6 +44,10 @@ public class User {
 
 	private boolean isHelper;
 
+	private boolean isStudent;
+
+	private String university;
+
 	@Lob
 	@Type(type = "org.hibernate.type.ImageType")
 	private byte[] profilePicture;
@@ -124,6 +128,22 @@ public class User {
 
 	public void setHelper(boolean helper) {
 		isHelper = helper;
+	}
+
+	public boolean isStudent() {
+		return isStudent;
+	}
+
+	public void setStudent(boolean student) {
+		isStudent = student;
+	}
+
+	public String getUniversity() {
+		return university;
+	}
+
+	public void setUniversity(String university) {
+		this.university = university;
 	}
 
 	public byte[] getProfilePicture() {

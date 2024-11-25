@@ -1,7 +1,9 @@
 export const NrnaLinks = {
     Profile: 'Profile',
     Helper: 'Helper',
+    Student: 'Student',
     Info: 'Info',
+    News: 'News',
     Login: 'Login',
     Logout: 'Logout'
 };
@@ -9,7 +11,9 @@ export const NrnaLinks = {
 export const NrnaRoutes = {
     Profile: '/user-dashboard/profile',
     Helper: '/helper-communication/helper',
+    Student: '/student-communication/student',
     Info: '/info/',
+    News: '/news',
     Login: '/auth/sign-in',
     Logout: '/auth/sign-in'
 }

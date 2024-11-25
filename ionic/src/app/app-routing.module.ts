@@ -22,9 +22,17 @@ const routes: Routes = [
     loadChildren: () => import('./features/helper-communication/helper-communication.module').then( m => m.HelperCommunicationPageModule)
   },
   {
+    path: 'student-communication',
+    loadChildren: () => import('./features/student-communication/student-communication.module').then( m => m.StudentCommunicationPageModule)
+  },
+  {
     path: 'info',
     loadChildren: () => import('./features/info/info.module').then(m => m.InfoModule)
   },
+  {
+    path: 'news',
+    loadChildren: () => import('./features/news/news.module').then(m => m.NewsModule)
+  }
 ];
 
 @NgModule({

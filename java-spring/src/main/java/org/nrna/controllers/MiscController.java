@@ -1,5 +1,6 @@
 package org.nrna.controllers;
 
+import org.nrna.services.MiscService;
 import org.nrna.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/helper")
-public class HelperController {
+@RequestMapping("/api")
+public class MiscController {
 
     @Autowired
-    UserService userService;
+    MiscService miscService;
 
-    @GetMapping("/getAllHelpers")
-    public ResponseEntity<?> getAllHelpers() {
-        return userService.getAllHelpers();
+    @GetMapping("/news/latestNews")
+    public ResponseEntity<?> getLatestNews() {
+        return miscService.getLatestNews();
     }
 
 }

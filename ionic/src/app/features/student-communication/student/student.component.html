@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="app-title">NRNA Student Network</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div id="container">
+    <ion-card class="white">
+      <ion-card-header>
+        <ion-card-subtitle class="white"></ion-card-subtitle>
+        <ion-card-title class="nrna-card-title ion-text-center">All Students</ion-card-title>
+        <p class="mt-3">These are all the students throughout United States. If you need local students, please use search button.</p>
+      </ion-card-header>
+    
+      <ion-card-content>
+        <div>
+          <ion-item class="mb-15 green" *ngFor="let eachMember of students">
+            <ion-label class="white profile-container">
+              <div class="profile-picture">
+                
+                  <div *ngIf="eachMember.profilePicture">
+                    <img src= {{getProfilePic(eachMember.profilePicture)}}>
+                  </div>
+                  <div *ngIf="!eachMember.profilePicture">
+                      <img src="../../assets/icon/helper.png">
+                  </div>
+                
+              </div>
+              <div class="student-info">
+                  <h2 *ngIf="eachMember.firstName && eachMember.lastName" class="font-bold">{{eachMember.firstName}} {{eachMember.lastName}}</h2>
+                  <div class="white mt-1" *ngIf="eachMember.userAddress && eachMember.userAddress.city && eachMember.userAddress && eachMember.userAddress.state">{{eachMember.userAddress.city}}, {{eachMember.userAddress.state}}</div>
+                  <div *ngIf="eachMember.showPhoneNumber && eachMember.phoneNumber" class="nrna-phone mt-1"><ion-icon name="call-outline"></ion-icon>  <a class=" ml-2 text-decoration-none" href="{{'tel:' + eachMember.phoneNumber}}">{{eachMember.phoneNumber}}</a></div>
+                  <div class="nrna-email mt-1" *ngIf="eachMember.email"><ion-icon name="mail-outline" class="mr-2 mail-icon"></ion-icon><span><a class="text-decoration-none" href="{{'mailto:' + eachMember.email }}">{{eachMember.email}}</a></span></div>
+                  <div class="nrna-university mt-1"><ion-icon name="mail-outline" class="mr-2 mail-icon"></ion-icon><span><span class="text-decoration-none">{{eachMember.university ? eachMember.university : 'N/A'}}</span></span></div>
+              </div>
+            </ion-label>
+          </ion-item>
+
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  
+</ion-content>
+
+

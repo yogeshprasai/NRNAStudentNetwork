@@ -19,7 +19,9 @@ export class AppComponent implements OnInit {
   public id: number = 0;
   public appPages: NavigationMetaData[] = [
     { title: NrnaLinks.Helper, url: NrnaRoutes.Helper, icon: 'help' },
+    { title: NrnaLinks.Student, url: NrnaRoutes.Student, icon: 'help' },
     { title: NrnaLinks.Info, url: NrnaRoutes.Info, icon: 'mail'},
+    { title: NrnaLinks.News, url: NrnaRoutes.News, icon: 'mail'},
     { title: NrnaLinks.Login, url: NrnaRoutes.Login, icon: 'mail' }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];

@@ -1,27 +1,27 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { HelperCommunicationPage } from './helper-communication.page';
 import { SearchComponent } from './search/search.component';
-import { HelperComponent } from './helper/helper.component';
-import { HelperResolverService } from 'src/app/shared/resolvers/helper-resolver.service';
+import {StudentCommunicationPage} from "./student-communication.page";
+import {StudentComponent} from "./student/student.component";
+import {StudentResolverService} from "../../shared/resolvers/student-resolver.service";
 
 const routes: Routes = [
   {
     path: '',
-    component: HelperCommunicationPage,
+    component: StudentCommunicationPage,
     children: [
       {
         path: '',
-        redirectTo: 'helper',
+        redirectTo: 'student',
         pathMatch: 'full'
       },
       {
-        path: 'helper',
-        component: HelperComponent,
+        path: 'student',
+        component: StudentComponent,
         pathMatch: 'full',
         resolve: {
-          allHelpers: HelperResolverService
+          allStudents: StudentResolverService
         },
       },
       {
@@ -29,7 +29,7 @@ const routes: Routes = [
         component: SearchComponent,
         pathMatch: 'full',
         resolve: {
-          allHelpers: HelperResolverService
+          allStudents: StudentResolverService
         },
       }
     ]
@@ -40,4 +40,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class HelperCommunicationRoutingModule {}
+export class StudentCommunicationRoutingModule {}

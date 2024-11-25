@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import {UsersService} from "../../../shared/service/users.service";
+import { UsersService} from 'src/app/shared/service/users.service';
 
 @Component({
   selector: 'nrna-search',
@@ -11,8 +11,8 @@ import {UsersService} from "../../../shared/service/users.service";
 export class SearchComponent  implements OnInit {
 
   public searchForm: FormGroup = new FormGroup({});
-  public allHelpers: any = [];
-  public helpersFilteredList: any = [];
+  public allStudents: any = [];
+  public studentsFilteredList: any = [];
   private activatedRoute = inject(ActivatedRoute);
   constructor(private router: Router, private usersService: UsersService, private fb: FormBuilder) { }
 
@@ -20,29 +20,33 @@ export class SearchComponent  implements OnInit {
     this.searchForm = this.fb.group({
       search: [''],
     });
-    this.getHelpers();
+    this.getStudents();
   }
 
   ionViewWillEnter(): void{
-    this.getHelpers();
+    this.getStudents();
   }
 
-  getHelpers(): void{
-    this.usersService.getAllUsers().subscribe(response => {
-      this.allHelpers = response
-      this.helpersFilteredList = this.allHelpers;
+  getStudents(): void{
+    this.activatedRoute.data.subscribe((response: any) => {
+      console.log(response.allStudents);
+      this.allStudents = response.allStudents.filter((student: any) => student.isStudent);
+      if(this.allStudents){
+        this.studentsFilteredList = this.allStudents;
+      }
     })
   }
 
-  filterHelperList(){
+  filterStudentsList(){
     const text = this.searchForm.controls['search']?.value;
-    this.helpersFilteredList = this.allHelpers.filter((member: any) => {
+    this.studentsFilteredList = this.allStudents.filter((member: any) => {
       const firstName: string = member.firstName && member.firstName.toLowerCase().includes(text.toLowerCase());
       const lastName: string = member.lastName && member.lastName.toLowerCase().includes(text.toLowerCase());
       const city: string = member.userAddress && member.userAddress.city && member.userAddress.city.toLowerCase().includes(text.toLowerCase());
       const state: string = member.userAddress && member.userAddress.state && member.userAddress.state.toLowerCase().includes(text.toLowerCase());
-      const zipCode: number = member.userAddress.zipCode && member.userAddress.zipCode && member.userAddress.zipCode.toLowerCase().includes(text.toLowerCase());
-      return firstName || lastName || city || state || zipCode;
+      const zipCode: number = member.userAddress && member.userAddress.zipCode && member.userAddress.zipCode && member.userAddress.zipCode.toLowerCase().includes(text.toLowerCase());
+      const university: string = member.university && member.university.toLowerCase().includes(text.toLowerCase())
+      return firstName || lastName || city || state || zipCode || university;
     });
   }
 

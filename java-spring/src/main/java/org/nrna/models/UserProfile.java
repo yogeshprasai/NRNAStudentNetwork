@@ -16,6 +16,8 @@ public class UserProfile implements Serializable {
 	private String email;
 	private String phoneNumber;
 	private boolean showPhoneNumber;
+	private boolean isStudent;
+	private String university;
 	private boolean isHelper;
 	private String profilePicture;
 
@@ -30,6 +32,8 @@ public class UserProfile implements Serializable {
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.showPhoneNumber = showPhoneNumber;
+		this.isStudent = isStudent;
+		this.university = university;
 		this.isHelper = isHelper;
 	}
 
@@ -81,6 +85,24 @@ public class UserProfile implements Serializable {
 		this.showPhoneNumber = showPhoneNumber;
 	}
 
+	@JsonGetter("isStudent")
+	public boolean isStudent() {
+		return isStudent;
+	}
+
+	@JsonSetter("isStudent")
+	public void setStudent(boolean student) {
+		isStudent = student;
+	}
+
+	public String getUniversity() {
+		return university;
+	}
+
+	public void setUniversity(String university) {
+		this.university = university;
+	}
+
 	@JsonGetter("isHelper")
 	public boolean isHelper() {
 		return isHelper;
@@ -107,6 +129,8 @@ public class UserProfile implements Serializable {
 		userProfile.setEmail(user.getEmail());
 		userProfile.setPhoneNumber(user.getPhoneNumber());
 		userProfile.setShowPhoneNumber(user.isShowPhoneNumber());
+		userProfile.setStudent(user.isStudent());
+		userProfile.setUniversity(user.getUniversity());
 		userProfile.setHelper(user.isHelper());
 		if(user.getProfilePicture() != null) {
 			userProfile.setProfilePicture(new String(user.getProfilePicture()));

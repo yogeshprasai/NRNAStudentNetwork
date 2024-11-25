@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/students"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="app-title">NRNA Student Network</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <ion-card class="white">
+      <ion-card-header>
+        <ion-card-subtitle class="white"></ion-card-subtitle>
+        <ion-card-title class="nrna-card-title ion-text-center">Search Students</ion-card-title>
+        <p class="mt-3">Search For Students By Your Student's University, First Name or Last Name or City or State or Zip</p>
+      </ion-card-header>
+    
+      <ion-card-content>
+        <div>
+          <form [formGroup]="searchForm">
+            <ion-item class="mt-3">
+              <ion-searchbar formControlName = "search" placeholder="Search" (keyup)="filterStudentsList()"></ion-searchbar>
+            </ion-item>
+          </form>
+
+          <br/>
+
+          <ion-item class="mb-15 green" *ngFor="let eachMember of studentsFilteredList">
+            <ion-label class="white profile-container">
+              <div class="profile-picture">
+                <ion-thumbnail slot="start">
+                  <img src="../../assets/icon/helper.png">
+                </ion-thumbnail>
+              </div>
+              <div>
+                <h2 *ngIf="eachMember.firstName && eachMember.lastName" class="font-bold">{{eachMember.firstName}} {{eachMember.lastName}}</h2>
+                <div class="white mt-1" *ngIf="eachMember.userAddress && eachMember.userAddress.city && eachMember.userAddress && eachMember.userAddress.state">{{eachMember.userAddress.city}}, {{eachMember.userAddress.state}}</div>
+                <div class="nrna-phone mt-1" *ngIf="eachMember.phoneNumber"><ion-icon name="call-outline"></ion-icon> {{eachMember.phoneNumber}}</div>
+                <div class="nrna-email mt-1" *ngIf="eachMember.email"><ion-icon name="mail-outline" class="mr-2 mail-icon"></ion-icon><span>{{eachMember.email}}</span></div>
+                <div class="nrna-university mt-1"><ion-icon name="mail-outline" class="mr-2 mail-icon"></ion-icon><span><span class="text-decoration-none">{{eachMember.university ? eachMember.university : 'N/A'}}</span></span></div>
+              </div>
+            </ion-label>
+          </ion-item>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

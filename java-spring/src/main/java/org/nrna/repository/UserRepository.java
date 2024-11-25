@@ -24,7 +24,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query("delete from Address u where u.id = ?1")
 	void deleteByUserId(long id);
 
-	@Query(nativeQuery = true, value = "SELECT * FROM users where is_helper = 1")
-	public List<User> findAll();
+	@Query(nativeQuery = true, value = "SELECT * FROM users")
+	public List<User> findAllUsers();
+
+//	@Query(nativeQuery = true, value = "SELECT * FROM users where is_helper = 1")
+//	public List<User> findAllHelpers();
+//
+//	@Query(nativeQuery = true, value = "SELECT * FROM users where is_student = 1")
+//	public List<User> findAllStudents();
 	
 }

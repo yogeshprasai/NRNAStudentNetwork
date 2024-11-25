@@ -77,10 +77,23 @@
       </ion-item>
 
       <ion-item class="mt-3">
+          <ion-checkbox labelPlacement="start" formControlName="isStudent">Enroll as a Student</ion-checkbox>
+      </ion-item>
+
+      <ion-item *ngIf="profileForm.get('isStudent')?.value">
+          <ion-label>Selected University: </ion-label>
+          <ion-label label="Floating label">{{profileForm.get('university')?.value}}</ion-label>
+      </ion-item>
+      <nrna-error *ngIf="profileForm.get('isStudent')?.value" [form]="profileForm" [controlName]="'university'" [page]="'profile'"></nrna-error>
+
+      <ion-button expand="full" (click)="openPopOver($event)" *ngIf="profileForm.get('isStudent')?.value">Select University</ion-button>
+
+      <ion-item class="mt-3">
           <ion-checkbox labelPlacement="start" formControlName="showPhoneNumber">Show Phone Number</ion-checkbox>
       </ion-item>
 
-      <div class="ion-text-center mt-3" (click)="submitProfileForm()"><ion-button>Submit</ion-button></div>
+
+          <div class="ion-text-center mt-3" (click)="submitProfileForm()"><ion-button>Submit</ion-button></div>
 
     </form>
 

@@ -21,7 +21,7 @@ import { UserDashboardComponent } from "./user-dashboard.component";
         FormsModule,
         ReactiveFormsModule,
         UserDashboardRoutingModule,
-        SharedModule
+        SharedModule,
     ],
     providers: []
 })
