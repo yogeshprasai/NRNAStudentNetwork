@@ -13,7 +13,6 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { LoadingService } from './shared/service/loading.service';
 import { ProfileAddressService } from './shared/service/profile-address.service';
 import {AuthInterceptor} from "./shared/service/interceptors/auth-interceptors";
-import {IonicSelectableComponent} from "ionic-selectable";
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,8 +22,7 @@ import {IonicSelectableComponent} from "ionic-selectable";
     ReactiveFormsModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
-    HttpClientModule,
-    IonicSelectableComponent
+    HttpClientModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, AuthService, Storage, 
                 LoadingService, ProfileAddressService,

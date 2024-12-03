@@ -1,24 +1,20 @@
 package org.nrna.controllers;
 
 import org.nrna.services.MiscService;
-import org.nrna.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@RequestMapping("/api")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api")
 public class MiscController {
 
     @Autowired
     MiscService miscService;
 
-    @GetMapping("/news/latestNews")
-    public ResponseEntity<?> getLatestNews() {
+    @RequestMapping(value = "/news/latestNews", method = RequestMethod.GET)
+    public ResponseEntity<?> latestNews() {
         return miscService.getLatestNews();
     }
 
