@@ -2,41 +2,123 @@ package org.nrna.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.LocalDate;
 import org.json.JSONObject;
 
+import org.nrna.models.dto.News;
+import org.nrna.models.news.NewsResult;
 import org.nrna.models.news.SerpApi;
+import org.nrna.repository.MiscRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 public class MiscService {
 
+    @Autowired
+    MiscRepository miscRepository;
+
     public ResponseEntity<?> getLatestNews(){
+        ArrayList<NewsResult> allNewsFromSerpApi = null;
+        ArrayList<News> allNewsFromDb = getAllNewsFromDB();
+
+        if(allNewsFromDb. isEmpty()) {
+            ArrayList<NewsResult> latestNewsFromSerpApi = (ArrayList<NewsResult>) getLatestNewsFromSerpApi();
+            if(!latestNewsFromSerpApi.isEmpty()) {
+                persistAllNews(allNewsFromSerpApi, allNewsFromDb);
+            }
+
+        }else{
+            Collections.sort(allNewsFromDb, new Comparator<News>() {
+                public int compare(News o1, News o2) {
+                    return o1.getDate().compareTo(o2.getDate());
+                }
+            });
+
+            News latestNews = allNewsFromDb.get(allNewsFromDb.size()-1);
+            if(LocalDate.parse(latestNews.getDate()).isBefore(LocalDate.now())){
+                ArrayList<NewsResult> latestNewsFromSerpApi = (ArrayList<NewsResult>) getLatestNewsFromSerpApi();
+                if(!latestNewsFromSerpApi.isEmpty()){
+                    persistAllNews(latestNewsFromSerpApi, allNewsFromDb);
+                }
+            }
+        }
+
+        return new ResponseEntity<>(getAllNewsFromDB(), HttpStatus.OK);
+    }
+
+    private List<NewsResult> getLatestNewsFromSerpApi(){
         RestTemplate restTemplate = new RestTemplate();
         String uri = "https://serpapi.com/search.json?engine=google&q=Nepali+Student&location=United+States&google_domain=google.com&gl=us&hl=en&tbm=nws&api_key=09d5e8b03937bbd246472efff47f4cc672568959397e88630ae46e6201f667cf";
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-//      ResponseEntity<?> newsString =
-//      restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
+        //ResponseEntity<?> newsJSON = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
         String newsJSON = "{\"search_metadata\":{\"id\":\"6746961e5a461a828f4b7133\",\"status\":\"Success\",\"json_endpoint\":\"https://serpapi.com/searches/818a25a6d2795149/6746961e5a461a828f4b7133.json\",\"created_at\":\"2024-11-2703:46:38UTC\",\"processed_at\":\"2024-11-2703:46:38UTC\",\"google_url\":\"https://www.google.com/search?q=Nepali+Student&oq=Nepali+Student&uule=w+CAIQICINVW5pdGVkIFN0YXRlcw&hl=en&gl=us&tbm=nws&sourceid=chrome&ie=UTF-8\",\"raw_html_file\":\"https://serpapi.com/searches/818a25a6d2795149/6746961e5a461a828f4b7133.html\",\"total_time_taken\":0.98},\"search_parameters\":{\"engine\":\"google\",\"q\":\"NepaliStudent\",\"location_requested\":\"UnitedStates\",\"location_used\":\"UnitedStates\",\"google_domain\":\"google.com\",\"hl\":\"en\",\"gl\":\"us\",\"device\":\"desktop\",\"tbm\":\"nws\"},\"search_information\":{\"query_displayed\":\"NepaliStudent\",\"total_results\":4660,\"time_taken_displayed\":0.22,\"news_results_state\":\"Resultsforexactspelling\"},\"news_results\":[{\"position\":1,\"link\":\"https://myrepublica.nagariknetwork.com/news/two-nepali-youths-killed-in-a-car-accident-in-virginia-usa-67417b7217b31.html\",\"title\":\"TwoNepaliyouthskilledinacaraccidentinVirginia,USA\",\"source\":\"MyRepublica\",\"date\":\"3daysago\",\"snippet\":\"KATHMANDU,Nov23:TwoNepaliyouths,SureshKCfromRukumandBibekSubedifromBardiya,losttheirlivesintheearlymorningaccidenton...\",\"thumbnail\":\"https://serpapi.com/searches/6746961e5a461a828f4b7133/images/07063d46c996c766560fa7000cd1dfde24d10f256508ab6634f835c6c6f2d0f2.jpeg\"},{\"position\":2,\"link\":\"https://www.click2houston.com/news/local/2024/08/30/bail-denied-for-suspect-accused-of-killing-21-year-old-nepali-student-studying-nursing-in-houston/\",\"title\":\"Baildeniedforsuspectaccusedofkilling21-year-oldNepalistudentstudyingnursinginHouston\",\"source\":\"Click2Houston\",\"date\":\"Aug29,2024\",\"snippet\":\"Bailhasbeendeniedforasuspectaccusedofkillinga21-year-oldstudentfromNepalwhowasstudyingnursinginHouston.\",\"thumbnail\":\"https://serpapi.com/searches/6746961e5a461a828f4b7133/images/07063d46c996c7667aabf20ea72bb9e8b46bea83fe46ee7b5916fb00b1b9b4f4.jpeg\"},{\"position\":3,\"link\":\"https://www.khou.com/article/news/crime/nepali-student-muna-pandey-killed-houston-bobby-shah-court/285-93a011bf-31ad-41b2-bf35-9703eeea482a\",\"title\":\"NepalistudentMunaPandey'saccusedkillerfacesjudgeforfirsttimeashermothergrieves8,000milesaway\",\"source\":\"KHOU\",\"date\":\"Aug30,2024\",\"snippet\":\"NepalistudentMunaPandey'saccusedkillerfacesjudgeforfirsttimeashermothergrieves8,000milesaway.Pandey'smotherwantsthemaximum...\",\"thumbnail\":\"https://serpapi.com/searches/6746961e5a461a828f4b7133/images/07063d46c996c766c32a5b367f5e6b6f12d2573045142d4839abc81897d06b5c.jpeg\"},{\"position\":4,\"link\":\"https://timesofindia.indiatimes.com/world/us/indian-origin-man-arrested-for-alleged-murder-of-nepali-student-in-texas-after-sugar-daddy-site-tip/articleshow/112940890.cms\",\"title\":\"Indian-originmanarrestedforallegedmurderofNepalistudentinTexasafter'SugarDaddy'sitetip\",\"source\":\"TimesofIndia\",\"date\":\"Aug31,2024\",\"snippet\":\"USNews:BobbySinghShah,anIndian-originman,hasbeenarrestedforallegedlymurdering21-year-oldNepalesestudentMunaPandeyin...\",\"thumbnail\":\"https://serpapi.com/searches/6746961e5a461a828f4b7133/images/07063d46c996c76624b5db1685c7164c8d652f76ae142ca356ebf762bb4a4f43.jpeg\"},{\"position\":5,\"link\":\"https://kathmandupost.com/national/2024/11/17/34-nepali-students-in-russia-face-deportation\",\"title\":\"34NepalistudentsinRussiafacedeportation\",\"source\":\"TheKathmanduPost\",\"date\":\"1weekago\",\"snippet\":\"ARussiancourthasorderedthedeportationof34Nepalistudentsforworkingwithoutvalidlabourpermits.Thestudents,currentlyheldat...\",\"thumbnail\":\"https://serpapi.com/searches/6746961e5a461a828f4b7133/images/07063d46c996c766329ff7491a87c1b60e83e766530f39db419eac53d5634725.jpeg\"},{\"position\":6,\"link\":\"https://www.hindustantimes.com/world-news/us-news/nepali-student-21-found-shot-to-death-in-her-houston-apartment-man-arrested-and-charged-101724951215988.html\",\"title\":\"Nepalistudent,21,foundshottodeathinherHoustonapartment;Manarrestedandcharged\",\"source\":\"HindustanTimes\",\"date\":\"Aug29,2024\",\"snippet\":\"MunaPandey,a21-year-oldcollegestudentfromNepal,wasfounddeadwithmultiplegunshotwoundsinherHoustonapartment.\",\"thumbnail\":\"https://serpapi.com/searches/6746961e5a461a828f4b7133/images/07063d46c996c766f96fd51b5ec0faf8b3f18069bc9574fc4057cdfa5f20afd5.jpeg\"},{\"position\":7,\"link\":\"https://monitor.icef.com/2024/10/market-snapshot-international-student-recruitment-in-nepal/\",\"title\":\"Marketsnapshot:InternationalstudentrecruitmentinNepal\",\"source\":\"ICEFMonitor\",\"date\":\"1monthago\",\"snippet\":\"From23rdplacein2022(40,560),Nepalisprojectedtobecomethe7thlargestsenderofstudentsin2025(113,395).\",\"thumbnail\":\"https://serpapi.com/searches/6746961e5a461a828f4b7133/images/07063d46c996c766ca57e2c4032a12e0dfdd48af1d2bb0d9a8bb94c907d4fcc0.jpeg\"},{\"position\":8,\"link\":\"https://www.lonestarlive.com/news/2024/08/houston-man-arrested-charged-in-shooting-death-of-21-year-old-nepali-student-muna-pandey.html\",\"title\":\"Houstonmanarrested,chargedinshootingdeathof21-year-oldNepalistudentMunaPandey\",\"source\":\"LoneStarLive.com\",\"date\":\"Aug29,2024\",\"snippet\":\"Houstonmanarrested,chargedinshootingdeathof21-year-oldNepalistudentMunaPandey...HoustonpolicearrestedamanlateWednesdayin...\",\"thumbnail\":\"https://serpapi.com/searches/6746961e5a461a828f4b7133/images/07063d46c996c766f9fc2d3b1f4614581a7cc5f3d2c578d9c376501fc550eaea.jpeg\"},{\"position\":9,\"link\":\"https://www.newarkadvocate.com/story/news/local/pataskala/2024/09/26/nepali-employee-shares-gardening-talents-for-licking-heights-project/75182799007/\",\"title\":\"NepaliemployeesharesgardeningtalentsforLickingHeightsproject\",\"source\":\"TheNewarkAdvocate\",\"date\":\"Sep26,2024\",\"snippet\":\"Thissummer,NepalicustodianSantaGurunghelpedfourthgradeteacherReneeAyersmaintainherstudents'classgarden.\",\"thumbnail\":\"https://serpapi.com/searches/6746961e5a461a828f4b7133/images/07063d46c996c7663a43086c7407ffc14f1f88a0e3756f7973f606de64f5d541.jpeg\"},{\"position\":10,\"link\":\"https://www.khou.com/article/news/crime/nepali-student-muna-pandey-shooting-bobby-shah-arrested-court/285-4483e696-8c80-475f-bd70-030caff27255\",\"title\":\"AccusedkillerofNepalistudentstillwearingsameblood-stainedclotheswhenarrested,prosecutorssay\",\"source\":\"KHOU\",\"date\":\"Sep3,2024\",\"snippet\":\"Shah,51,ischargedwithcapitalmurderinthedeathofthe21-year-oldNepalistudent.ShewasshotmultipletimesinherSWHouston...\",\"thumbnail\":\"https://serpapi.com/searches/6746961e5a461a828f4b7133/images/07063d46c996c7669e48671c9837ddea7c08c890578ff87e99380844cef7e448.jpeg\"}],\"pagination\":{\"current\":1,\"next\":\"https://www.google.com/search?q=Nepali+Student&sca_esv=d2f9b04ccdcce2aa&gl=us&hl=en&tbm=nws&ei=HpZGZ5zuOry_p84P59TGyQM&start=10&sa=N&ved=2ahUKEwic9aeBzfuJAxW838kDHWeqMTkQ8NMDegQIBBAW\",\"other_pages\":{\"2\":\"https://www.google.com/search?q=Nepali+Student&sca_esv=d2f9b04ccdcce2aa&gl=us&hl=en&tbm=nws&ei=HpZGZ5zuOry_p84P59TGyQM&start=10&sa=N&ved=2ahUKEwic9aeBzfuJAxW838kDHWeqMTkQ8tMDegQIBBAE\",\"3\":\"https://www.google.com/search?q=Nepali+Student&sca_esv=d2f9b04ccdcce2aa&gl=us&hl=en&tbm=nws&ei=HpZGZ5zuOry_p84P59TGyQM&start=20&sa=N&ved=2ahUKEwic9aeBzfuJAxW838kDHWeqMTkQ8tMDegQIBBAG\",\"4\":\"https://www.google.com/search?q=Nepali+Student&sca_esv=d2f9b04ccdcce2aa&gl=us&hl=en&tbm=nws&ei=HpZGZ5zuOry_p84P59TGyQM&start=30&sa=N&ved=2ahUKEwic9aeBzfuJAxW838kDHWeqMTkQ8tMDegQIBBAI\",\"5\":\"https://www.google.com/search?q=Nepali+Student&sca_esv=d2f9b04ccdcce2aa&gl=us&hl=en&tbm=nws&ei=HpZGZ5zuOry_p84P59TGyQM&start=40&sa=N&ved=2ahUKEwic9aeBzfuJAxW838kDHWeqMTkQ8tMDegQIBBAK\",\"6\":\"https://www.google.com/search?q=Nepali+Student&sca_esv=d2f9b04ccdcce2aa&gl=us&hl=en&tbm=nws&ei=HpZGZ5zuOry_p84P59TGyQM&start=50&sa=N&ved=2ahUKEwic9aeBzfuJAxW838kDHWeqMTkQ8tMDegQIBBAM\",\"7\":\"https://www.google.com/search?q=Nepali+Student&sca_esv=d2f9b04ccdcce2aa&gl=us&hl=en&tbm=nws&ei=HpZGZ5zuOry_p84P59TGyQM&start=60&sa=N&ved=2ahUKEwic9aeBzfuJAxW838kDHWeqMTkQ8tMDegQIBBAO\",\"8\":\"https://www.google.com/search?q=Nepali+Student&sca_esv=d2f9b04ccdcce2aa&gl=us&hl=en&tbm=nws&ei=HpZGZ5zuOry_p84P59TGyQM&start=70&sa=N&ved=2ahUKEwic9aeBzfuJAxW838kDHWeqMTkQ8tMDegQIBBAQ\",\"9\":\"https://www.google.com/search?q=Nepali+Student&sca_esv=d2f9b04ccdcce2aa&gl=us&hl=en&tbm=nws&ei=HpZGZ5zuOry_p84P59TGyQM&start=80&sa=N&ved=2ahUKEwic9aeBzfuJAxW838kDHWeqMTkQ8tMDegQIBBAS\",\"10\":\"https://www.google.com/search?q=Nepali+Student&sca_esv=d2f9b04ccdcce2aa&gl=us&hl=en&tbm=nws&ei=HpZGZ5zuOry_p84P59TGyQM&start=90&sa=N&ved=2ahUKEwic9aeBzfuJAxW838kDHWeqMTkQ8tMDegQIBBAU\"}},\"serpapi_pagination\":{\"current\":1,\"next_link\":\"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=10&tbm=nws\",\"next\":\"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=10&tbm=nws\",\"other_pages\":{\"2\":\"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=10&tbm=nws\",\"3\":\"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=20&tbm=nws\",\"4\":\"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=30&tbm=nws\",\"5\":\"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=40&tbm=nws\",\"6\":\"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=50&tbm=nws\",\"7\":\"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=60&tbm=nws\",\"8\":\"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=70&tbm=nws\",\"9\":\"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=80&tbm=nws\",\"10\":\"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=90&tbm=nws\"}}}";
-        return new ResponseEntity<>(parseNewsObject(newsJSON), HttpStatus.OK);
-    }
+        System.out.println(newsJSON);
 
-    private SerpApi parseNewsObject(String newsJSON){
         ObjectMapper objectMapper = new ObjectMapper();
-        SerpApi root = new SerpApi();
+        SerpApi serpApiNews = new SerpApi();
         try {
-            root = objectMapper.readValue(newsJSON, SerpApi.class);
+            serpApiNews = objectMapper.readValue(newsJSON, SerpApi.class);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return serpApiNews.getNewsResults();
+    }
 
-        System.out.println(root);
-        return root;
+    private ArrayList<NewsResult> parseNewsObject(String newsJSON){
+        ObjectMapper objectMapper = new ObjectMapper();
+        SerpApi serpApiNews = new SerpApi();
+        try {
+            serpApiNews = objectMapper.readValue(newsJSON, SerpApi.class);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return serpApiNews.getNewsResults();
+    }
+
+    //Check if news exist in db
+    //If news exist, don't persist to db again
+    private void persistAllNews(ArrayList<NewsResult> allNewsFromSerpApi, ArrayList<News> allNewsFromDb){
+        if(!allNewsFromSerpApi.isEmpty()){
+            for(NewsResult eachNewsToPersist : allNewsFromSerpApi){
+                boolean newsExist = false;
+                if(!allNewsFromDb.isEmpty()){
+                    newsExist = allNewsFromDb.stream().anyMatch(n -> {
+                        if(n.getLink().equals(eachNewsToPersist.getLink())){
+                            n.setDate(LocalDate.now().toString());
+                            miscRepository.save(n);
+                            return true;
+                        };
+                        return false;
+                    });
+                }
+                if(!newsExist){
+                    News news = new News();
+                    news.setTitle(eachNewsToPersist.getTitle());
+                    news.setLink(eachNewsToPersist.getLink());
+                    news.setTitle(eachNewsToPersist.getTitle());
+                    news.setSource(eachNewsToPersist.getSource());
+                    news.setDate(LocalDate.now().toString());
+                    news.setSnippet(eachNewsToPersist.getSnippet());
+                    news.setThumbnail(eachNewsToPersist.getThumbnail());
+                    miscRepository.save(news);
+                }
+            }
+        }
+
+    }
+
+    private @NotNull ArrayList<News> getAllNewsFromDB() {
+        ArrayList<News> allNewsFromDB = (ArrayList<News>) miscRepository.findAll();
+        return allNewsFromDB;
     }
 }

@@ -26,11 +26,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query(nativeQuery = true, value = "SELECT * FROM users")
 	public List<User> findAllUsers();
-
-//	@Query(nativeQuery = true, value = "SELECT * FROM users where is_helper = 1")
-//	public List<User> findAllHelpers();
-//
-//	@Query(nativeQuery = true, value = "SELECT * FROM users where is_student = 1")
-//	public List<User> findAllStudents();
 	
 }

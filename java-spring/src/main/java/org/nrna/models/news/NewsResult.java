@@ -1,11 +1,12 @@
 package org.nrna.models.news;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class NewsResult {
 
-    @JsonProperty("position")
+    @JsonIgnore
     private int position;
 
     @JsonProperty("link")

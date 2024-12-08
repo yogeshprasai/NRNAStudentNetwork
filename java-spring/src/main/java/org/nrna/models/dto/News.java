@@ -1,6 +1,10 @@
 package org.nrna.models.dto;
 
+import org.joda.time.LocalDate;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name="news")
@@ -8,29 +12,37 @@ public class News {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String author;
-    String title;
-    String description;
-    String url;
-    String urlToImage;
-    String publishedAt;
-    String content;
+    private int id;
 
-    public Long getId() {
+    private String date;
+    private String link;
+    private String title;
+    private String source;
+    private String snippet;
+    private String thumbnail;
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getDate() {
+        return date;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public String getTitle() {
@@ -41,43 +53,27 @@ public class News {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getSource() {
+        return source;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSource(String source) {
+        this.source = source;
     }
 
-    public String getUrl() {
-        return url;
+    public String getSnippet() {
+        return snippet;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setSnippet(String snippet) {
+        this.snippet = snippet;
     }
 
-    public String getUrlToImage() {
-        return urlToImage;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public void setUrlToImage(String urlToImage) {
-        this.urlToImage = urlToImage;
-    }
-
-    public String getPublishedAt() {
-        return publishedAt;
-    }
-
-    public void setPublishedAt(String publishedAt) {
-        this.publishedAt = publishedAt;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }
