@@ -18,11 +18,11 @@ export class AppComponent implements OnInit {
   public selectedIndex: number = 0;
   public id: number = 0;
   public appPages: NavigationMetaData[] = [
-    { title: NrnaLinks.Helper, url: NrnaRoutes.Helper, icon: 'help' },
-    { title: NrnaLinks.Student, url: NrnaRoutes.Student, icon: 'help' },
-    { title: NrnaLinks.Info, url: NrnaRoutes.Info, icon: 'mail'},
-    { title: NrnaLinks.News, url: NrnaRoutes.News, icon: 'mail'},
-    { title: NrnaLinks.Login, url: NrnaRoutes.Login, icon: 'mail' }
+    { title: NrnaLinks.Helper, url: NrnaRoutes.Helper, icon: 'people' },
+    { title: NrnaLinks.Student, url: NrnaRoutes.Student, icon: 'people-circle' },
+    { title: NrnaLinks.Info, url: NrnaRoutes.Info, icon: 'information-circle'},
+    { title: NrnaLinks.News, url: NrnaRoutes.News, icon: 'newspaper'},
+    { title: NrnaLinks.Login, url: NrnaRoutes.Login, icon: 'log-out' }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
@@ -70,7 +70,7 @@ export class AppComponent implements OnInit {
           eachNav.url = NrnaRoutes.Logout;
         }
       });
-      this.appPages.unshift({ title: NrnaLinks.Profile, url: NrnaRoutes.Profile, icon: 'mail' });
+      this.appPages.unshift({ title: NrnaLinks.Profile, url: NrnaRoutes.Profile, icon: 'person-circle' });
     }else{
       this.appPages.forEach(eachNav => {
         if(eachNav.title === NrnaLinks.Logout && eachNav.url === NrnaRoutes.Logout){

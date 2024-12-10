@@ -1,6 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { UsersService} from 'src/app/shared/service/users.service';
+import {AuthService} from "../../../shared/service/auth.service";
+import {AlertController} from "@ionic/angular";
 
 @Component({
   selector: 'nrna-student',
@@ -13,8 +15,9 @@ export class StudentComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   public students: any = [];
 
-  constructor(private route: ActivatedRoute, private usersService: UsersService) {
-    this.updateStudentsInfo();
+  constructor(private route: ActivatedRoute, private usersService: UsersService,
+              private authService: AuthService, private alertController: AlertController) {
+
   }
 
   ngOnInit() {
@@ -25,15 +28,13 @@ export class StudentComponent implements OnInit {
     this.route?.data.subscribe((response: any) => {
       if(response.allStudents){
         this.students = response.allStudents.filter((student: any) => student.isStudent);
+      }else{
+        this.students = null;
       }
     });
   }
 
   ionViewWillEnter() {
-    this.updateStudentsInfo();
-  }
-
-  ionViewDidEnter(){
     this.updateStudentsInfo();
   }
 

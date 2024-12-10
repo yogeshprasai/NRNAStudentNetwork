@@ -14,6 +14,7 @@ public class SearchParameters {
     private String gl;
     private String device;
     private String tbm;
+    private String num;
 
     @JsonGetter("engine")
     public String getEngine() {
@@ -90,5 +91,13 @@ public class SearchParameters {
 
     public void setTbm(String tbm) {
         this.tbm = tbm;
+    }
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
     }
 }

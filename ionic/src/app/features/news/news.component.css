@@ -1,0 +1,24 @@
+.source{
+    color: #7d6e6e;
+    font-family: cursive;
+}
+.title{
+    color: #5361bb;
+}
+
+.nrna-news{
+    margin-top: 20px;
+}
+
+.nrna-title-thumbnail{
+    display: flex;
+}
+
+.nrna-horizontal-line, .nrna-news-footer{
+    display: flex;
+    justify-content: center;
+}
+
+.nrna-news-date{
+    font-family: "Times New Roman";
+}

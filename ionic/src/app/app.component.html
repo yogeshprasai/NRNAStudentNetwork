@@ -21,14 +21,12 @@
 
           <div class="mt-3"></div>
 
-          <ion-menu-toggle auto-hide="false">
+          <ion-menu-toggle auto-hide="false" style="display : none">
             <div class="theme-switcher-group ml-3" (click)="toggleTheme()">
               <ion-label class="light-mode" *ngIf="currentColorMode == 'dark'">Light Mode</ion-label>
-              <ion-label class="super-light-mode" *ngIf="currentColorMode == 'light'">Super Light Mode</ion-label>
-              <ion-label class="dark-mode" *ngIf="currentColorMode == 'super-light'">Dark Mode</ion-label>
+              <ion-label class="super-light-mode" *ngIf="currentColorMode == 'light'">Dark Mode</ion-label>
               <ion-icon slot="start" name="color-wand" *ngIf="currentColorMode == 'dark'" class="light-mode ml-2"></ion-icon>
               <ion-icon slot="start" name="color-wand" *ngIf="currentColorMode == 'light'" class="super-light-mode ml-2"></ion-icon>
-              <ion-icon slot="start" name="color-wand" *ngIf="currentColorMode == 'super-light'" class="dark-mode ml-2"></ion-icon>
             </div>
           </ion-menu-toggle>
         </ion-list>

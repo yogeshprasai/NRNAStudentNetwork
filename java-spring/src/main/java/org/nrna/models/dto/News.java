@@ -1,9 +1,14 @@
 package org.nrna.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -14,11 +19,23 @@ public class News {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String date;
+    private String newsDate;
+
+    private String persistDate;
+
+    @Column(length=1000)
     private String link;
+
+    @Column(length=1000)
     private String title;
+
+    @Column(length=1000)
     private String source;
+
+    @Column(length=1000)
     private String snippet;
+
+    @Column(length=1000)
     private String thumbnail;
 
     public int getId() {
@@ -29,12 +46,20 @@ public class News {
         this.id = id;
     }
 
-    public String getDate() {
-        return date;
+    public String getNewsDate() {
+        return newsDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setNewsDate(String newsDate) {
+        this.newsDate = parseSerpApiDate(newsDate);
+    }
+
+    public String getPersistDate() {
+        return persistDate;
+    }
+
+    public void setPersistDate(String persistDate) {
+        this.persistDate = persistDate;
     }
 
     public String getLink() {
@@ -75,5 +100,36 @@ public class News {
 
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+
+    private String parseSerpApiDate(String newsDateString){
+        String date = null;
+        if(newsDateString != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
+            try {
+                if(newsDateString.contains("day ago") || newsDateString.contains("days ago")){
+                    Calendar c = Calendar.getInstance();
+                    c.add(Calendar.DAY_OF_MONTH, -Integer.parseInt(newsDateString.replaceAll("[^0-9]", "")));
+                    date = formatter.format(c.getTimeInMillis());
+                }else if(newsDateString.contains("week ago") || newsDateString.contains("weeks ago")){
+                    Calendar c = Calendar.getInstance();
+                    c.add(Calendar.WEEK_OF_MONTH, -Integer.parseInt(newsDateString.replaceAll("[^0-9]", "")));
+                    date = formatter.format(c.getTimeInMillis());
+                }else if(newsDateString.contains("month ago") || newsDateString.contains("months ago")){
+                    Calendar c = Calendar.getInstance();
+                    c.add(Calendar.DAY_OF_MONTH, -Integer.parseInt(newsDateString.replaceAll("[^0-9]", ""))* 30);
+                    date = formatter.format(c.getTimeInMillis());
+                }
+            } catch (Exception e) {
+                date = new Date().toString();
+                throw new RuntimeException(e);
+            }
+        }
+        if(date == null) {
+            return newsDateString;
+        }else{
+            return date;
+        }
     }
 }

@@ -11,7 +11,6 @@ export class HelperResolverService implements Resolve<any>{
   constructor(private usersService: UsersService) {}
 
   resolve(): Observable<any>{
-    return this.usersService.getAllUsers().pipe(
-        tap(response => console.log(response)));
+    return this.usersService.getAllUsers();
   }
 }

@@ -21,9 +21,24 @@
 
             <ion-card-content>
                 <div>
-                    NRNA Student's News
-                    <br/>
+                    <div>Nepali Student News</div>
 
+
+                    <div *ngFor="let eachNews of news" class="mt-4 nrna-news">
+                        <div class="nrna-title-thumbnail">
+                            <div>
+                                <div class="source">{{eachNews.source}} <span class="nrna-news-date">{{eachNews.newsDate}}</span></div>
+                                <div class="title"><a target="_blank" (click)="goTo(eachNews.link)">{{eachNews.title}}</a>></div>
+                            </div>
+                            <div>
+                                <img [src]="eachNews.thumbnail" width="200" height="100">
+                            </div>
+                        </div>
+                        <div class="nrna-thumbnail">{{eachNews.snippet}}</div>
+                        <div class="mt-3 nrna-horizontal-line">----------------------------------</div>
+                    </div>
+
+                    <div class="mt-4 nrna-news-footer">*News are updated every day.</div>
 
                 </div>
             </ion-card-content>
