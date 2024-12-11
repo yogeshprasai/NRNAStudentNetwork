@@ -1,24 +1,50 @@
+ion-card-header {
+    background: aliceblue;
+}
+
+ion-card-content {
+    background: #f9f7f7;
+}
+
 .source{
     color: #7d6e6e;
-    font-family: cursive;
+    background-image: linear-gradient(cadetblue, yellow);
 }
 .title{
-    color: #5361bb;
+    color: #709ee8;
 }
 
 .nrna-news{
-    margin-top: 20px;
+    padding-top: 20px;
+}
+
+.nrna-title-thumbnail-first{
+    height: auto;
+    width: 100%;
 }
 
 .nrna-title-thumbnail{
     display: flex;
 }
 
-.nrna-horizontal-line, .nrna-news-footer{
+.nrna-news-footer{
     display: flex;
     justify-content: center;
 }
 
 .nrna-news-date{
+    display: flex;
+    justify-content: end;
     font-family: "Times New Roman";
+    color: #52b994;
+}
+
+.nrna-snippet{
+    color: #736c6e;
+}
+
+.nrna-read-more{
+    display: flex;
+    justify-content: end;
+    color: #709ee8;
 }

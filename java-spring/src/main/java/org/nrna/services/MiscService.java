@@ -1,11 +1,8 @@
 package org.nrna.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.LocalDate;
-import org.json.JSONObject;
-
 import org.nrna.models.dto.News;
 import org.nrna.models.news.NewsResult;
 import org.nrna.models.news.SerpApi;
@@ -15,7 +12,10 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 public class MiscService {
@@ -39,7 +39,8 @@ public class MiscService {
                     return o1.getPersistDate().compareTo(o2.getPersistDate());
                 }
             });
-
+            //Get when was the latest news pulled in from serpAPI
+            //and get the last updated date
             News latestNews = allNewsFromDb.get(allNewsFromDb.size()-1);
             if(LocalDate.parse(latestNews.getPersistDate()).isBefore(LocalDate.now())){
                 allNewsFromSerpApi = (ArrayList<NewsResult>) getLatestNewsFromSerpApi();
@@ -106,7 +107,6 @@ public class MiscService {
     }
 
     private @NotNull ArrayList<News> getAllNewsFromDB() {
-        ArrayList<News> allNewsFromDB = (ArrayList<News>) miscRepository.findAll();
-        return allNewsFromDB;
+        return (ArrayList<News>) miscRepository.findAll();
     }
 }

@@ -86,7 +86,7 @@
       </ion-item>
       <nrna-error *ngIf="profileForm.get('isStudent')?.value" [form]="profileForm" [controlName]="'university'" [page]="'profile'"></nrna-error>
 
-      <ion-button expand="full" (click)="openPopOver($event)" *ngIf="profileForm.get('isStudent')?.value">Select University</ion-button>
+      <ion-button color="tertiary" expand="full" (click)="openPopOver($event)" *ngIf="profileForm.get('isStudent')?.value">Select University</ion-button>
 
       <ion-item class="mt-3">
           <ion-checkbox labelPlacement="start" formControlName="showPhoneNumber">Show Phone Number</ion-checkbox>

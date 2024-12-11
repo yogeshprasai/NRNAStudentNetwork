@@ -25,6 +25,14 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+ion-card{
+    background: #edfaff;
+}
+
+ion-label {
+    background: #f6ffff;
+}
+
 .mt-1{
     margin-top: 4px !important;
 }
@@ -73,6 +81,10 @@
     margin-left: 16px !important;  
 }
 
+.ml-4{
+    margin-left: 24px !important;
+}
+
 .font-size-16{
     font-size: 16px !important;
 }
@@ -111,4 +123,17 @@
 
 .text-decoration-none{
     text-decoration: none;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.nrna-flex{
+    display: flex;
+}
+
+.nrna-flex-center{
+    display: flex;
+    justify-content: center;
 }

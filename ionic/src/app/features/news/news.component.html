@@ -15,27 +15,29 @@
         <ion-card class="white">
             <ion-card-header>
                 <ion-card-subtitle class="white"></ion-card-subtitle>
-                <ion-card-title class="nrna-card-title ion-text-center">Breaking News</ion-card-title>
+                <ion-card-title class="nrna-card-title ion-text-center">Nepali Student News</ion-card-title>
                 <p class="mt-3"></p>
             </ion-card-header>
 
             <ion-card-content>
                 <div>
-                    <div>Nepali Student News</div>
 
 
-                    <div *ngFor="let eachNews of news" class="mt-4 nrna-news">
-                        <div class="nrna-title-thumbnail">
-                            <div>
-                                <div class="source">{{eachNews.source}} <span class="nrna-news-date">{{eachNews.newsDate}}</span></div>
-                                <div class="title"><a target="_blank" (click)="goTo(eachNews.link)">{{eachNews.title}}</a>></div>
+                    <div *ngFor="let eachNews of news; let i = index" class="nrna-news">
+                        <div class="all-news">
+                            <div class="nrna-title-thumbnail" >
+                                <div>
+                                    <img [src]="eachNews.thumbnail" width="200" height="100" (click)="goTo(eachNews.link)">
+                                </div>
+                                <div class="ml-3">
+                                    <div class="sources" [style.background-image]="changeColor()" id="news-source" #newsSource>{{eachNews.source}}</div>
+                                    <div class="text-center nrna-news-date mt-2 mb-2">{{eachNews.newsDate}}</div>
+                                    <div><a target="_blank" class="title" (click)="goTo(eachNews.link)">{{eachNews.title}}</a>></div>
+                                </div>
                             </div>
-                            <div>
-                                <img [src]="eachNews.thumbnail" width="200" height="100">
-                            </div>
+                            <div class="nrna-snippet mt-3">{{eachNews.snippet}}</div>
+                            <div class="nrna-read-more" (click)="goTo(eachNews.link)">Read More...</div>
                         </div>
-                        <div class="nrna-thumbnail">{{eachNews.snippet}}</div>
-                        <div class="mt-3 nrna-horizontal-line">----------------------------------</div>
                     </div>
 
                     <div class="mt-4 nrna-news-footer">*News are updated every day.</div>

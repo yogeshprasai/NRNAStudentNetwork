@@ -41,7 +41,7 @@ export class SearchComponent  implements OnInit {
       const lastName: string = member.lastName && member.lastName.toLowerCase().includes(text.toLowerCase());
       const city: string = member.userAddress && member.userAddress.city && member.userAddress.city.toLowerCase().includes(text.toLowerCase());
       const state: string = member.userAddress && member.userAddress.state && member.userAddress.state.toLowerCase().includes(text.toLowerCase());
-      const zipCode: number = member.userAddress.zipCode && member.userAddress.zipCode && member.userAddress.zipCode.toLowerCase().includes(text.toLowerCase());
+      const zipCode: number = member.userAddress && member.userAddress.zipCode && member.userAddress.zipCode && member.userAddress.zipCode.toLowerCase().includes(text.toLowerCase());
       return firstName || lastName || city || state || zipCode;
     });
   }

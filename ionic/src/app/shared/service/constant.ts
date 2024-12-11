@@ -1,7 +1,7 @@
 export const NrnaLinks = {
     Profile: 'Profile',
     Helper: 'Helper',
-    Student: 'Student',
+    Student: 'Student Network',
     Info: 'Info',
     News: 'News',
     Login: 'Login',
