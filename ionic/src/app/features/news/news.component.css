@@ -3,7 +3,7 @@ ion-card-header {
 }
 
 ion-card-content {
-    background: #f9f7f7;
+    background: #f6faff;
 }
 
 .source{
@@ -11,7 +11,15 @@ ion-card-content {
     background-image: linear-gradient(cadetblue, yellow);
 }
 .title{
-    color: #709ee8;
+    color: #367ced;
+}
+
+.sources{
+    display: flex;
+    justify-content: end;
+    font-family: "Times New Roman";
+    color: #181a19;
+    padding-right: 16px;
 }
 
 .nrna-news{
@@ -40,11 +48,11 @@ ion-card-content {
 }
 
 .nrna-snippet{
-    color: #736c6e;
+    color: #151414;
 }
 
 .nrna-read-more{
     display: flex;
     justify-content: end;
-    color: #709ee8;
+    color: #367ced;
 }
