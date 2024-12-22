@@ -16,86 +16,59 @@
       <ion-card class="white">
         <ion-card-header>
           <ion-card-subtitle class="white ion-text-center"></ion-card-subtitle>
-          <ion-card-title class="nrna-card-title ion-text-center sub-header">College Search</ion-card-title>
+          <ion-card-title class="nrna-card-title ion-text-center sub-header search-container">Use College Search to find perfect school for your requirements.</ion-card-title>
         </ion-card-header>
       
         <ion-card-content>
-            <p>Use College Search to find perfect school for your requirements.</p>
-            <p class="font-size-18 ion-text-center mt-3 sub-header">College Search Websites:</p>
+    
+        <main class="main-content">
 
-            <p class="mt-2">
-              1. <a href="https://www.campusprideindex.org/">Campus Pride Index</a><br/>
-              2. <a href="https://bigfuture.collegeboard.org/">College Board’s BigFuture</a><br/>
-              3. <a href="https://www.collegedata.com/">CollegeData</a><br/>
-              4. <a href="https://collegescorecard.ed.gov/">College Scorecard</a><br/>
-              5. <a href="https://www.collegexpress.com/">College XPress</a><br/>
-              6. <a href="https://www.niche.com/colleges/search/best-colleges/">Niche</a><br/>
-              7. <a href="https://www.princetonreview.com/college-search">The Princeton Review</a><br/>
-              8. <a href="https://www.tuitiontracker.org/school.html?unitid=131113">TuitionTracker</a><br/>
-              9. <a href="https://www.unigo.com/">Unigo</a><br/>
-              10. <a href="https://www.petersons.com/college-search.aspx">Peterson’s</a><br/>
-            </p>
-            
-            <p class="mt-3 font-size-18 ion-text-center sub-header">US College with Most Nepali Student</p>
-            
-            <table class="mt-2 mb-3">
-              <th>Name</th>
-              <th>City</th>
-              <th>State</th>
-              <tr>
-                <td><a href="https://www.stcloudstate.edu/">St. Cloud State University</a></td>
-                <td class="city">St. Cloud</td>
-                <td>Minnesota</td>
-              </tr>
-              <tr>
-                <td><a href="https://www.svsu.edu/">Saginaw Valley State University</a></td>
-                <td class="city">University Center</td>
-                <td>Michigan</td>
-              </tr>
-              <tr>
-                <td><a href="https://www.ulm.edu/">University of Louisiana</a></td>
-                <td class="city">Monroe</td>
-                <td>Louisiana</td>
-              </tr>
-              <tr>
-                <td><a href="https://www.uidaho.edu/">University of Idaho</a></td>
-                <td class="city">Moscow</td>
-                <td>Idaho</td>
-              </tr>
-              <tr>
-                <td><a href="https://www.uta.edu/">University of Texas</a></td>
-                <td class="city">Arlington</td>
-                <td>Texas</td>
-              </tr>
-              <tr>
-                <td><a href="https://www.caldwell.edu/">Caldwell University</a></td>
-                <td class="city">Caldwell</td>
-                <td>New Jersey</td>
-              </tr>
-              <tr>
-                <td><a href="https://www.usd.edu/">University of South Dakota</a></td>
-                <td class="city">Vermillion</td>
-                <td>South Dakota</td>
-              </tr>
-              <tr>
-                <td><a href="https://www.mcneese.edu/">McNeese State University</a></td>
-                <td class="city">Lake Charles</td>
-                <td>Louisiana</td>
-              </tr>
-              <tr>
-                <td><a href="https://www.uco.edu/">University of Central Oklahoma</a></td>
-                <td class="city">Edmond</td>
-                <td>OK</td>
-              </tr>
-              <tr>
-                <td><a href="https://www.unt.edu/index.html">University of North Texas</a></td>
-                <td class="city">Denton</td>
-                <td>Texas</td>
-              </tr>
-            </table>
-
-            <br/><br/><br/><br/><br/>
-            Contact Us: <a href=”mailto:students@nrnusa.org”>students&#64;nrnusa.org</a>
+            <div class="container">
+                <p>Click on the links to navigate to their site</p>
+                <ul class="my-list">
+                    <li><a href="https://www.campusprideindex.org/">Campus Pride Index</a><br/></li>
+                    <li><a href="https://bigfuture.collegeboard.org/">College Board’s BigFuture</a></li>
+                    <li><a href="https://www.collegedata.com/">CollegeData</a></li>
+                    <li><a href="https://collegescorecard.ed.gov/">College Scorecard</a></li>
+                    <li><a href="https://www.collegexpress.com/">College XPress</a></li>
+                    <li><a href="https://www.niche.com/colleges/search/best-colleges/">Niche</a></li>
+                    <li><a href="https://www.princetonreview.com/college-search">The Princeton Review</a></li>
+                    <li><a href="https://www.tuitiontracker.org/school.html?unitid=131113">TuitionTracker</a></li>
+                    <li><a href="https://www.unigo.com/">Unigo</a></li>
+                    <li><a href="https://www.petersons.com/college-search.aspx">Peterson’s</a></li>
+                </ul>
+            </div>
+  
+            <div class="college-grid" *ngFor="let uni of universities">
+                <!-- College Card 1 -->
+                <div class="college-card">
+                    <div class="college-info">
+                        <h2 class="college-name">{{uni.name}}</h2>
+                        <p class="college-location">{{uni.city}}, {{uni.state}}</p>
+                        <div class="nrna-two-columns">
+                            <div class="college-tags">
+                                <span class="tag" *ngIf="uni.public">Public</span>
+                                <span class="tag" *ngIf="!uni.public">Private</span>
+                            </div>
+                            <div class="nrna-best-value">
+                                <div>{{uni.rankingType}}</div>
+                                <div class="text-center rank-container"><span class="rank">{{uni.ranking}}</span></div>
+                            </div>
+                        </div>
+                        <div class="college-stats">
+                            <div class="stat">
+                                <div class="stat-label">Acceptance Rate</div>
+                                <div class="stat-value">{{uni.acceptanceRate}}%</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-label">Enrollment</div>
+                                <div class="stat-value">{{uni.totalEnrollment}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
         </ion-card-content>
       </ion-card>
       

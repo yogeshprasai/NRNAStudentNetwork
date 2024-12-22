@@ -11,7 +11,8 @@ export class HelperResolverService implements Resolve<any>{
   constructor(private usersService: UsersService) {}
 
   resolve(): Observable<any>{
-    return this.usersService.getAllUsers().pipe(filter(user => user.firstName !== null &&
-      user.lastName != null));
+    return this.usersService.getAllUsers().pipe(
+        filter(user => user && user.firstName !== null && user.lastName !== null)
+    );
   }
 }

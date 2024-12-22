@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AboutUsComponent } from './about-us/about-us.component';
+import { UsefulInfoComponent } from './useful-info/useful-info.component';
 import { InfoComponent } from './info.component';
 import { CollegeSearchComponent } from './college-search/college-search.component';
 import { JobsComponent } from './jobs/jobs.component';
+import { UscisComponent } from './uscis/uscis.component';
+import {TopUniversitiesResolverService} from "../../shared/resolvers/top-universities-resolver.service";
 
 
 const routes: Routes = [
@@ -13,16 +15,23 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AboutUsComponent,
+        component: UsefulInfoComponent,
         pathMatch: 'full'
       },
       {
-        path: 'about-us',
-        component: AboutUsComponent
+        path: 'embassy',
+        component: UsefulInfoComponent
+      },
+      {
+        path: 'uscis',
+        component: UscisComponent
       },
       {
         path: 'college-search',
-        component: CollegeSearchComponent
+        component: CollegeSearchComponent,
+        resolve: {
+          topUniversities: TopUniversitiesResolverService
+        }
       },
       {
         path: 'jobs',

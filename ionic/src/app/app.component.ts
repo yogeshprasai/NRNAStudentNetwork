@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
     { title: NrnaLinks.Student, url: NrnaRoutes.Student, icon: 'people-circle' },
     { title: NrnaLinks.Info, url: NrnaRoutes.Info, icon: 'information-circle'},
     { title: NrnaLinks.News, url: NrnaRoutes.News, icon: 'newspaper'},
+    { title: NrnaLinks.AboutUs, url: NrnaRoutes.AboutUs, icon: 'information-circle'},
     { title: NrnaLinks.Login, url: NrnaRoutes.Login, icon: 'log-out' }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];

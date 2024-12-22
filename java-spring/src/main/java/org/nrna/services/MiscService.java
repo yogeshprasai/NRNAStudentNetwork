@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.LocalDate;
 import org.nrna.models.dto.News;
+import org.nrna.models.dto.University;
 import org.nrna.models.news.NewsResult;
 import org.nrna.models.news.SerpApi;
 import org.nrna.repository.MiscRepository;
+import org.nrna.repository.UniversityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ public class MiscService {
 
     @Autowired
     MiscRepository miscRepository;
+
+    @Autowired
+    UniversityRepository universityRepository;
 
     public ResponseEntity<?> getLatestNews(){
         ArrayList<NewsResult> allNewsFromSerpApi = null;
@@ -108,5 +113,9 @@ public class MiscService {
 
     private @NotNull ArrayList<News> getAllNewsFromDB() {
         return (ArrayList<News>) miscRepository.findAll();
+    }
+
+    public ArrayList<University> getTopUniversities(){
+        return (ArrayList<University>)universityRepository.findAll();
     }
 }

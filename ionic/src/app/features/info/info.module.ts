@@ -4,19 +4,21 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { InfoRoutingModule } from './info-routing.module';
-import { AboutUsComponent } from './about-us/about-us.component';
+import { UsefulInfoComponent } from './useful-info/useful-info.component';
 import { InfoComponent } from './info.component';
 import { CollegeSearchComponent } from './college-search/college-search.component';
 import { JobsComponent } from './jobs/jobs.component';
+import { UscisComponent } from './uscis/uscis.component';
 
 
 
 @NgModule({
   declarations: [
     InfoComponent,
-    AboutUsComponent,
+    UsefulInfoComponent,
     CollegeSearchComponent,
-    JobsComponent
+    JobsComponent,
+    UscisComponent
   ],
   imports: [
     CommonModule,

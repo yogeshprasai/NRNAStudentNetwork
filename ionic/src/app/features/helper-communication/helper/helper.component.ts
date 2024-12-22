@@ -14,7 +14,7 @@ export class HelperComponent implements OnInit {
   public helpers: any = [];
 
   constructor(private route: ActivatedRoute, private usersService: UsersService) {
-    this.updateHelperInfo();
+
   }
 
   ngOnInit() {

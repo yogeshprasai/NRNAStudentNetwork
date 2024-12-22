@@ -4,6 +4,7 @@
 
 a{
   text-decoration: none;
+  color: #7676de;
 }
 
 tr{
@@ -16,3 +17,272 @@ th, td {
   padding-left: 10px;
   padding-right: 10px;
 }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.7;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header Section */
+.header {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: white;
+  padding: var(--space-xl) var(--space-md);
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-md);
+  animation: fadeIn 0.6s ease-out;
+}
+
+.search-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--space-lg);
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(50%);
+}
+
+.search-input {
+  width: 100%;
+  padding: var(--space-md);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 1.1rem;
+  transition: all var(--transition-speed) ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Filters Section */
+.filters {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  margin-top: 80px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-button {
+  padding: var(--space-sm) var(--space-md);
+  border: none;
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+}
+
+.filter-button:hover {
+  background: var(--color-primary-light);
+  color: white;
+}
+
+.filter-button.active {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* Main Content */
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-md);
+}
+
+/* College Cards */
+.college-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+}
+
+.college-card {
+  background: var(--color-card);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-speed) ease;
+  position: relative;
+}
+
+.college-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.college-image {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(45deg, var(--color-primary-light), var(--color-accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.college-info {
+  padding: var(--space-lg);
+}
+
+.college-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+  color: var(--color-text);
+}
+
+.college-location {
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-md);
+}
+
+.college-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  margin-bottom: var(--space-xs);
+}
+
+.stat-value {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.college-tags {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  margin-top: var(--space-md);
+}
+
+.tag {
+  background: var(--color-bg);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 100px;
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+}
+
+/* Loading Animation */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header h1 {
+      font-size: 2rem;
+  }
+
+  .filters {
+      flex-wrap: wrap;
+  }
+
+  .search-container {
+      transform: translateY(30%);
+  }
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
+   .my-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+   li {
+     background-color: #d6e8e4;
+     padding: 16px;
+     margin: 5px 0;
+     border-radius: 5px;
+     transition: background-color 0.3s ease;
+   }
+   }
+
+   .nrna-two-columns{
+     display: flex;
+     justify-content: space-between;
+
+   }
+
+.nrna-best-value{
+  display: flex;
+  flex-direction: column;
+}
+
+.rank-container{
+  display: flex;
+  justify-content: center;
+}
+
+.rank {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  border: 3px solid #0000;
+  border-radius: 12px;
+  color: black;
+  background: linear-gradient(#efeef3, #a29dc3) padding-box, linear-gradient(
+          var(--angle),
+          #da4040,
+          #6f6f7c
+  ) border-box;
+  animation: 3s rotate linear infinite;
+}
+
+@keyframes rotate {
+  to {
+    --angle: 360deg;
+  }
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+

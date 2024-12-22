@@ -4,6 +4,7 @@ export const NrnaLinks = {
     Student: 'Student Network',
     Info: 'Info',
     News: 'News',
+    AboutUs: 'About Us',
     Login: 'Login',
     Logout: 'Logout'
 };
@@ -14,6 +15,7 @@ export const NrnaRoutes = {
     Student: '/student-communication/student',
     Info: '/info/',
     News: '/news',
+    AboutUs: '/about-us',
     Login: '/auth/sign-in',
     Logout: '/auth/sign-in'
 }

@@ -16,3 +16,15 @@ export type university = {
                             "domains": any,
                             "country": string
                         };
+export interface University {
+    acceptanceRate: number,
+    averageRate: number,
+    city: string,
+    id: number,
+    public: boolean,
+    name: string,
+    ranking: string,
+    rankingType: string,
+    state: string,
+    totalEnrollment: number
+}

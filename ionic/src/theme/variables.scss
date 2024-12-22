@@ -76,6 +76,66 @@
   --ion-color-light-tint: #f5f6f9;
 }
 
+:root {
+  --primary-color: #2563eb;
+  --secondary-color: #3b82f6;
+  --accent-color: #60a5fa;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --background-light: #f8fafc;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --spacing-unit: 1rem;
+  --border-radius: 12px;
+  --transition-speed: 0.3s;
+  --primary-color: #0d6efd;
+  --secondary-color: #6c757d;
+  --success-color: #198754;
+  --warning-color: #ffc107;
+  --info-color: #0dcaf0;
+  --primary-color: #2563eb;
+  --secondary-color: #4f46e5;
+  --success-color: #16a34a;
+  --warning-color: #ca8a04;
+  --danger-color: #dc2626;
+  --background-light: #f8fafc;
+  --text-dark: #1e293b;
+  --text-light: #64748b;
+  --spacing-unit: 1rem;
+  --border-radius: 12px;
+  --transition-speed: 0.3s;
+  --color-primary: #2563eb;
+            --color-primary-light: #60a5fa;
+            --color-secondary: #4f46e5;
+            --color-accent: #8b5cf6;
+            
+            /* UI Colors */
+            --color-bg: #f8fafc;
+            --color-card: #ffffff;
+            --color-text: #1e293b;
+            --color-text-light: #64748b;
+            --color-border: #e2e8f0;
+            
+            /* Status Colors */
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-error: #ef4444;
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            
+            /* Transitions */
+            --transition-speed: 300ms;
+}
+
 @media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
