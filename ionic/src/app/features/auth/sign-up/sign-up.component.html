@@ -37,7 +37,7 @@
 
         <form [formGroup]="signUpForm">
           <ion-item>
-            <ion-label class="white" position="stacked">Email</ion-label>
+            <ion-label class="white input-background" position="stacked">Email</ion-label>
             <ion-input class="white" formControlName="email" type="email" placeholder="Your email address" [class.invalid]="!signUpForm.controls['email'].valid &&
             signUpForm.controls['email'].touched">
             </ion-input>
@@ -46,7 +46,7 @@
           <br/> 
         
           <ion-item>
-            <ion-label class="white" position="stacked">Password</ion-label>
+            <ion-label class="white input-background" position="stacked">Password</ion-label>
             <ion-input class="white" formControlName="password" type="password" placeholder="Your password"
               [class.invalid]="!signUpForm.controls['password'].valid && signUpForm.controls['password'].touched">
             </ion-input>

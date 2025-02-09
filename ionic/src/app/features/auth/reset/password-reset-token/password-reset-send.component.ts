@@ -12,6 +12,7 @@ import {Validation_Password_Reset_Send} from "../../../../shared/validation";
 })
 export class PasswordResetSendComponent implements OnInit {
 
+  public noEmailExist: boolean = false;
   public passwordResetForm: FormGroup = new FormGroup({});
   public Validation_Password_Reset_Send = Validation_Password_Reset_Send;
 
@@ -42,10 +43,13 @@ export class PasswordResetSendComponent implements OnInit {
         email: passwordResetForm.value.email,
       };
       this.authService.sendEmailAndToken(credentials.email).subscribe(res => {
+        console.log(res);
         if(res.message === "Email Exist") {
           this.router.navigate(['./password-reset-verify', {email: credentials.email}], {relativeTo: this.route});
+        }else if(res.message === "Error Sending Email"){
+          this.passwordResetForm.get('email')?.setErrors({'emailSendingFailed': true});
         }else {
-          this.presentToast("No Email Registered with above id");
+          this.passwordResetForm.get('email')?.setErrors({'noEmailExist': true});
         }
       })
     }

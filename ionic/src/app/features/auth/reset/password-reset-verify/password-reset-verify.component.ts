@@ -41,6 +41,8 @@ export class PasswordResetVerifyComponent implements OnInit {
     this.authService.sendEmailAndToken(this.userEmail).subscribe(res => {
       if(res.message === "Email Exist") {
         this.presentToast("Token Sent in your email. Check your spam too");
+      }else if(res.message === "Error Sending Email") {
+        this.presentToast("Token Sent in your email. Check your spam too");
       }else {
         this.presentToast("Something went wrong. Please try again");
       }

@@ -1,11 +1,18 @@
 package org.nrna.services;
 
 import com.sun.mail.smtp.SMTPTransport;
+import org.nrna.exception.CustomGenericException;
 import org.nrna.models.UserProfile;
 import org.nrna.models.dto.User;
 import org.nrna.models.dto.UserDetailsImpl;
+import org.nrna.models.response.MessageResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +23,13 @@ import javax.mail.Session;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
 import java.util.Properties;
 
 @Service
 public class EmailService {
+
+    Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     @Autowired
     public UserService userService;
@@ -265,11 +275,16 @@ public class EmailService {
                 System.out.println("Email Sent to: " + userProfile.getEmail());
             }
         } catch (SendFailedException e) {
+            logger.error("Error Sending Email, SendFailedException: " + e.getMessage());
             throw new RuntimeException(e);
         } catch (AddressException e) {
+            logger.error("Error Sending Email, AddressException: " + e.getMessage());
             throw new RuntimeException(e);
         } catch (MessagingException e) {
+            logger.error("Error Sending Email, MessagingException: " + e.getMessage());
             throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new CustomGenericException("Error Sending Email, Generic:  " + e.getMessage());
         }
     }
 

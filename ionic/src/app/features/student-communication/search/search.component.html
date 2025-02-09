@@ -40,8 +40,8 @@
                 <h2 *ngIf="eachMember.firstName && eachMember.lastName" class="font-bold">{{eachMember.firstName}} {{eachMember.lastName}}</h2>
                 <div class="white mt-1" *ngIf="eachMember.userAddress && eachMember.userAddress.city && eachMember.userAddress && eachMember.userAddress.state">{{eachMember.userAddress.city}}, {{eachMember.userAddress.state}}</div>
                 <div class="nrna-phone mt-1" *ngIf="eachMember.phoneNumber"><ion-icon name="call-outline"></ion-icon> {{eachMember.phoneNumber}}</div>
-                <div class="nrna-email mt-1" *ngIf="eachMember.email"><ion-icon name="mail-outline" class="mr-2 mail-icon"></ion-icon><span>{{eachMember.email}}</span></div>
-                <div class="nrna-university mt-1"><ion-icon name="mail-outline" class="mr-2 mail-icon"></ion-icon><span><span class="text-decoration-none">{{eachMember.university ? eachMember.university : 'N/A'}}</span></span></div>
+                  <div class="nrna-email mt-1" *ngIf="eachMember.email"><ion-icon name="mail-outline" class="mr-2 mail-icon"></ion-icon><span><a class="text-decoration-none" href="{{'mailto:' + eachMember.email }}">{{eachMember.email}}</a></span></div>
+                <div class="nrna-university mt-1"><ion-icon name="school" class="mr-2 mail-icon"></ion-icon><span><span class="text-decoration-none">{{eachMember.university ? eachMember.university : 'N/A'}}</span></span></div>
               </div>
             </ion-label>
           </ion-item>

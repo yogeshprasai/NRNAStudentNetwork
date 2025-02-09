@@ -128,7 +128,12 @@ public class UserService {
 			//For Local Testing
 			//createPasswordResetTokenForUser(user.get(), "123456");
 			createPasswordResetTokenForUser(user.get(), shortToken);
-			emailService.sendEmail(userProfile, "password-reset", shortToken);
+
+			try{
+				emailService.sendEmail(userProfile, "password-reset", shortToken);
+			}catch (Exception e){
+				return new ResponseEntity<>(new MessageResponse("Error Sending Email"), HttpStatus.BAD_REQUEST);
+			}
 			return new ResponseEntity<>(new MessageResponse("Email Exist"), HttpStatus.OK);
 		}
 		return new ResponseEntity<>(new MessageResponse("No Email Exist"), HttpStatus.BAD_REQUEST);

@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutUsComponent  implements OnInit {
 
+  readonly nrnaEmail = "students@nrnusa.org";
+
   constructor() { }
 
   ngOnInit() {}
