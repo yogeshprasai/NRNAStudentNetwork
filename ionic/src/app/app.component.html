@@ -4,15 +4,15 @@
     <ion-menu contentId="main-content" type="overlay" menuId =“menuAdmin” side="end">
       <ion-content class="ion-menu-content">
         <ion-list id="inbox-list" class="mt-35">
-          
-          <img class="nrna-image"  src="../../assets/icon/nrna.png">
-
+          <div class="d-flex nrna-image-container">
+              <img class="nrna-image" src="../../assets/icon/nrna_logo.png">
+          </div>
           <ion-list-header>Menu</ion-list-header>
 
           <!-- Show UserEmail Once Logged In -->
           <span *ngIf="id" class="ml-20 loggedin-user"><ion-note>{{id}}</ion-note></span>
 
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of currentAvailablePages; let i = index">
             <ion-item (click)="selectedIndex = i" routerDirection="root" (click)="onClickingMenu(p)" lines="none" detail="false" [class.selected]="selectedIndex == i">
               <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>

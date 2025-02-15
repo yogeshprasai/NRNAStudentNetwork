@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/shared/service/auth.service';
 import { LoadingService } from 'src/app/shared/service/loading.service';
 import { User } from 'src/app/shared/interface/user';
 import { NrnaRoutes } from 'src/app/shared/service/constant';
+import { NavigationService } from 'src/app/shared/service/navigation.service';
 
 @Component({
   selector: 'nrna-sign-in',
@@ -23,7 +24,8 @@ export class SignInComponent  implements OnInit {
   showFailMessage: boolean = false;
 
   constructor(private router: Router, private activiatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private loadingService: LoadingService,
-    private loadingCtrl: LoadingController, private alertController: AlertController, private authService: AuthService) { 
+    private loadingCtrl: LoadingController, private alertController: AlertController, private authService: AuthService,
+    private navigationService: NavigationService) { 
       this.loginForm = this.formBuilder.group({
         email: ['', Validators.compose([
           Validators.required,
@@ -67,6 +69,7 @@ export class SignInComponent  implements OnInit {
           this.authService.loggedInUser = user;
           this.authService.token = loginResponse.token;
           this.router.navigate([NrnaRoutes.Profile]);
+          this.navigationService.reArrangeMenuItem();
         }else{
           this.isLoggedIn = false;
           this.showFailMessage = true;

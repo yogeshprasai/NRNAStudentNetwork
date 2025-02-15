@@ -6,6 +6,7 @@ import { NavigationMetaData } from './shared/interface/navigation';
 import { NrnaLinks, NrnaRoutes } from './shared/service/constant';
 import {finalize} from "rxjs";
 import {App, URLOpenListenerEvent} from "@capacitor/app";
+import { NavigationService } from './shared/service/navigation.service';
 
 @Component({
   selector: 'app-root',
@@ -17,17 +18,10 @@ export class AppComponent implements OnInit {
   public currentColorMode = 'dark';
   public selectedIndex: number = 0;
   public id: number = 0;
-  public appPages: NavigationMetaData[] = [
-    { title: NrnaLinks.Helper, url: NrnaRoutes.Helper, icon: 'people' },
-    { title: NrnaLinks.Student, url: NrnaRoutes.Student, icon: 'people-circle' },
-    { title: NrnaLinks.Info, url: NrnaRoutes.Info, icon: 'information-circle'},
-    { title: NrnaLinks.News, url: NrnaRoutes.News, icon: 'newspaper'},
-    { title: NrnaLinks.AboutUs, url: NrnaRoutes.AboutUs, icon: 'information-circle'},
-    { title: NrnaLinks.Login, url: NrnaRoutes.Login, icon: 'log-out' }
-  ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  public currentAvailablePages: NavigationMetaData[] = [];
 
   constructor(
+    public navigationService: NavigationService,
     private authService: AuthService,
     private storage: Storage,
     private router: Router,
@@ -37,14 +31,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.menuBarHideShow(this.authService.isLoggedIn);
-    this.authService.login$.subscribe(isLoggedIn => {
-      this.menuBarHideShow(isLoggedIn);
+    this.currentAvailablePages = this.navigationService.getNavigationMenu();
+    this.navigationService.navigationPages$.subscribe((navigationData: NavigationMetaData[]) => {
+      this.currentAvailablePages = navigationData;
     });
-  }
-
-  ionViewWillEnter(): void {
-    
   }
 
   initializeApp() {
@@ -63,28 +53,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private menuBarHideShow(isLoggedIn: boolean){
-    if(isLoggedIn){
-      this.appPages.forEach(eachNav => {
-        if(eachNav.title === NrnaLinks.Login && eachNav.url === NrnaRoutes.Login){
-          eachNav.title = NrnaLinks.Logout;
-          eachNav.url = NrnaRoutes.Logout;
-        }
-      });
-      this.appPages.unshift({ title: NrnaLinks.Profile, url: NrnaRoutes.Profile, icon: 'person-circle' });
-    }else{
-      this.appPages.forEach(eachNav => {
-        if(eachNav.title === NrnaLinks.Logout && eachNav.url === NrnaRoutes.Logout){
-          eachNav.title = NrnaLinks.Login;
-          eachNav.url = NrnaRoutes.Login
-        }
-      });
-      const index = this.appPages.findIndex(eachNav => eachNav.title === NrnaLinks.Profile);
-      if(index > -1){
-        this.appPages.splice(index, 1);
-      }
-    }
-  }
+  
 
   public update(){
     const loggedInUser = this.authService.loggedInUser;
@@ -98,14 +67,8 @@ export class AppComponent implements OnInit {
       this.authService.logout().pipe(
           finalize (() => {
             this.authService.removeUserAndToken();
-            this.menuBarHideShow(false);
             this.router.navigate(['auth/sign-in']);
-            this.appPages.forEach(eachNav => {
-              if(eachNav.title === NrnaLinks.Logout && navigationData.url === NrnaRoutes.Logout){
-                eachNav.title = NrnaLinks.Login;
-                eachNav.url = NrnaRoutes.Login;
-              }
-            });
+            this.navigationService.reArrangeMenuItem();
           })
       ).subscribe();
     }

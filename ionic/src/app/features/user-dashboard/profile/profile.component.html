@@ -27,6 +27,13 @@
                 header="Profile Update Successful! Since Email has changed, Please login again."
                 [buttons]="successButtonsWithLogout"
         ></ion-alert>
+
+        <ion-alert
+                [isOpen]="profileUpdateSuccess"
+                trigger="present-alert"
+                header="Profile Update Successful!"
+                [buttons]="successButtons"
+        ></ion-alert>
       
       <form [formGroup]="profileForm">
           <div *ngIf="profilePicture">

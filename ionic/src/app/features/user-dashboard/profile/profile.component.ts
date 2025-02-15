@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AlertController, LoadingController, Platform, PopoverController, ToastController} from '@ionic/angular';
+import {AlertController, LoadingController, Platform, PopoverController} from '@ionic/angular';
 import {Profile} from 'src/app/shared/model/profile';
 import {AuthService} from 'src/app/shared/service/auth.service';
 import {ProfileAddressService} from 'src/app/shared/service/profile-address.service';
@@ -25,6 +25,7 @@ export class ProfileComponent implements OnInit {
 
   public profileForm: FormGroup = new FormGroup({});
   public errorMessage: boolean = false;
+  public profileUpdateSuccess: boolean = false;
   public successMessageWithLogout: boolean = false;
   public profileValues: Profile = <Profile>{};
   public profilePicture: any = null;
@@ -40,7 +41,6 @@ export class ProfileComponent implements OnInit {
     public fb: FormBuilder,
     public route: ActivatedRoute,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController,
     private alertController: AlertController,
     private platForm: Platform,
     private popoverController: PopoverController,
@@ -125,12 +125,12 @@ export class ProfileComponent implements OnInit {
           next: (res: any) => {
             if (res.message === "Success") {
               this.profilePicture = "data:image/jpeg;base64," + base64Image;
-              this.presentToast('File upload complete.');
+              this.profileUpdateSuccess = true;
             } else {
-              this.presentToast('File upload failed.');
+              this.showErrorAlert('File upload failed. Please try again.');
             }},
           error: () => {
-            this.showErrorAlert("Error! Please Try Again.");
+            this.showErrorAlert("File upload failed. Please try again.");
           }
         });
   }
@@ -143,6 +143,7 @@ export class ProfileComponent implements OnInit {
     this.profileAddressService.deleteProfilePicture().pipe(
         finalize(() => {
           loading.dismiss();
+          this.profileUpdateSuccess = true;
         })
     ).subscribe({
         next: res => {
@@ -193,7 +194,7 @@ export class ProfileComponent implements OnInit {
                     const successMessage: string = response.message;
                     if(successMessage){
                       if(successMessage === "Success"){
-                        this.presentToast('Profile Upload Complete.');
+                        this.profileUpdateSuccess = true;
                       }else if(successMessage === "Success but Logout User"){
                         this.successMessageWithLogout = true;
                       }
@@ -205,15 +206,6 @@ export class ProfileComponent implements OnInit {
                   }
               });
     }
-  }
-
-  //Success Popup
-  async presentToast(text: any) {
-    const toast = await this.toastCtrl.create({
-      message: text,
-      duration: 3000
-    });
-    toast.present();
   }
 
   //Error Popup
@@ -235,9 +227,19 @@ export class ProfileComponent implements OnInit {
 
   private resetButtons(){
     this.errorMessage = false;
+    this.profileUpdateSuccess = false;
     this.successMessageWithLogout = false;
   }
 
+  public successButtons = [
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: () => {
+        this.resetButtons();
+      },
+    },
+  ];
 
   public successButtonsWithLogout = [
     {
