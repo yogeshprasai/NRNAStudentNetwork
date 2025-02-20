@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthModule } from './features/auth/auth.module';
-import { UserDashboardModule } from './features/user-dashboard/user-dashboard.module';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'user-dashboard',
     pathMatch: 'full'
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule)
   },
   {
     path: 'auth',
@@ -18,12 +20,16 @@ const routes: Routes = [
     loadChildren: () => import('./features/user-dashboard/user-dashboard.module').then(m => m.UserDashboardModule)
   },
   {
-    path: 'helper-communication',
-    loadChildren: () => import('./features/helper-communication/helper-communication.module').then( m => m.HelperCommunicationPageModule)
+    path: 'volunteer-communication',
+    loadChildren: () => import('./features/volunteer-communication/volunteer-communication.module').then(m => m.VolunteerCommunicationModule)
   },
   {
     path: 'student-communication',
     loadChildren: () => import('./features/student-communication/student-communication.module').then( m => m.StudentCommunicationPageModule)
+  },
+  {
+    path: 'university-outreach',
+    loadChildren: () => import('./features/university-outreach/university-outreach.module').then(m => m.UniversityOutreachModule)
   },
   {
     path: 'info',

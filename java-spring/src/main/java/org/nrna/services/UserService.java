@@ -111,6 +111,11 @@ public class UserService {
 				.orElseThrow(()-> new ResourceNotFoundException("User not found"));
 	}
 
+	public User getUserByEmail(String email){
+		return userRepository.findByEmail(email)
+				.orElseThrow(()-> new ResourceNotFoundException("User not found"));
+	}
+
 	public ResponseEntity<?> passwordResetRequest(String email){
 		Optional<User> user = null;
 		try{
@@ -236,8 +241,12 @@ public class UserService {
 			user.setUniversity(userProfile.getUniversity());
 		}
 
-		if(user.isHelper() != userProfile.isHelper()){
-			user.setHelper(userProfile.isHelper());
+		if(user.isApplyForVolunteer() != userProfile.isApplyForVolunteer()){
+			user.setApplyForVolunteer(userProfile.isApplyForVolunteer());
+		}
+
+		if(user.isVolunteer() != userProfile.isVolunteer()){
+			user.setVolunteer(userProfile.isVolunteer());
 		}
 
 		try{
@@ -245,6 +254,22 @@ public class UserService {
 		} catch (Exception e) {
 			throw new CustomGenericException("Error Saving User " + e);
 		}
+	}
+
+	public void updateProfileForVolunteer(UserProfile userProfile){
+		User user = getUserByEmail(userProfile.getEmail());
+
+		if(userProfile.isApplyForVolunteer()){
+			user.setVolunteer(true);
+			user.setApplyForVolunteer(false);
+		}
+
+		try{
+			userRepository.save(user);
+		} catch (Exception e) {
+			throw new CustomGenericException("Error Saving User " + e);
+		}
+
 	}
 	
 	public ResponseEntity<?> getAddressForUser(UserDetailsImpl sessionUser){

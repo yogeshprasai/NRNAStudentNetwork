@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import {CommonModule, Location} from "@angular/common";
 import { IonicModule } from "@ionic/angular";
 import { UserDashboardRoutingModule } from "./user-dashboard-routing.module";
 import { ProfileComponent } from "./profile/profile.component";

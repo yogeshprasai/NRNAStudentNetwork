@@ -1,27 +1,26 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { HelperCommunicationPage } from './helper-communication.page';
+import { VolunteerCommunicationPage } from './volunteer-communication.page';
 import { SearchComponent } from './search/search.component';
-import { HelperComponent } from './helper/helper.component';
-import { HelperResolverService } from 'src/app/shared/resolvers/helper-resolver.service';
+import { VolunteerComponent } from './volunteer/volunteer.component';
+import {VolunteerResolverService} from "../../shared/resolvers/volunteer-resolver.service";
 
 const routes: Routes = [
   {
     path: '',
-    component: HelperCommunicationPage,
+    component: VolunteerCommunicationPage,
     children: [
       {
         path: '',
-        redirectTo: 'helper',
+        redirectTo: 'volunteer',
         pathMatch: 'full'
       },
       {
-        path: 'helper',
-        component: HelperComponent,
+        path: 'volunteer',
+        component: VolunteerComponent,
         pathMatch: 'full',
         resolve: {
-          allHelpers: HelperResolverService
+          allVolunteers: VolunteerResolverService
         },
       },
       {
@@ -29,7 +28,7 @@ const routes: Routes = [
         component: SearchComponent,
         pathMatch: 'full',
         resolve: {
-          allHelpers: HelperResolverService
+          allVolunteers: VolunteerResolverService
         },
       }
     ]
@@ -40,4 +39,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class HelperCommunicationRoutingModule {}
+export class VolunteerCommunicationRoutingModule {}

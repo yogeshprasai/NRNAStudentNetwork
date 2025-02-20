@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {AlertController} from "@ionic/angular";
 import {AuthService} from "../../shared/service/auth.service";
+import {NrnaLinks, NrnaRoutes} from "../../shared/service/constant";
 
 @Component({
   selector: 'nrna-student',
@@ -10,7 +11,8 @@ import {AuthService} from "../../shared/service/auth.service";
 })
 export class StudentCommunicationPage implements OnInit {
 
-  constructor(private authService: AuthService, private alertController: AlertController) {}
+  constructor(private authService: AuthService, private alertController: AlertController,
+              private router: Router) {}
 
   ngOnInit() {
   }
@@ -20,12 +22,23 @@ export class StudentCommunicationPage implements OnInit {
       header: 'Requires Login',
       subHeader: '',
       message: 'Please Login to see students list',
-      buttons: ['OK']
+      buttons: this.loginRequiredButtons
     });
     if(!this.authService.isLoggedIn){
       await alert.present();
     }
 
   }
+
+  public loginRequiredButtons = [
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: () => {
+        // this.resetButtons();
+        this.router.navigate([NrnaRoutes.Login]);
+      },
+    },
+  ];
   
 }

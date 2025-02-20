@@ -1,7 +1,9 @@
 export const NrnaLinks = {
+    Admin: 'Admin',
     Profile: 'Profile',
-    Helper: 'Helper',
+    Volunteer: 'Volunteer',
     Student: 'Student Network',
+    UniversityOutreach: 'University Outreach',
     Info: 'Info',
     News: 'News',
     AboutUs: 'About Us',
@@ -10,9 +12,11 @@ export const NrnaLinks = {
 };
 
 export const NrnaRoutes = {
+    Admin: '/admin',
     Profile: '/user-dashboard/profile',
-    Helper: '/helper-communication/helper',
+    Volunteer: '/volunteer-communication/volunteer',
     Student: '/student-communication/student',
+    UniversityOutreach: '/university-outreach',
     Info: '/info/',
     News: '/news',
     AboutUs: '/about-us',

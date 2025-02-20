@@ -66,7 +66,155 @@ public class MiscService {
         headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
         ResponseEntity<?> newsJSON = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
-        //String newsJSON = "<200,{\n  \"search_metadata\": {\n    \"id\": \"67561c0566d995a1ba33a69b\",\n    \"status\": \"Success\",\n    \"json_endpoint\": \"https://serpapi.com/searches/818a25a6d2795149/67561c0566d995a1ba33a69b.json\",\n    \"created_at\": \"2024-12-08 22:21:57 UTC\",\n    \"processed_at\": \"2024-12-08 22:21:57 UTC\",\n    \"google_url\": \"https://www.google.com/search?q=Nepali+Student&oq=Nepali+Student&uule=w+CAIQICINVW5pdGVkIFN0YXRlcw&hl=en&gl=us&tbm=nws&sourceid=chrome&ie=UTF-8\",\n    \"raw_html_file\": \"https://serpapi.com/searches/818a25a6d2795149/67561c0566d995a1ba33a69b.html\",\n    \"total_time_taken\": 1.21\n  },\n  \"search_parameters\": {\n    \"engine\": \"google\",\n    \"q\": \"Nepali Student\",\n    \"location_requested\": \"United States\",\n    \"location_used\": \"United States\",\n    \"google_domain\": \"google.com\",\n    \"hl\": \"en\",\n    \"gl\": \"us\",\n    \"device\": \"desktop\",\n    \"tbm\": \"nws\"\n  },\n  \"search_information\": {\n    \"query_displayed\": \"Nepali Student\",\n    \"total_results\": 4000,\n    \"time_taken_displayed\": 0.25,\n    \"news_results_state\": \"Results for exact spelling\"\n  },\n  \"news_results\": [\n    {\n      \"position\": 1,\n      \"link\": \"https://www.click2houston.com/news/local/2024/12/04/attorney-says-accused-killer-of-nepali-student-studying-in-houston-may-have-had-intimate-relationship-with-her/\",\n      \"title\": \"Attorney says accused killer of Nepali student studying in Houston may have had ‘intimate’ relationship with her\",\n      \"source\": \"Click2Houston\",\n      \"date\": \"4 days ago\",\n      \"snippet\": \"New details have been revealed in the capital murder case of Bobby Shah.\",\n      \"thumbnail\": \"https://serpapi.com/searches/67561c0566d995a1ba33a69b/images/07063d46c996c766560fa7000cd1dfde24d10f256508ab6634f835c6c6f2d0f2.jpeg\"\n    },\n    {\n      \"position\": 2,\n      \"link\": \"https://www.khou.com/article/news/crime/muna-pandey-accused-killer-court-appearance/285-749d6ec1-8cf0-49a5-933c-a5d0f74a0d39\",\n      \"title\": \"Attorney reveals accused killer may have had intimate relationship with 21-year-old college student\",\n      \"source\": \"KHOU\",\n      \"date\": \"4 days ago\",\n      \"snippet\": \"HOUSTON — New details were revealed in court on Tuesday in the case of a \\n21-year-old Nepali college student who was killed this summer.\",\n      \"thumbnail\": \"https://serpapi.com/searches/67561c0566d995a1ba33a69b/images/07063d46c996c7667aabf20ea72bb9e8b46bea83fe46ee7b5916fb00b1b9b4f4.jpeg\"\n    },\n    {\n      \"position\": 3,\n      \"link\": \"https://kathmandupost.com/art-culture/2024/12/08/affordable-places-for-nepali-students-in-melbourne\",\n      \"title\": \"Affordable places for Nepali students in Melbourne\",\n      \"source\": \"The Kathmandu Post\",\n      \"date\": \"20 hours ago\",\n      \"snippet\": \"Looking to study in one of Australia's major cities? These five areas offer \\ncheap rents and convenient commutes.\",\n      \"thumbnail\": \"https://serpapi.com/searches/67561c0566d995a1ba33a69b/images/07063d46c996c766c32a5b367f5e6b6f12d2573045142d4839abc81897d06b5c.jpeg\"\n    },\n    {\n      \"position\": 4,\n      \"link\": \"https://myrepublica.nagariknetwork.com/news/israeli-ambassador-bass-confirms-nepali-student-bipin-joshi-abducted-by-ham...-6751893d7356f.html\",\n      \"title\": \"Israeli Ambassador Bass confirms Nepali student Bipin Joshi, abducted by Hamas, is alive\",\n      \"source\": \"My Republica\",\n      \"date\": \"2 days ago\",\n      \"snippet\": \"A total of 10 Nepali students, who were in Israel as a part of the Earn and \\nLearn program in Israel were brutally murdered by the Hamas...\",\n      \"thumbnail\": \"https://serpapi.com/searches/67561c0566d995a1ba33a69b/images/07063d46c996c76624b5db1685c7164c8d652f76ae142ca356ebf762bb4a4f43.jpeg\"\n    },\n    {\n      \"position\": 5,\n      \"link\": \"https://www.houstonchronicle.com/news/houston-texas/crime/article/bobby-shah-gun-muna-pandey-houston-college-19957704.php\",\n      \"title\": \"Man accused of killing Houston student bought gun that night, prosecutors say\",\n      \"source\": \"Houston Chronicle\",\n      \"date\": \"4 days ago\",\n      \"snippet\": \"A man accused in the death of Houston college student Muna Pandey, whom he \\nhad known for months, bought a handgun hours before confronting...\",\n      \"thumbnail\": \"https://serpapi.com/searches/67561c0566d995a1ba33a69b/images/07063d46c996c766329ff7491a87c1b60e83e766530f39db419eac53d5634725.jpeg\"\n    },\n    {\n      \"position\": 6,\n      \"link\": \"https://timesofindia.indiatimes.com/world/us/indian-origin-man-arrested-for-alleged-murder-of-nepali-student-in-texas-after-sugar-daddy-site-tip/articleshow/112940890.cms\",\n      \"title\": \"Indian-origin man arrested for alleged murder of Nepali student in Texas after 'Sugar Daddy' site tip\",\n      \"source\": \"Times of India\",\n      \"date\": \"Aug 31, 2024\",\n      \"snippet\": \"US News: Bobby Singh Shah, an Indian-origin man, has been arrested for \\nallegedly murdering 21-year-old Nepalese student Muna Pandey in...\",\n      \"thumbnail\": \"https://serpapi.com/searches/67561c0566d995a1ba33a69b/images/07063d46c996c766f96fd51b5ec0faf8b3f18069bc9574fc4057cdfa5f20afd5.jpeg\"\n    },\n    {\n      \"position\": 7,\n      \"link\": \"https://www.hindustantimes.com/world-news/us-news/nepali-student-21-found-shot-to-death-in-her-houston-apartment-man-arrested-and-charged-101724951215988.html\",\n      \"title\": \"Nepali student, 21, found shot to death in her Houston apartment; Man arrested and charged\",\n      \"source\": \"Hindustan Times\",\n      \"date\": \"Aug 29, 2024\",\n      \"snippet\": \"Muna Pandey, a 21-year-old college student from Nepal, was found dead with \\nmultiple gunshot wounds in her Houston apartment.\",\n      \"thumbnail\": \"https://serpapi.com/searches/67561c0566d995a1ba33a69b/images/07063d46c996c766ca57e2c4032a12e0dfdd48af1d2bb0d9a8bb94c907d4fcc0.jpeg\"\n    },\n    {\n      \"position\": 8,\n      \"link\": \"https://monitor.icef.com/2024/10/market-snapshot-international-student-recruitment-in-nepal/\",\n      \"title\": \"Market snapshot: International student recruitment in Nepal\",\n      \"source\": \"ICEF Monitor\",\n      \"date\": \"1 month ago\",\n      \"snippet\": \"From 23rd place in 2022 (40,560), Nepal is projected to become the 7th \\nlargest sender of students in 2025 (113,395).\",\n      \"thumbnail\": \"https://serpapi.com/searches/67561c0566d995a1ba33a69b/images/07063d46c996c766f9fc2d3b1f4614581a7cc5f3d2c578d9c376501fc550eaea.jpeg\"\n    },\n    {\n      \"position\": 9,\n      \"link\": \"https://www.newsx.com/world/indian-origin-man-arrested-for-killing-21-year-old-nepalese-student-during-robbery-in-us-apartment/\",\n      \"title\": \"Indian-Origin Man Arrested For Killing 21-Year-Old Nepalese Student During Robbery in US Apartment\",\n      \"source\": \"Newsx\",\n      \"date\": \"Aug 31, 2024\",\n      \"snippet\": \"A 21-year-old Nepali student, Muna Pandey, was tragically shot dead during \\na robbery at her apartment in Houston, Texas.\",\n      \"thumbnail\": \"https://serpapi.com/searches/67561c0566d995a1ba33a69b/images/07063d46c996c7663a43086c7407ffc14f1f88a0e3756f7973f606de64f5d541.jpeg\"\n    },\n    {\n      \"position\": 10,\n      \"link\": \"https://www.click2houston.com/news/local/2024/08/30/bail-denied-for-suspect-accused-of-killing-21-year-old-nepali-student-studying-nursing-in-houston/\",\n      \"title\": \"Bail denied for suspect accused of killing 21-year-old Nepali student studying nursing in Houston\",\n      \"source\": \"Click2Houston\",\n      \"date\": \"Aug 29, 2024\",\n      \"snippet\": \"Bail has been denied for a suspect accused of killing a 21-year-old student \\nfrom Nepal who was studying nursing in Houston.\",\n      \"thumbnail\": \"https://serpapi.com/searches/67561c0566d995a1ba33a69b/images/07063d46c996c7669e48671c9837ddea7c08c890578ff87e99380844cef7e448.jpeg\"\n    }\n  ],\n  \"pagination\": {\n    \"current\": 1,\n    \"next\": \"https://www.google.com/search?q=Nepali+Student&sca_esv=face10566ce46e9f&hl=en&gl=us&tbm=nws&ei=BhxWZ9TTH-LT5NoPu-3KqQM&start=10&sa=N&ved=2ahUKEwjU7onpmpmKAxXiKVkFHbu2MjUQ8NMDegQIBRAW\",\n    \"other_pages\": {\n      \"2\": \"https://www.google.com/search?q=Nepali+Student&sca_esv=face10566ce46e9f&hl=en&gl=us&tbm=nws&ei=BhxWZ9TTH-LT5NoPu-3KqQM&start=10&sa=N&ved=2ahUKEwjU7onpmpmKAxXiKVkFHbu2MjUQ8tMDegQIBRAE\",\n      \"3\": \"https://www.google.com/search?q=Nepali+Student&sca_esv=face10566ce46e9f&hl=en&gl=us&tbm=nws&ei=BhxWZ9TTH-LT5NoPu-3KqQM&start=20&sa=N&ved=2ahUKEwjU7onpmpmKAxXiKVkFHbu2MjUQ8tMDegQIBRAG\",\n      \"4\": \"https://www.google.com/search?q=Nepali+Student&sca_esv=face10566ce46e9f&hl=en&gl=us&tbm=nws&ei=BhxWZ9TTH-LT5NoPu-3KqQM&start=30&sa=N&ved=2ahUKEwjU7onpmpmKAxXiKVkFHbu2MjUQ8tMDegQIBRAI\",\n      \"5\": \"https://www.google.com/search?q=Nepali+Student&sca_esv=face10566ce46e9f&hl=en&gl=us&tbm=nws&ei=BhxWZ9TTH-LT5NoPu-3KqQM&start=40&sa=N&ved=2ahUKEwjU7onpmpmKAxXiKVkFHbu2MjUQ8tMDegQIBRAK\",\n      \"6\": \"https://www.google.com/search?q=Nepali+Student&sca_esv=face10566ce46e9f&hl=en&gl=us&tbm=nws&ei=BhxWZ9TTH-LT5NoPu-3KqQM&start=50&sa=N&ved=2ahUKEwjU7onpmpmKAxXiKVkFHbu2MjUQ8tMDegQIBRAM\",\n      \"7\": \"https://www.google.com/search?q=Nepali+Student&sca_esv=face10566ce46e9f&hl=en&gl=us&tbm=nws&ei=BhxWZ9TTH-LT5NoPu-3KqQM&start=60&sa=N&ved=2ahUKEwjU7onpmpmKAxXiKVkFHbu2MjUQ8tMDegQIBRAO\",\n      \"8\": \"https://www.google.com/search?q=Nepali+Student&sca_esv=face10566ce46e9f&hl=en&gl=us&tbm=nws&ei=BhxWZ9TTH-LT5NoPu-3KqQM&start=70&sa=N&ved=2ahUKEwjU7onpmpmKAxXiKVkFHbu2MjUQ8tMDegQIBRAQ\",\n      \"9\": \"https://www.google.com/search?q=Nepali+Student&sca_esv=face10566ce46e9f&hl=en&gl=us&tbm=nws&ei=BhxWZ9TTH-LT5NoPu-3KqQM&start=80&sa=N&ved=2ahUKEwjU7onpmpmKAxXiKVkFHbu2MjUQ8tMDegQIBRAS\",\n      \"10\": \"https://www.google.com/search?q=Nepali+Student&sca_esv=face10566ce46e9f&hl=en&gl=us&tbm=nws&ei=BhxWZ9TTH-LT5NoPu-3KqQM&start=90&sa=N&ved=2ahUKEwjU7onpmpmKAxXiKVkFHbu2MjUQ8tMDegQIBRAU\"\n    }\n  },\n  \"serpapi_pagination\": {\n    \"current\": 1,\n    \"next_link\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=10&tbm=nws\",\n    \"next\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=10&tbm=nws\",\n    \"other_pages\": {\n      \"2\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=10&tbm=nws\",\n      \"3\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=20&tbm=nws\",\n      \"4\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=30&tbm=nws\",\n      \"5\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=40&tbm=nws\",\n      \"6\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=50&tbm=nws\",\n      \"7\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=60&tbm=nws\",\n      \"8\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=70&tbm=nws\",\n      \"9\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=80&tbm=nws\",\n      \"10\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&q=Nepali+Student&start=90&tbm=nws\"\n    }\n  }\n},[Date:\"Sun, 08 Dec 2024 22:27:46 GMT\", Content-Type:\"application/json; charset=utf-8\", Content-Length:\"11556\", Connection:\"keep-alive\", x-frame-options:\"SAMEORIGIN\", x-xss-protection:\"1; mode=block\", x-content-type-options:\"nosniff\", x-download-options:\"noopen\", x-permitted-cross-domain-policies:\"none\", referrer-policy:\"strict-origin-when-cross-origin\", x-robots-tag:\"noindex, nofollow\", serpapi-search-id:\"67561c0566d995a1ba33a69b\", cache-control:\"max-age=3600, public\", etag:\"W/\"da4767dbd0d5a4579d4ea5685823f1a5\"\", x-request-id:\"16384c10-7b0c-4e5c-88a3-df7c12281bd5\", x-runtime:\"1.308921\", CF-Cache-Status:\"HIT\", Age:\"347\", Accept-Ranges:\"bytes\", Server:\"cloudflare\", CF-RAY:\"8ef02f44ab5a0f9b-EWR\", alt-svc:\"h3=\":443\"; ma=86400\"]>";        System.out.println(newsJSON);
+//        String newsJSON = "<200,{\n" +
+//                "    \"search_metadata\": {\n" +
+//                "        \"id\": \"67b7363d251b09e08bd89482\",\n" +
+//                "        \"status\": \"Success\",\n" +
+//                "        \"json_endpoint\": \"https://serpapi.com/searches/7280a941a4ca04f4/67b7363d251b09e08bd89482.json\",\n" +
+//                "        \"created_at\": \"2025-02-20 14:03:41 UTC\",\n" +
+//                "        \"processed_at\": \"2025-02-20 14:03:41 UTC\",\n" +
+//                "        \"google_url\": \"https://www.google.com/search?q=Nepali+Student&oq=Nepali+Student&uule=w+CAIQICINVW5pdGVkIFN0YXRlcw&hl=en&gl=us&num=100&tbm=nws&sourceid=chrome&ie=UTF-8\",\n" +
+//                "        \"raw_html_file\": \"https://serpapi.com/searches/7280a941a4ca04f4/67b7363d251b09e08bd89482.html\",\n" +
+//                "        \"total_time_taken\": 1.56\n" +
+//                "    },\n" +
+//                "    \"search_parameters\": {\n" +
+//                "        \"engine\": \"google\",\n" +
+//                "        \"q\": \"Nepali Student\",\n" +
+//                "        \"location_requested\": \"United States\",\n" +
+//                "        \"location_used\": \"United States\",\n" +
+//                "        \"google_domain\": \"google.com\",\n" +
+//                "        \"hl\": \"en\",\n" +
+//                "        \"gl\": \"us\",\n" +
+//                "        \"num\": \"100\",\n" +
+//                "        \"device\": \"desktop\",\n" +
+//                "        \"tbm\": \"nws\"\n" +
+//                "    },\n" +
+//                "    \"search_information\": {\n" +
+//                "        \"query_displayed\": \"Nepali Student\",\n" +
+//                "        \"total_results\": 139000,\n" +
+//                "        \"time_taken_displayed\": 0.31,\n" +
+//                "        \"news_results_state\": \"Results for exact spelling\"\n" +
+//                "    },\n" +
+//                "    \"people_also_search_for\": [\n" +
+//                "        {\n" +
+//                "            \"name\": \"Nepali student's death at KIIT University\",\n" +
+//                "            \"news_results\": [\n" +
+//                "                {\n" +
+//                "                    \"position\": 1,\n" +
+//                "                    \"link\": \"https://timesofindia.indiatimes.com/city/bhubaneswar/suicide-protests-evictions-and-arrests-how-a-nepali-students-death-sparked-chaos-at-odishas-kiit/articleshow/118383230.cms\",\n" +
+//                "                    \"title\": \"Suicide, protests, evictions and arrests: How a Nepali student’s death sparked chaos at Odisha’s KIIT\",\n" +
+//                "                    \"source\": \"Times of India\",\n" +
+//                "                    \"date\": \"1 day ago\",\n" +
+//                "                    \"thumbnail\": \"https://serpapi.com/searches/67b7363d251b09e08bd89482/images/c655a44c8957be8d866623f6456b8cb3ed2809d0b6c3f9ac4a25848264a1a21ff393a76826a6c9f566bdc6fa3ad50fb1a0c0906041e63466.jpeg\"\n" +
+//                "                },\n" +
+//                "                {\n" +
+//                "                    \"position\": 2,\n" +
+//                "                    \"link\": \"https://www.thehindu.com/news/national/odisha-assures-stern-action-against-kiit-over-nepali-students-death-on-campus/article69238365.ece\",\n" +
+//                "                    \"title\": \"KIIT student death row: Odisha assures stern action against university over Nepali student’s death on campus\",\n" +
+//                "                    \"source\": \"The Hindu\",\n" +
+//                "                    \"date\": \"1 day ago\",\n" +
+//                "                    \"thumbnail\": \"https://serpapi.com/searches/67b7363d251b09e08bd89482/images/c655a44c8957be8d866623f6456b8cb3ed2809d0b6c3f9ac4a25848264a1a21fbb8e1d57717a971958419d55668b7226c26496779bb82470.jpeg\"\n" +
+//                "                },\n" +
+//                "                {\n" +
+//                "                    \"position\": 3,\n" +
+//                "                    \"link\": \"https://www.the-independent.com/asia/india/kiit-university-odisha-student-suicide-protest-nepal-b2699889.html\",\n" +
+//                "                    \"title\": \"Death of 20-year-old Nepali student at Indian university sparks protests and diplomatic outcry\",\n" +
+//                "                    \"source\": \"The Independent\",\n" +
+//                "                    \"date\": \"2 days ago\",\n" +
+//                "                    \"thumbnail\": \"https://serpapi.com/searches/67b7363d251b09e08bd89482/images/c655a44c8957be8d866623f6456b8cb3ed2809d0b6c3f9ac4a25848264a1a21fea6513657c2b4f685f8ef73fc100896c5ed99ebe5281f296.jpeg\"\n" +
+//                "                },\n" +
+//                "                {\n" +
+//                "                    \"position\": 4,\n" +
+//                "                    \"link\": \"https://www.ndtv.com/india-news/kiit-prakriti-lamsal-sent-daughter-here-for-higher-studies-father-of-nepal-student-who-died-by-suicide-7738871\",\n" +
+//                "                    \"title\": \"\\\"Sent Daughter Here For Higher Studies\\\": Father Of Nepal Student Who Died By Suicide At KIIT\",\n" +
+//                "                    \"source\": \"NDTV\",\n" +
+//                "                    \"date\": \"1 day ago\",\n" +
+//                "                    \"thumbnail\": \"https://serpapi.com/searches/67b7363d251b09e08bd89482/images/c655a44c8957be8d866623f6456b8cb3ed2809d0b6c3f9ac4a25848264a1a21ffb3727126c3e16f6e5d3e681b88eb33cf1ca5c56cd5cc1f9.jpeg\"\n" +
+//                "                },\n" +
+//                "                {\n" +
+//                "                    \"position\": 5,\n" +
+//                "                    \"link\": \"https://www.dw.com/en/kiit-nepalese-students-death-sparks-anger-at-india-college/a-71642337\",\n" +
+//                "                    \"title\": \"KIIT: Nepalese student's death sparks anger at India college\",\n" +
+//                "                    \"source\": \"DW\",\n" +
+//                "                    \"date\": \"2 days ago\",\n" +
+//                "                    \"thumbnail\": \"https://serpapi.com/searches/67b7363d251b09e08bd89482/images/c655a44c8957be8d866623f6456b8cb3ed2809d0b6c3f9ac4a25848264a1a21fdb72215839a8dc0040267913a0f8b74c11e70994d83594ea.jpeg\"\n" +
+//                "                },\n" +
+//                "                {\n" +
+//                "                    \"position\": 6,\n" +
+//                "                    \"link\": \"https://www.thenewsminute.com/news/diplomatic-row-erupts-as-kiit-evicts-500-nepali-students-for-protests-over-suicide\",\n" +
+//                "                    \"title\": \"Diplomatic row erupts as KIIT evicts 500 Nepali students for protests over suicide\",\n" +
+//                "                    \"source\": \"The News Minute\",\n" +
+//                "                    \"date\": \"2 days ago\",\n" +
+//                "                    \"thumbnail\": \"https://serpapi.com/searches/67b7363d251b09e08bd89482/images/c655a44c8957be8d866623f6456b8cb3ed2809d0b6c3f9ac4a25848264a1a21fcc6d6717d45bf7f66678bcce363e551dd3db580c05e2031a.jpeg\"\n" +
+//                "                },\n" +
+//                "                {\n" +
+//                "                    \"position\": 7,\n" +
+//                "                    \"link\": \"https://m.economictimes.com/news/new-updates/kiit-students-death-nepali-students-protest-over-kiit-students-death-what-happened/articleshow/118334930.cms\",\n" +
+//                "                    \"title\": \"KIIT Student's Death: Nepali students protest over KIIT student’s death: What happened?\",\n" +
+//                "                    \"source\": \"The Economic Times\",\n" +
+//                "                    \"date\": \"2 days ago\",\n" +
+//                "                    \"thumbnail\": \"https://serpapi.com/searches/67b7363d251b09e08bd89482/images/c655a44c8957be8d866623f6456b8cb3ed2809d0b6c3f9ac4a25848264a1a21f29026ac655f9da368fae2d556ccecf0e1296b21e39163f5a.jpeg\"\n" +
+//                "                },\n" +
+//                "                {\n" +
+//                "                    \"position\": 8,\n" +
+//                "                    \"link\": \"https://newschecker.in/fact-check/kiit-nepal-student-suicide-viral-screenshot-misidentifies-lucknow-politician-as-father-of-accused\",\n" +
+//                "                    \"title\": \"Fact Check: KIIT Nepal Student Suicide: Viral Screenshot Misidentifies Lucknow Politician As Father Of Accused\",\n" +
+//                "                    \"source\": \"Newschecker\",\n" +
+//                "                    \"date\": \"11 hours ago\",\n" +
+//                "                    \"thumbnail\": \"https://serpapi.com/searches/67b7363d251b09e08bd89482/images/c655a44c8957be8d866623f6456b8cb3ed2809d0b6c3f9ac4a25848264a1a21f17cac1612a7a61fcdfffacc0c1e544841e40f6e97a688942.jpeg\"\n" +
+//                "                }\n" +
+//                "            ],\n" +
+//                "            \"view_full_coverage_link\": \"https://www.google.com/search?q=Nepali+Student&num=100&sca_esv=8a5f3c529fc99551&hl=en&gl=us&tbm=nws&story=GisSKU5lcGFsaSBzdHVkZW50J3MgZGVhdGggYXQgS0lJVCBVbml2ZXJzaXR5MjEKJ_nMjN-fv5mCeOjMiM3ui-2LtQGLvILj5oXMhrUB0YuetIO8rPO5ARCH_4umDRgFcgIQAg&fcs=AJQC52yQG8aoM4PZv41bhB_n_xmuUK-HPg&sa=X&ved=2ahUKEwiVg8q7tdKLAxVBGtAFHVZZEeIQ7IUHegQICxAF\"\n" +
+//                "        }\n" +
+//                "    ],\n" +
+//                "    \"news_results\": [\n" +
+//                "        {\n" +
+//                "            \"position\": 1,\n" +
+//                "            \"link\": \"https://ommcomnews.com/odisha-news/nepals-foreign-minister-follows-up-on-nepali-students-death-at-kiit-university/\",\n" +
+//                "            \"title\": \"Nepal’s Foreign Minister Follows Up On Nepali Student’s Death At KIIT University\",\n" +
+//                "            \"source\": \"Ommcom News\",\n" +
+//                "            \"date\": \"21 hours ago\",\n" +
+//                "            \"snippet\": \"Bhubaneswar: The Minister of Foreign Affairs of Nepal, Dr. Arzu Rana Deuba on Wednesday spoke with Odisha's Higher Education Minister...\",\n" +
+//                "            \"thumbnail\": \"https://serpapi.com/searches/67b7363d251b09e08bd89482/images/17d581f941b56ec428d7edf4921f722ca1ccdcff98b4a1277afa30108c76c14c.jpeg\"\n" +
+//                "        },\n" +
+//                "        {\n" +
+//                "            \"position\": 91,\n" +
+//                "            \"link\": \"https://www.timesofisrael.com/family-friends-fear-for-fate-of-nepali-hostage-bipin-joshi-he-saved-our-lives/\",\n" +
+//                "            \"title\": \"Family, friends fear for fate of Nepali hostage Bipin Joshi: ‘He saved our lives’\",\n" +
+//                "            \"source\": \"The Times of Israel\",\n" +
+//                "            \"date\": \"2 days ago\",\n" +
+//                "            \"snippet\": \"24-year-old agriculture student came to Israel 2 months before Oct. 7; he deflected grenade thrown at sheltering farmhands; is not slated...\",\n" +
+//                "            \"thumbnail\": \"https://serpapi.com/searches/67b7363d251b09e08bd89482/images/17d581f941b56ec482da674c8f2d8d3ca63397b0c98600b6f63807e736f186f8.jpeg\"\n" +
+//                "        },\n" +
+//                "        {\n" +
+//                "            \"position\": 92,\n" +
+//                "            \"link\": \"https://www.business-standard.com/india-news/kiit-nepali-girl-suicide-case-lucknow-odisha-kp-sharma-oli-student-protest-125021800122_1.html\",\n" +
+//                "            \"title\": \"KIIT suicide row: Nepal PM steps in; accused held - what we know so far\",\n" +
+//                "            \"source\": \"Business Standard\",\n" +
+//                "            \"date\": \"2 days ago\",\n" +
+//                "            \"snippet\": \"KIIT University Bhubaneswar Prakriti Lamsal Death Case: A third-year BTech student from Nepal was found dead in her hostel room,...\",\n" +
+//                "            \"thumbnail\": \"https://serpapi.com/searches/67b7363d251b09e08bd89482/images/17d581f941b56ec4ce82d15297c37f57f28a0b19b8a7f4bdbb45c555ff6e586f.jpeg\"\n" +
+//                "        }\n" +
+//                "    ],\n" +
+//                "    \"pagination\": {\n" +
+//                "        \"current\": 1,\n" +
+//                "        \"next\": \"https://www.google.com/search?q=Nepali+Student&num=100&sca_esv=8a5f3c529fc99551&hl=en&gl=us&tbm=nws&ei=Pja3Z5XsG8G0wN4P1rLFkA4&start=100&sa=N&ved=2ahUKEwiVg8q7tdKLAxVBGtAFHVZZEeIQ8NMDegQIAxAI\",\n" +
+//                "        \"other_pages\": {\n" +
+//                "            \"2\": \"https://www.google.com/search?q=Nepali+Student&num=100&sca_esv=8a5f3c529fc99551&hl=en&gl=us&tbm=nws&ei=Pja3Z5XsG8G0wN4P1rLFkA4&start=100&sa=N&ved=2ahUKEwiVg8q7tdKLAxVBGtAFHVZZEeIQ8tMDegQIAxAE\",\n" +
+//                "            \"3\": \"https://www.google.com/search?q=Nepali+Student&num=100&sca_esv=8a5f3c529fc99551&hl=en&gl=us&tbm=nws&ei=Pja3Z5XsG8G0wN4P1rLFkA4&start=200&sa=N&ved=2ahUKEwiVg8q7tdKLAxVBGtAFHVZZEeIQ8tMDegQIAxAG\"\n" +
+//                "        }\n" +
+//                "    },\n" +
+//                "    \"serpapi_pagination\": {\n" +
+//                "        \"current\": 1,\n" +
+//                "        \"next_link\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&num=100&q=Nepali+Student&start=100&tbm=nws\",\n" +
+//                "        \"next\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&num=100&q=Nepali+Student&start=100&tbm=nws\",\n" +
+//                "        \"other_pages\": {\n" +
+//                "            \"2\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&num=100&q=Nepali+Student&start=100&tbm=nws\",\n" +
+//                "            \"3\": \"https://serpapi.com/search.json?device=desktop&engine=google&gl=us&google_domain=google.com&hl=en&location=United+States&num=100&q=Nepali+Student&start=200&tbm=nws\"\n" +
+//                "        }\n" +
+//                "    }\n" +
+//                "}";
+        System.out.println(newsJSON);
         System.out.println(newsJSON);
         ObjectMapper objectMapper = new ObjectMapper();
         SerpApi serpApiNews = new SerpApi();

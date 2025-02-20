@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { HelperCommunicationPage } from './helper-communication.page';
+import { VolunteerCommunicationPage } from './volunteer-communication.page';
 
 describe('FolderPage', () => {
-  let component: HelperCommunicationPage;
-  let fixture: ComponentFixture<HelperCommunicationPage>;
+  let component: VolunteerCommunicationPage;
+  let fixture: ComponentFixture<VolunteerCommunicationPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HelperCommunicationPage],
+      declarations: [VolunteerCommunicationPage],
       imports: [IonicModule.forRoot(), RouterModule.forRoot([])]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HelperCommunicationPage);
+    fixture = TestBed.createComponent(VolunteerCommunicationPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

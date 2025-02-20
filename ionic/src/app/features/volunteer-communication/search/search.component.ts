@@ -11,8 +11,8 @@ import {UsersService} from "../../../shared/service/users.service";
 export class SearchComponent  implements OnInit {
 
   public searchForm: FormGroup = new FormGroup({});
-  public allHelpers: any = [];
-  public helpersFilteredList: any = [];
+  public allVolunteers: any = [];
+  public volunteersFilteredList: any = [];
   private activatedRoute = inject(ActivatedRoute);
   constructor(private router: Router, private usersService: UsersService, private fb: FormBuilder) { }
 
@@ -20,23 +20,23 @@ export class SearchComponent  implements OnInit {
     this.searchForm = this.fb.group({
       search: [''],
     });
-    this.getHelpers();
+    this.getVolunteers();
   }
 
   ionViewWillEnter(): void{
-    this.getHelpers();
+    this.getVolunteers();
   }
 
-  getHelpers(): void{
+  getVolunteers(): void{
     this.usersService.getAllUsers().subscribe(response => {
-      this.allHelpers = response
-      this.helpersFilteredList = this.allHelpers;
+      this.allVolunteers = response
+      this.volunteersFilteredList = this.allVolunteers;
     })
   }
 
-  filterHelperList(){
+  filterVolunteerList(){
     const text = this.searchForm.controls['search']?.value;
-    this.helpersFilteredList = this.allHelpers.filter((member: any) => {
+    this.volunteersFilteredList = this.allVolunteers.filter((member: any) => {
       const firstName: string = member.firstName && member.firstName.toLowerCase().includes(text.toLowerCase());
       const lastName: string = member.lastName && member.lastName.toLowerCase().includes(text.toLowerCase());
       const city: string = member.userAddress && member.userAddress.city && member.userAddress.city.toLowerCase().includes(text.toLowerCase());

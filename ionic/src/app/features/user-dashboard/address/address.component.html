@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/helper"></ion-back-button>
-    </ion-buttons>
     <ion-title class="app-title">NRNA Student Committee Profile Page</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/volunteer-communication"></ion-back-button>
+    </ion-buttons>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -24,16 +24,6 @@
       <form [formGroup]="addressForm">
 
             <div class="ion-text-center mt-4 font-size-20" size="12"> Address </div>
-
-            <ion-item class="mt-3">
-              <ion-input label="Address Line 1" formControlName="addressLine1" placeholder="Enter Address Line 1" class="ion-text-right"></ion-input>
-            </ion-item>
-            <nrna-error [form]="addressForm" [controlName]="'addressLine1'" [page]="'address'"></nrna-error>
-
-            <ion-item class="mt-3">
-              <ion-input label="Address Line 2" formControlName="addressLine2" placeholder="Enter Address Line 2" class="ion-text-right"></ion-input>
-            </ion-item>
-            <nrna-error [form]="addressForm" [controlName]="'addressLine2'" [page]="'address'"></nrna-error>
 
             <ion-item class="mt-3">
               <ion-input label="City" formControlName="city" placeholder="Enter City" class="ion-text-right"></ion-input>

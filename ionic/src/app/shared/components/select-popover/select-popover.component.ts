@@ -20,12 +20,13 @@ export class SelectPopoverComponent implements OnInit {
      ) { }
 
   ngOnInit() {
+    const originalUniversityList: university[] = this.items;
     this.searchUniversityForm = this.formBuilder.group({
       searchTerm: ['']
     });
 
     this.searchUniversityForm.get('searchTerm')?.valueChanges.subscribe(res => {
-      this.items = this.items.filter((eachUni: university) => eachUni.name.includes(res));
+      this.items = originalUniversityList.filter((eachUni: university) => eachUni.name.toLowerCase().includes(res.toLowerCase()));
     })
   }
 

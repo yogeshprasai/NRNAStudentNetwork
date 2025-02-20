@@ -19,6 +19,8 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private boolean isAdmin;
+
 	@NotBlank
 	@Size(max = 50)
 	@Email
@@ -42,7 +44,9 @@ public class User {
 
 	private boolean showPhoneNumber;
 
-	private boolean isHelper;
+	private boolean isApplyForVolunteer;
+
+	private boolean isVolunteer;
 
 	private boolean isStudent;
 
@@ -64,6 +68,14 @@ public class User {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean admin) {
+		isAdmin = admin;
 	}
 
 	public @NotBlank @Size(max = 50) @Email String getEmail() {
@@ -122,12 +134,20 @@ public class User {
 		this.showPhoneNumber = showPhoneNumber;
 	}
 
-	public boolean isHelper() {
-		return isHelper;
+	public boolean isApplyForVolunteer() {
+		return isApplyForVolunteer;
 	}
 
-	public void setHelper(boolean helper) {
-		isHelper = helper;
+	public void setApplyForVolunteer(boolean applyForVolunteer) {
+		isApplyForVolunteer = applyForVolunteer;
+	}
+
+	public boolean isVolunteer() {
+		return isVolunteer;
+	}
+
+	public void setVolunteer(boolean volunteer) {
+		isVolunteer = volunteer;
 	}
 
 	public boolean isStudent() {

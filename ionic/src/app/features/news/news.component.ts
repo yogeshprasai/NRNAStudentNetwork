@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import { NewsService } from 'src/app/shared/service/news.service';
 import {News} from "../../shared/model/news";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-news',
@@ -10,7 +11,7 @@ import {News} from "../../shared/model/news";
 export class NewsComponent implements OnInit {
 
   @ViewChild('newsSource') newsSource: any = null;
-  constructor(private newsService: NewsService, private renderer: Renderer2) { }
+  constructor(private newsService: NewsService, private renderer: Renderer2, private router: Router) { }
 
   public news: News[] = [];
 
@@ -51,6 +52,10 @@ export class NewsComponent implements OnInit {
     const randomNumber1 = Math.floor(Math.random()* firstEnumArray.length);
     const randomNumber2 = Math.floor(Math.random()* firstEnumArray.length);
     return "linear-gradient("+ firstEnumArray[randomNumber1] +", "+ secondEnumArray[randomNumber2]  + ")";
+  }
+
+  navigateButton(){
+    this.router.navigateByUrl('/about-us');
   }
 
 

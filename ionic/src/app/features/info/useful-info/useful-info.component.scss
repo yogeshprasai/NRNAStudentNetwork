@@ -30,7 +30,7 @@ body {
 }
 
 .nrna-embassy-address{
-  display: flex;
+  //display: flex;
 }
 
 /* Hero Section */
@@ -183,7 +183,13 @@ body {
   font-size: 18px;
 }
 
-.consulate-general{
+.consulate-general, .us-embassy-nepal{
   display: flex;
   white-space: nowrap;;
+}
+
+hr{
+  margin-top: 16px;
+  border-top: 1px solid #e9e2e2;
+  width: 50%;
 }

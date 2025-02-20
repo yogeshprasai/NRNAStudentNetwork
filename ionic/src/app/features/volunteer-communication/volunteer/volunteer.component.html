@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-title class="app-title">NRNA Student Committee</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/volunteer-communication"></ion-back-button>
+    </ion-buttons>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -13,13 +16,13 @@
     <ion-card class="white">
       <ion-card-header>
         <ion-card-subtitle class="white"></ion-card-subtitle>
-        <ion-card-title class="nrna-card-title ion-text-center">All Helpers</ion-card-title>
-        <p class="mt-3">These are all the helpers throughout United States. If you need local helpers, please use search button.</p>
+        <ion-card-title class="nrna-card-title ion-text-center">All Volunteers</ion-card-title>
+        <p class="mt-3">These are all the volunteers throughout United States. If you need local volunteers, please use search button.</p>
       </ion-card-header>
     
       <ion-card-content>
         <div>
-          <ion-item class="mb-15 green" *ngFor="let eachMember of helpers">
+          <ion-item class="mb-15 green" *ngFor="let eachMember of volunteers">
             <ion-label class="white profile-container">
               <div class="profile-picture">
                 
@@ -27,11 +30,11 @@
                     <img src= {{getProfilePic(eachMember.profilePicture)}}>
                   </div>
                   <div *ngIf="!eachMember.profilePicture">
-                      <img src="../../assets/icon/helper.png">
+                      <img src="../../assets/icon/volunteer.png">
                   </div>
                 
               </div>
-              <div class="helper-info">
+              <div class="volunteer-info">
                   <h2 *ngIf="eachMember.firstName && eachMember.lastName" class="font-bold">{{eachMember.firstName}} {{eachMember.lastName}}</h2>
                   <div class="white mt-1" *ngIf="eachMember.userAddress && eachMember.userAddress.city && eachMember.userAddress && eachMember.userAddress.state">{{eachMember.userAddress.city}}, {{eachMember.userAddress.state}}</div>
                   <div *ngIf="eachMember.showPhoneNumber && eachMember.phoneNumber" class="nrna-phone mt-1"><ion-icon name="call-outline"></ion-icon>  <a class=" ml-2 text-decoration-none" href="{{'tel:' + eachMember.phoneNumber}}">{{eachMember.phoneNumber}}</a></div>

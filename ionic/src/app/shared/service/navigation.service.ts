@@ -14,9 +14,11 @@ export class NavigationService {
   public navigationPages$: Subject<NavigationMetaData[]> = new Subject<NavigationMetaData[]>();
 
   readonly appPages: NavigationMetaData[] = [
+    { title: NrnaLinks.Admin, url: NrnaRoutes.Admin, icon: 'color-wand'},
     { title: NrnaLinks.Profile, url: NrnaRoutes.Profile, icon: 'people'},
-    { title: NrnaLinks.Helper, url: NrnaRoutes.Helper, icon: 'people' },
+    { title: NrnaLinks.Volunteer, url: NrnaRoutes.Volunteer, icon: 'people' },
     { title: NrnaLinks.Student, url: NrnaRoutes.Student, icon: 'people-circle' },
+    { title: NrnaLinks.UniversityOutreach, url: NrnaRoutes.UniversityOutreach, icon: 'school' },
     { title: NrnaLinks.Info, url: NrnaRoutes.Info, icon: 'information-circle'},
     { title: NrnaLinks.News, url: NrnaRoutes.News, icon: 'newspaper'},
     { title: NrnaLinks.AboutUs, url: NrnaRoutes.AboutUs, icon: 'information-circle'},
@@ -28,12 +30,18 @@ export class NavigationService {
     this.reArrangeMenuItem();
    }
 
-  public reArrangeMenuItem(): void {
+  public reArrangeMenuItem(isAdmin?: boolean): void {
     const isLoggedIn = this.authService.isLoggedIn;
     if(isLoggedIn){
       this.currentAvailablePages = this.appPages.filter(eachNav => eachNav.title !== NrnaLinks.Login );
+      this.currentAvailablePages = this.currentAvailablePages.filter(eachNav => {
+        if(eachNav.title === NrnaLinks.Admin){
+          return isAdmin;
+        }
+        return true;
+      });
     }else{
-      this.currentAvailablePages = this.appPages.filter(eachNav => eachNav.title !== NrnaLinks.Profile && eachNav.title !== NrnaLinks.Logout);
+      this.currentAvailablePages = this.appPages.filter(eachNav => eachNav.title !== NrnaLinks.Admin && eachNav.title !== NrnaLinks.Profile && eachNav.title !== NrnaLinks.Logout);
     }
     this.navigationPages$.next(this.currentAvailablePages);
   }

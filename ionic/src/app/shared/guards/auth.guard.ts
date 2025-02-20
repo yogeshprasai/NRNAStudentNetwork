@@ -3,12 +3,13 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Observable } from 'rxjs';
 import { AuthService } from '../service/auth.service';
 import { NrnaRoutes } from '../service/constant';
+import {NavigationService} from "../service/navigation.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router){
+  constructor(private authService: AuthService, private navigationService: NavigationService, private router: Router){
 
   }
   canActivate(
@@ -17,7 +18,6 @@ export class AuthGuard implements CanActivate {
       if(this.authService.isLoggedIn){
         return true;
       }else{
-        this.router.navigate([NrnaRoutes.Login]);
         return false;
       }
   }

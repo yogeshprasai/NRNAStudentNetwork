@@ -45,6 +45,9 @@ export const Validation_Password_Reset_Verify = {
 }
 
 export  const Validation_ProfilePage = {
+    'profilePicture': [
+        { type: 'required', message: 'Profile Picture is required.' }
+    ],
     'firstName': [
         { type: 'required', message: 'First Name is required.' },
         { type: 'minlength', message: 'Full Name must be at least 2 characters long.' },

@@ -4,9 +4,11 @@ import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { NavigationMetaData } from './shared/interface/navigation';
 import { NrnaLinks, NrnaRoutes } from './shared/service/constant';
-import {finalize} from "rxjs";
+import {finalize, pipe} from "rxjs";
 import {App, URLOpenListenerEvent} from "@capacitor/app";
 import { NavigationService } from './shared/service/navigation.service';
+import {ProfileAddressService} from "./shared/service/profile-address.service";
+import {concatMap} from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
@@ -22,6 +24,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     public navigationService: NavigationService,
+    public profileAddressService: ProfileAddressService,
     private authService: AuthService,
     private storage: Storage,
     private router: Router,
@@ -31,6 +34,12 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.profileAddressService.getUserProfile().subscribe((response: any) => {
+      if(response && response.isAdmin){
+        this.navigationService.reArrangeMenuItem(true);
+      }
+    });
+
     this.currentAvailablePages = this.navigationService.getNavigationMenu();
     this.navigationService.navigationPages$.subscribe((navigationData: NavigationMetaData[]) => {
       this.currentAvailablePages = navigationData;
@@ -72,7 +81,17 @@ export class AppComponent implements OnInit {
           })
       ).subscribe();
     }
-    this.router.navigate([navigationData.url]);
+    if(!this.authService.isLoggedIn){
+      this.navigationService.reArrangeMenuItem();
+      if(navigationData.title === NrnaLinks.Profile || navigationData.title === NrnaLinks.Admin){
+        this.router.navigate([NrnaRoutes.Login]);
+      }else{
+        this.router.navigate([navigationData.url]);
+      }
+    }else{
+      this.router.navigate([navigationData.url]);
+    }
+
   }
 
   public toggleTheme() {

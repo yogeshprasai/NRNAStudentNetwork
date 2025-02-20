@@ -9,6 +9,8 @@ import { LoadingService } from 'src/app/shared/service/loading.service';
 import { User } from 'src/app/shared/interface/user';
 import { NrnaRoutes } from 'src/app/shared/service/constant';
 import { NavigationService } from 'src/app/shared/service/navigation.service';
+import {concatMap} from "rxjs/operators";
+import {ProfileAddressService} from "../../../shared/service/profile-address.service";
 
 @Component({
   selector: 'nrna-sign-in',
@@ -23,9 +25,10 @@ export class SignInComponent  implements OnInit {
   isLoggedIn: boolean = false;
   showFailMessage: boolean = false;
 
-  constructor(private router: Router, private activiatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private loadingService: LoadingService,
-    private loadingCtrl: LoadingController, private alertController: AlertController, private authService: AuthService,
-    private navigationService: NavigationService) { 
+  constructor(private router: Router, private activiatedRoute: ActivatedRoute, private formBuilder: FormBuilder,
+              private loadingService: LoadingService, private loadingCtrl: LoadingController,
+              private alertController: AlertController, private authService: AuthService,
+              private navigationService: NavigationService, private profileAddressService: ProfileAddressService) {
       this.loginForm = this.formBuilder.group({
         email: ['', Validators.compose([
           Validators.required,
@@ -67,6 +70,7 @@ export class SignInComponent  implements OnInit {
             id: loginResponse.id,
           }
           this.authService.loggedInUser = user;
+
           this.authService.token = loginResponse.token;
           this.router.navigate([NrnaRoutes.Profile]);
           this.navigationService.reArrangeMenuItem();

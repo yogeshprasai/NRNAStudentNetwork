@@ -1,6 +1,7 @@
 package org.nrna.models;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import org.nrna.models.dto.User;
 
@@ -14,7 +15,9 @@ public class UserProfileAndAddress {
     private boolean showPhoneNumber;
     private boolean isStudent;
     private String university;
-    private boolean isHelper;
+    private boolean isVolunteer;
+    private boolean isApplyForVolunteer;
+    private boolean isAdmin;
     private String profilePicture;
     private UserAddress userAddress;
 
@@ -22,7 +25,8 @@ public class UserProfileAndAddress {
 
     }
 
-    public UserProfileAndAddress(String firstName, String middleName, String lastName, String email, String phoneNumber, boolean isHelper, UserAddress userAddress) {
+    public UserProfileAndAddress(String firstName, String middleName, String lastName, String email,
+                                    String phoneNumber, boolean isVolunteer, boolean isApplyForVolunteer, boolean isAdmin, UserAddress userAddress) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -31,7 +35,9 @@ public class UserProfileAndAddress {
         this.showPhoneNumber = showPhoneNumber;
         this.isStudent = isStudent;
         this.university = university;
-        this.isHelper = isHelper;
+        this.isVolunteer = isVolunteer;
+        this.isApplyForVolunteer = isApplyForVolunteer;
+        this.isAdmin = isAdmin;
         this.userAddress = userAddress;
     }
 
@@ -101,14 +107,34 @@ public class UserProfileAndAddress {
         this.university = university;
     }
 
-    @JsonGetter("isHelper")
-    public boolean isHelper() {
-        return isHelper;
+    @JsonGetter("isVolunteer")
+    public boolean isVolunteer() {
+        return isVolunteer;
     }
 
-    @JsonSetter("isHelper")
-    public void setHelper(boolean helper) {
-        isHelper = helper;
+    @JsonSetter("isVolunteer")
+    public void setVolunteer(boolean volunteer) {
+        isVolunteer = volunteer;
+    }
+
+    @JsonGetter("isApplyForVolunteer")
+    public boolean isApplyForVolunteer() {
+        return isApplyForVolunteer;
+    }
+
+    @JsonSetter("isApplyForVolunteer")
+    public void setApplyForVolunteer(boolean applyForVolunteer) {
+        isApplyForVolunteer = applyForVolunteer;
+    }
+
+    @JsonGetter("isAdmin")
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    @JsonSetter("isAdmin")
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public String getProfilePicture() {
@@ -137,7 +163,8 @@ public class UserProfileAndAddress {
         userProfileAndAddress.setShowPhoneNumber(user.isShowPhoneNumber());
         userProfileAndAddress.setStudent(user.isStudent());
         userProfileAndAddress.setUniversity(user.getUniversity());
-        userProfileAndAddress.setHelper(user.isHelper());
+        userProfileAndAddress.setVolunteer(user.isVolunteer());
+        userProfileAndAddress.setApplyForVolunteer(user.isApplyForVolunteer());
         if(user.getProfilePicture() != null) {
             userProfileAndAddress.setProfilePicture(new String(user.getProfilePicture()));
         }

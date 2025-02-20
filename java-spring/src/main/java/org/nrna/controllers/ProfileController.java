@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.nrna.models.UserProfile;
 import org.nrna.models.dto.UserDetailsImpl;
+import org.nrna.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +23,9 @@ public class ProfileController {
 	
 	@Autowired
 	UserService userService;
-	
+    @Autowired
+    private UserRepository userRepository;
+
 	@GetMapping("/profile")
 	public ResponseEntity<?> getProfile() {
 		UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -37,7 +40,12 @@ public class ProfileController {
 			return ResponseEntity.ok(new MessageResponse("Success"));
 		}
 		return ResponseEntity.ok(new MessageResponse("Success but Logout User"));
+	}
 
+	@PostMapping("/updateVolunteer")
+	public ResponseEntity<?> updateVolunteerRequest(HttpServletRequest request, @Valid @RequestBody UserProfile userProfile) {
+		userService.updateProfileForVolunteer(userProfile);
+		return ResponseEntity.ok(new MessageResponse("Success"));
 	}
 	
 	@PostMapping("/address")

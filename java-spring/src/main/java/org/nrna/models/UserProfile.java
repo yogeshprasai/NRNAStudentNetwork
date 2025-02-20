@@ -18,14 +18,17 @@ public class UserProfile implements Serializable {
 	private boolean showPhoneNumber;
 	private boolean isStudent;
 	private String university;
-	private boolean isHelper;
+	private boolean applyForVolunteer;
+	private boolean isVolunteer;
 	private String profilePicture;
+	private boolean isAdmin;
 
 	public UserProfile() {
 
 	}
 
-	public UserProfile(String firstName, String middleName, String lastName, String email, String phoneNumber, boolean isHelper) {
+	public UserProfile(String firstName, String middleName, String lastName, String email, String phoneNumber,
+					   boolean applyForVolunteer, boolean isVolunteer, boolean isAdmin) {
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
@@ -34,7 +37,9 @@ public class UserProfile implements Serializable {
 		this.showPhoneNumber = showPhoneNumber;
 		this.isStudent = isStudent;
 		this.university = university;
-		this.isHelper = isHelper;
+		this.applyForVolunteer = applyForVolunteer;
+		this.isVolunteer = isVolunteer;
+		this.isAdmin = isAdmin;
 	}
 
 	public String getFirstName() {
@@ -103,14 +108,34 @@ public class UserProfile implements Serializable {
 		this.university = university;
 	}
 
-	@JsonGetter("isHelper")
-	public boolean isHelper() {
-		return isHelper;
+	@JsonGetter("isApplyForVolunteer")
+	public boolean isApplyForVolunteer() {
+		return applyForVolunteer;
 	}
 
-	@JsonSetter("isHelper")
-	public void setHelper(boolean helper) {
-		isHelper = helper;
+	@JsonSetter("isApplyForVolunteer")
+	public void setApplyForVolunteer(boolean applyForVolunteer) {
+		this.applyForVolunteer = applyForVolunteer;
+	}
+
+	@JsonGetter("isVolunteer")
+	public boolean isVolunteer() {
+		return isVolunteer;
+	}
+
+	@JsonSetter("isVolunteer")
+	public void setVolunteer(boolean volunteer) {
+		isVolunteer = volunteer;
+	}
+
+	@JsonGetter("isAdmin")
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	@JsonSetter("isAdmin")
+	public void setAdmin(boolean admin) {
+		isAdmin = admin;
 	}
 
 	public String getProfilePicture() {
@@ -131,7 +156,9 @@ public class UserProfile implements Serializable {
 		userProfile.setShowPhoneNumber(user.isShowPhoneNumber());
 		userProfile.setStudent(user.isStudent());
 		userProfile.setUniversity(user.getUniversity());
-		userProfile.setHelper(user.isHelper());
+		userProfile.setApplyForVolunteer(user.isApplyForVolunteer());
+		userProfile.setVolunteer(user.isVolunteer());
+		userProfile.setAdmin(user.isAdmin());
 		if(user.getProfilePicture() != null) {
 			userProfile.setProfilePicture(new String(user.getProfilePicture()));
 		}

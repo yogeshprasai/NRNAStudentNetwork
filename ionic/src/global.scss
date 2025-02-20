@@ -69,6 +69,10 @@ ion-label {
     margin-bottom: 16px !important;
 }
 
+.mb-4{
+    margin-bottom: 24px !important;
+}
+
 .ml-1{
     margin-left: 4px !important;
 }
@@ -136,4 +140,13 @@ ion-label {
 .nrna-flex-center{
     display: flex;
     justify-content: center;
+}
+
+.nrna-flex-right{
+    display: flex;
+    justify-content: right;
+}
+
+.underline-none{
+    text-decoration: none;
 }

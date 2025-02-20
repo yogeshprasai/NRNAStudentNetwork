@@ -1,9 +1,9 @@
 <ion-header>
     <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-back-button defaultHref="/students"></ion-back-button>
-        </ion-buttons>
         <ion-title class="app-title">NRNA Student Committee</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/volunteer-communication"></ion-back-button>
+        </ion-buttons>
         <ion-buttons slot="end">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
@@ -22,6 +22,7 @@
             <ion-card-content>
                 <div>
 
+                    <div><a (click)="navigateButton()">Navigate</a></div>
 
                     <div *ngFor="let eachNews of news; let i = index" class="nrna-news">
                         <div class="all-news">

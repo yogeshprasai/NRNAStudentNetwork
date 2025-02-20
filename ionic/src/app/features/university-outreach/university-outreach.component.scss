@@ -1,0 +1,27 @@
+.custom-select {
+  --background: #f4f4f4;
+  --border-radius: 10px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --placeholder-color: #666;
+  --placeholder-opacity: 0.8;
+  --color: #333;
+}
+
+ion-select::part(icon) {
+  color: #ff6f61; // Custom icon color
+}
+
+ion-select::part(text) {
+  font-weight: bold;
+}
+
+ion-select-option {
+  --color: #333;
+  --background: #f4f4f4;
+}
+
+ion-select-option:hover {
+  --background: #ff6f61;
+  --color: #fff;
+}

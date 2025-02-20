@@ -1,4 +1,4 @@
-export interface Profile{
+export interface UserProfile{
     id: number;
     firstName: string;
     middleName: string;
@@ -6,7 +6,8 @@ export interface Profile{
     email: string;
     phoneNumber: number;
     showPhoneNumber: boolean;
-    isHelper: boolean;
+    isApplyForVolunteer: boolean;
+    isVolunteer: boolean;
     isStudent: boolean;
     university: string;
     profilePicture: any;

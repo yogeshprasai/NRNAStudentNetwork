@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SearchComponent } from './search/search.component';
-import { HelperComponent } from './helper/helper.component';
+import { VolunteerComponent } from './volunteer/volunteer.component';
 import { SharedModule } from '../../shared/shared.module';
-import { HelperCommunicationRoutingModule } from './helper-communication-routing.module';
-import { HelperCommunicationPage } from './helper-communication.page';
+import { VolunteerCommunicationRoutingModule } from './volunteer-communication-routing.module';
+import { VolunteerCommunicationPage } from './volunteer-communication.page';
 
 @NgModule({
   imports: [
@@ -14,9 +14,9 @@ import { HelperCommunicationPage } from './helper-communication.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    HelperCommunicationRoutingModule,
+    VolunteerCommunicationRoutingModule,
     SharedModule
   ],
-  declarations: [HelperCommunicationPage, HelperComponent, SearchComponent]
+  declarations: [VolunteerCommunicationPage, VolunteerComponent, SearchComponent]
 })
-export class HelperCommunicationPageModule {}
+export class VolunteerCommunicationModule {}

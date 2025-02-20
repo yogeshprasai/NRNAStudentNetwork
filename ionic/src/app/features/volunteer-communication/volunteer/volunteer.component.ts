@@ -3,15 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {UsersService} from "../../../shared/service/users.service";
 
 @Component({
-  selector: 'nrna-helper',
-  templateUrl: './helper.component.html',
-  styleUrls: ['./helper.component.scss'],
+  selector: 'nrna-volunteer',
+  templateUrl: './volunteer.component.html',
+  styleUrls: ['./volunteer.component.scss'],
 })
-export class HelperComponent implements OnInit {
+export class VolunteerComponent implements OnInit {
 
   public folder!: string;
   private activatedRoute = inject(ActivatedRoute);
-  public helpers: any = [];
+  public volunteers: any = [];
 
   constructor(private route: ActivatedRoute, private usersService: UsersService) {
 
@@ -21,21 +21,21 @@ export class HelperComponent implements OnInit {
 
   }
 
-  updateHelperInfo(){
+  updateVolunteerInfo(){
     //console.log(this.route);
     this.route?.data.subscribe((response: any) => {
-      if(response.allHelpers){
-        this.helpers = response.allHelpers.filter((helper: any) => helper.isHelper);
+      if(response.allVolunteers){
+        this.volunteers = response.allVolunteers.filter((volunteer: any) => volunteer.isVolunteer);
       }
     });
   }
 
   ionViewWillEnter() {
-    this.updateHelperInfo();
+    this.updateVolunteerInfo();
   }
 
   ionViewDidEnter(){
-    this.updateHelperInfo();
+    this.updateVolunteerInfo();
   }
 
   getProfilePic(base64String: string): string{

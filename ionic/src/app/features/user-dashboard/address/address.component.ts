@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import { AlertController, LoadingController, ToastController} from '@ionic/angular';
+import {AlertController, IonRouterOutlet, LoadingController, NavController, ToastController} from '@ionic/angular';
 import { AuthService } from 'src/app/shared/service/auth.service';
 import { ProfileAddressService } from 'src/app/shared/service/profile-address.service';
 import { StatesList } from 'src/app/shared/validation';
@@ -28,13 +28,15 @@ export class AddressComponent  implements OnInit {
     private route: ActivatedRoute,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private navController: NavController,
+    private routerOutlet: IonRouterOutlet
   ) {}
 
   ngOnInit(){
     this.addressForm = this.fb.group({
-      addressLine1: ['', [Validators.compose([Validators.required, Validators.maxLength(32), Validators.pattern("^[a-zA-Z0-9.,#:&apos;&quot; ]*$")])]],
-      addressLine2: ['', [Validators.compose([Validators.maxLength(32), Validators.pattern("^[a-zA-Z0-9.,#:&apos;&quot; ]*$")])]],
+      addressLine1: ['', [Validators.compose([Validators.maxLength(32), Validators.pattern("^[a-zA-Z0-9.,#:&apos;&quot; ]*$")])]],
+      addressLine2: ['', [Validators.compose([Validators.pattern("^[a-zA-Z0-9.,#:&apos;&quot; ]*$")])]],
       city: ['', [Validators.compose([Validators.required, Validators.maxLength(32), Validators.pattern("^[a-zA-Z ]*$")])]],
       state: ['', [Validators.compose([Validators.required, Validators.pattern("^[a-zA-Z ]*$")])]],
       zipCode: ['', [Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern("^[0-9]*$")])]]
@@ -117,5 +119,6 @@ export class AddressComponent  implements OnInit {
     });
     showErrorPopup.present();
   }
+
 
 }

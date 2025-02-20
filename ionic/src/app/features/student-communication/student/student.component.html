@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-title class="app-title">NRNA Student Committee</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/volunteer-communication"></ion-back-button>
+    </ion-buttons>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -27,7 +30,7 @@
                     <img src= {{getProfilePic(eachMember.profilePicture)}}>
                   </div>
                   <div *ngIf="!eachMember.profilePicture">
-                      <img src="../../assets/icon/helper.png">
+                      <img src="../../assets/icon/volunteer.png">
                   </div>
                 
               </div>

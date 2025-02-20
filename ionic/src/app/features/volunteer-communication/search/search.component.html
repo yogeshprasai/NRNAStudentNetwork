@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/helper"></ion-back-button>
-    </ion-buttons>
     <ion-title class="app-title">NRNA Student Committee</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/volunteer-communication"></ion-back-button>
+    </ion-buttons>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -15,25 +15,25 @@
     <ion-card class="white">
       <ion-card-header>
         <ion-card-subtitle class="white"></ion-card-subtitle>
-        <ion-card-title class="nrna-card-title ion-text-center">Search Helpers</ion-card-title>
-        <p class="mt-3">Search For Helpers By Your Helper's First Name or Last Name or City or State or Zip</p>
+        <ion-card-title class="nrna-card-title ion-text-center">Search Volunteers</ion-card-title>
+        <p class="mt-3">Search For Volunteers By Your Volunteer's First Name or Last Name or City or State or Zip</p>
       </ion-card-header>
     
       <ion-card-content>
         <div>
           <form [formGroup]="searchForm">
             <ion-item class="mt-3">
-              <ion-searchbar formControlName = "search" placeholder="Search" (keyup)="filterHelperList()"></ion-searchbar>
+              <ion-searchbar formControlName = "search" placeholder="Search" (keyup)="filterVolunteerList()"></ion-searchbar>
             </ion-item>
           </form>
 
           <br/>
 
-          <ion-item class="mb-15 green" *ngFor="let eachMember of helpersFilteredList">
+          <ion-item class="mb-15 green" *ngFor="let eachMember of volunteersFilteredList">
             <ion-label class="white profile-container">
               <div class="profile-picture">
                 <ion-thumbnail slot="start">
-                  <img src="../../assets/icon/helper.png">
+                  <img src="../../assets/icon/volunteer.png">
                 </ion-thumbnail>
               </div>
               <div>

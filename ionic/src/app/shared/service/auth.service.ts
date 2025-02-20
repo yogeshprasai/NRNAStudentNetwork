@@ -23,12 +23,17 @@ export class AuthService {
     return user;
   }
 
-  get isLoggedIn(){
+  get isLoggedIn(): boolean{
     if(this.loggedInUser && this.loggedInUser.id){
       return true;
     }else {
       return false;
     }
+  }
+
+  get isAdmin(): boolean{
+    //if()
+    return true;
   }
 
   get loggedInUser(): User {

@@ -3,7 +3,7 @@ export interface UserCredential {
     password: string;
 }
   
-export interface UserProfile {
+export interface EmailFullName {
     email: string;
     fullName: string;
 }

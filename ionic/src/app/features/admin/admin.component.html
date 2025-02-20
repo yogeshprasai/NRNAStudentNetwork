@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title class="app-title">NRNA Student Network Profile Page</ion-title>
+        <ion-buttons slot="end">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-card class="white">
+
+        <ion-card-content>
+
+            <ion-alert
+                    [isOpen]="volunteerUpdateSuccess"
+                    trigger="present-alert"
+                    header="Volunteer Update Successful!"
+                    [buttons]="successButtons"
+            ></ion-alert>
+
+            <ion-card-header>
+                <ion-card-subtitle class="white ion-text-center font-size-24">Admin Tasks</ion-card-subtitle>
+                <ion-card-title class="nrna-card-title ion-text-center"></ion-card-title>
+            </ion-card-header>
+
+
+            <div *ngFor="let eachVolunteer of appliedForVolunteers">
+                <div class="nrna-flex-center" *ngIf="eachVolunteer.profilePicture">
+                    <img [src]="getProfilePic(eachVolunteer.profilePicture)">
+                </div>
+                <div class="nrna-flex-center" *ngIf="!eachVolunteer.profilePicture">
+                    <img src="../../../../../assets/icon/defaultProfilePic.jpeg">
+                </div>
+                <div class="mt-3">FirstName: {{ eachVolunteer.firstName }}</div>
+                <div>MiddleName: {{ eachVolunteer.middleName }}</div>
+                <div>LastName: {{ eachVolunteer.lastName }}</div>
+                <div>Phone Number: {{ eachVolunteer.phoneNumber }}</div>
+                <div>University: {{ eachVolunteer.university }}</div>
+                <div><span>City: {{ eachVolunteer.userAddress ? eachVolunteer.userAddress?.city : "N/A" }}</span>
+                    <span class="ml-3">State: {{ eachVolunteer.userAddress ? eachVolunteer.userAddress?.state : "N/A"}}</span>
+                    <span class="ml-3">Zip Code: {{ eachVolunteer.userAddress ? eachVolunteer.userAddress?.zipCode : "N/A"}}</span></div>
+                <div class="ion-text-center mt-3" (click)="approveVolunteerRequest(eachVolunteer)"><ion-button>Approve Volunteer</ion-button></div>
+                <hr>
+            </div>
+
+        </ion-card-content>
+
+    </ion-card>
+
+</ion-content>

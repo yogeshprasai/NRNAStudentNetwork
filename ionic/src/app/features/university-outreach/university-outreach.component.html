@@ -1,0 +1,43 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title class="app-title">NRNA Student Committee</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/volunteer-communication"></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+    <div id="container">
+        <ion-card class="white">
+            <ion-card-header>
+                <ion-card-subtitle class="white"></ion-card-subtitle>
+                <ion-card-title class="nrna-card-title ion-text-center">University Outreach</ion-card-title>
+                <p class="mt-3">Please select any university from the list for the contact person to reach incase you need help</p>
+            </ion-card-header>
+
+            <ion-card-content>
+
+                <ion-item>
+                    <ion-label>Select an Option</ion-label>
+                    <ion-select interface="popover" placeholder="Choose" class="custom-select">
+                        <ion-select-option value="option1">Alabama</ion-select-option>
+                        <ion-select-option value="option2">Option 2</ion-select-option>
+                        <ion-select-option value="option3">Option 3</ion-select-option>
+                        <ion-select-option value="option4">Option 4</ion-select-option>
+                    </ion-select>
+                </ion-item>
+
+            </ion-card-content>
+
+        </ion-card>
+
+    </div>
+
+
+
+</ion-content>

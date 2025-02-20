@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AlertController, LoadingController, Platform, PopoverController} from '@ionic/angular';
-import {Profile} from 'src/app/shared/model/profile';
+import {AlertController, LoadingController, NavController, Platform, PopoverController} from '@ionic/angular';
 import {AuthService} from 'src/app/shared/service/auth.service';
 import {ProfileAddressService} from 'src/app/shared/service/profile-address.service';
 import {StatesList} from 'src/app/shared/validation';
@@ -11,6 +10,8 @@ import {finalize} from "rxjs";
 import {universities} from "../../../../assets/json/world_universities_and_domains";
 import {SelectPopoverComponent} from "../../../shared/components/select-popover/select-popover.component";
 import {university} from "../../../shared/model/constants";
+import {NavigationService} from "../../../shared/service/navigation.service";
+import {UserProfile} from "../../../shared/model/user-profile";
 
 @Component({
   selector: 'nrna-profile',
@@ -25,12 +26,12 @@ export class ProfileComponent implements OnInit {
 
   public profileForm: FormGroup = new FormGroup({});
   public errorMessage: boolean = false;
+  public profilePictureUpdateSuccess: boolean = false;
   public profileUpdateSuccess: boolean = false;
   public successMessageWithLogout: boolean = false;
-  public profileValues: Profile = <Profile>{};
+  public profileValues: UserProfile = <UserProfile>{};
   public profilePicture: any = null;
   public usaUniversityList: university[] = []
-  public filteredUniversities: university[] = [];
   public dataReturned: any = null;
   public memo: any = null;
 
@@ -44,8 +45,8 @@ export class ProfileComponent implements OnInit {
     private alertController: AlertController,
     private platForm: Platform,
     private popoverController: PopoverController,
-
-
+    private navigationService: NavigationService,
+    private navController: NavController
   ) {}
 
   async ngOnInit(){
@@ -56,15 +57,20 @@ export class ProfileComponent implements OnInit {
       email: ['', [Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)])]],
       phoneNumber: ['', [Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(16), Validators.pattern(/^[0-9\s]*$/)])]],
       showPhoneNumber: [''],
-      isHelper: [''],
+      isApplyForVolunteer: [''],
+      isVolunteer: [''],
       isStudent: [''],
       university: [''],
       profilePicture: ['']
     });
+    this.usaUniversityList = JSON.parse(JSON.stringify(universities)).filter((val: university) => val.country === 'United States');
   }
 
   ionViewWillEnter() {
-    this.route.data.subscribe(profileResponse => {
+    this.route.data.subscribe((profileResponse: any) => {
+      if(profileResponse.profile.isAdmin){
+        this.navigationService.reArrangeMenuItem(true);
+      }
       this.profileValues = profileResponse['profile'];
       if(this.profileValues){
         this.profileForm.get('firstName')?.patchValue(this.profileValues.firstName);
@@ -73,25 +79,37 @@ export class ProfileComponent implements OnInit {
         this.profileForm.get('email')?.patchValue(this.profileValues.email);
         this.profileForm.get('phoneNumber')?.patchValue(this.profileValues.phoneNumber);
         this.profileForm.get('showPhoneNumber')?.patchValue(this.profileValues.showPhoneNumber);
-        this.profileForm.get('isHelper')?.patchValue(this.profileValues.isHelper);
+        this.profileForm.get('isApplyForVolunteer')?.patchValue(this.profileValues.isApplyForVolunteer);
+        this.profileForm.get('isVolunteer')?.patchValue(this.profileValues.isVolunteer);
         this.profileForm.get('isStudent')?.patchValue(this.profileValues.isStudent);
         this.profileForm.get('university')?.patchValue(this.profileValues.university);
         if(this.profileValues.profilePicture){
           this.profilePicture = "data:image/jpeg;base64," + this.profileValues.profilePicture;
+          this.profileForm.get('profilePicture')?.patchValue(this.profilePicture);
         }
       }
     });
-    this.usaUniversityList = JSON.parse(JSON.stringify(universities)).filter((val: university) => val.country === 'United States');
-    // this.profileForm.get('university')?.valueChanges.subscribe(value =>{
-    //   console.log(value);
-    //   const ok = this.usaUniversityList.filter(val => val.name.toLowerCase().includes(value.toLowerCase()));
-    //   console.log(ok);
-    // });
-  }
+    this.usaUniversityList = JSON.parse(JSON.stringify(universities));
 
-  handleUniversitySearch(event: any){
-    const query = event.target.value.toLowerCase();
-    this.filteredUniversities = this.usaUniversityList.filter((d) => d.name.toLowerCase().indexOf(query) > -1);
+    this.profileForm.get('isApplyForVolunteer')?.valueChanges.subscribe((val:boolean) => {
+      if(val){
+        this.profileForm.controls['profilePicture'].markAsTouched();
+        if(!this.profileForm.controls['profilePicture']?.value){
+          this.profileForm.controls['profilePicture'].markAsTouched();
+          this.profileForm.controls['profilePicture']?.setErrors({'required': true});
+          console.log(this.profileForm);
+          return;
+        }
+      }else {
+        this.profileForm.controls['profilePicture']?.setErrors(null);
+      }
+    });
+
+    this.profileForm.get('profilePicture')?.valueChanges.subscribe((val:boolean) => {
+      if(val){
+        this.profileForm.controls['profilePicture'].setErrors({});
+      }
+    })
   }
 
   async uploadFromCameraOrGallery() {
@@ -119,13 +137,15 @@ export class ProfileComponent implements OnInit {
         .pipe(
             finalize(() => {
               loading.dismiss();
+              this.profileForm.controls['profilePicture'].setErrors(null);
+              this.profileForm.controls['profilePicture'].patchValue(base64Image);
             })
         )
         .subscribe({
           next: (res: any) => {
             if (res.message === "Success") {
               this.profilePicture = "data:image/jpeg;base64," + base64Image;
-              this.profileUpdateSuccess = true;
+              this.profilePictureUpdateSuccess = true;
             } else {
               this.showErrorAlert('File upload failed. Please try again.');
             }},
@@ -143,7 +163,8 @@ export class ProfileComponent implements OnInit {
     this.profileAddressService.deleteProfilePicture().pipe(
         finalize(() => {
           loading.dismiss();
-          this.profileUpdateSuccess = true;
+          this.profileForm.get('profilePicture')?.patchValue(null);
+          this.profilePictureUpdateSuccess = true;
         })
     ).subscribe({
         next: res => {
@@ -181,6 +202,21 @@ export class ProfileComponent implements OnInit {
           //Submit Form if there are no errors
           if(!this.profileForm.get('isStudent')?.value){
             this.profileForm.get('university')?.patchValue("");
+          }
+          console.log(this.profileForm.get('isApplyForVolunteer')?.value);
+          console.log(this.profileForm.get('profilePicture')?.value);
+          console.log(this.profileForm);
+          if(this.profileForm.get('isApplyForVolunteer')?.value && !this.profileForm.get('profilePicture')?.value){
+            this.profileForm.controls['profilePicture'].markAsTouched();
+            this.profileForm.get('profilePicture')?.setErrors({'required': true});
+            console.log(this.profileForm.get('profilePicture'));
+          }else{
+            this.profileForm.get('profilePicture')?.setErrors(null);
+          }
+
+          console.log(this.profileForm);
+          if(this.profileForm.status === 'INVALID'){
+            return;
           }
           await loading.present();
           this.profileAddressService.updateProfile(this.profileForm.value)
@@ -227,6 +263,7 @@ export class ProfileComponent implements OnInit {
 
   private resetButtons(){
     this.errorMessage = false;
+    this.profilePictureUpdateSuccess = false;
     this.profileUpdateSuccess = false;
     this.successMessageWithLogout = false;
   }
@@ -273,12 +310,19 @@ export class ProfileComponent implements OnInit {
     // Listen for onDidDismiss
     const { data } = await popover.onDidDismiss();
 
-    if (data !== null) {
+    if (data != null) {
       this.profileForm.patchValue({ university: data?.selectedItem });
       this.dataReturned = data?.selectedItem;
       this.memo = this?.dataReturned + "/" + this.memo;
     }
   }
 
+  backButton() {
+    this.navController.back();
+  }
+
+  goBack(){
+
+  }
 }
 
