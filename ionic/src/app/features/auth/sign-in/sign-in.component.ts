@@ -70,7 +70,6 @@ export class SignInComponent  implements OnInit {
             id: loginResponse.id,
           }
           this.authService.loggedInUser = user;
-
           this.authService.token = loginResponse.token;
           this.router.navigate([NrnaRoutes.Profile]);
           this.navigationService.reArrangeMenuItem();

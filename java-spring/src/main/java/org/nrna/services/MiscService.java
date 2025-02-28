@@ -5,9 +5,12 @@ import org.jetbrains.annotations.NotNull;
 import org.joda.time.LocalDate;
 import org.nrna.models.dto.News;
 import org.nrna.models.dto.University;
+import org.nrna.models.dto.UniversityOutreach;
 import org.nrna.models.news.NewsResult;
 import org.nrna.models.news.SerpApi;
+import org.nrna.models.response.UniversityOutreachResponse;
 import org.nrna.repository.MiscRepository;
+import org.nrna.repository.UniversityOutreachRepository;
 import org.nrna.repository.UniversityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -18,12 +21,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MiscService {
 
     @Autowired
     MiscRepository miscRepository;
+
+    @Autowired
+    UniversityOutreachRepository universityOutreachRepository;
 
     @Autowired
     UniversityRepository universityRepository;
@@ -266,4 +273,21 @@ public class MiscService {
     public ArrayList<University> getTopUniversities(){
         return (ArrayList<University>)universityRepository.findAll();
     }
+
+    public List<UniversityOutreachResponse> getListOfUniversityOutreach(){
+        List<UniversityOutreach> universityOutreaches = universityOutreachRepository.findAll();
+        List<UniversityOutreachResponse> universityOutreachResponses = universityOutreaches
+                .stream()
+                .map(universityOutreach ->
+                        new UniversityOutreachResponse(
+                                universityOutreach.getFullName(),
+                                universityOutreach.getPhoneNumber(),
+                                universityOutreach.getEmail(),
+                                universityOutreach.getAssociatedUniversities(),
+                                universityOutreach.getIsNSU()
+                                )
+                ).collect(Collectors.toList());
+        return universityOutreachResponses;
+    }
+
 }

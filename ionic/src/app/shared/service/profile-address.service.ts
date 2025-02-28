@@ -37,9 +37,9 @@ export class ProfileAddressService {
     );
   }
 
-    updateVolunteer(userProfile: UserProfile){
+    profileApprovalByAdmin(userProfile: UserProfile){
         console.log(this.localStorageService.getUserFromLocalStorage());
-        return this.apiService.post(environment.server_url + "/api/user/updateVolunteer", userProfile).pipe(
+        return this.apiService.post(environment.server_url + "/api/user/profileApprovalByAdmin", userProfile).pipe(
             tap( (userProfile: UserProfile) => {
                 console.log("Update Profile Data: ", userProfile)
             }),

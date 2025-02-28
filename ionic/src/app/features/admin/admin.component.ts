@@ -28,9 +28,8 @@ export class AdminComponent implements OnInit {
     })
   }
 
-  approveVolunteerRequest(volunteer: any): void{
-
-    this.profileAddressService.updateVolunteer(volunteer).pipe(
+  profileApprovalByAdmin(volunteer: any): void{
+    this.profileAddressService.profileApprovalByAdmin(volunteer).pipe(
         concatMap((res: any) => {
             if(res.message === "Success"){
               volunteer.isApplyForVolunteer = true;

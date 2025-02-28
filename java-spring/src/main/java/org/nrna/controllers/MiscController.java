@@ -24,4 +24,9 @@ public class MiscController {
         return new ResponseEntity<>(miscService.getTopUniversities(), HttpStatus.OK);
     }
 
+    @GetMapping(value="/universityOutreachList")
+    public ResponseEntity<?> getUniversityOutreachList(){
+        return new ResponseEntity<>(miscService.getListOfUniversityOutreach(), HttpStatus.OK);
+    }
+
 }

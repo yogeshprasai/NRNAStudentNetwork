@@ -34,11 +34,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.profileAddressService.getUserProfile().subscribe((response: any) => {
-      if(response && response.isAdmin){
-        this.navigationService.reArrangeMenuItem(true);
-      }
-    });
+    this.navigationService.reArrangeMenuItem(true);
+    if(this.authService.isLoggedIn){
+      this.profileAddressService.getUserProfile().subscribe((response: any) => {
+        if(response && response.isAdmin){
+          this.navigationService.reArrangeMenuItem(true);
+        }
+      });
+    }
 
     this.currentAvailablePages = this.navigationService.getNavigationMenu();
     this.navigationService.navigationPages$.subscribe((navigationData: NavigationMetaData[]) => {

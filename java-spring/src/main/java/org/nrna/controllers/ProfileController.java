@@ -42,7 +42,10 @@ public class ProfileController {
 		return ResponseEntity.ok(new MessageResponse("Success but Logout User"));
 	}
 
-	@PostMapping("/updateVolunteer")
+	/*
+		Only admin can approve volunteer
+	 */
+	@PostMapping("/profileApprovalByAdmin")
 	public ResponseEntity<?> updateVolunteerRequest(HttpServletRequest request, @Valid @RequestBody UserProfile userProfile) {
 		userService.updateProfileForVolunteer(userProfile);
 		return ResponseEntity.ok(new MessageResponse("Success"));

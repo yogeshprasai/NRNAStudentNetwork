@@ -22,6 +22,13 @@
       </ion-card-header>
 
         <ion-alert
+                [isOpen]="navigateToStudentNetwork"
+                trigger="present-alert"
+                header="Any unsaved data will be lost"
+                [buttons]="navigateToStudentNetworkButtons"
+        ></ion-alert>
+
+        <ion-alert
                 [isOpen]="successMessageWithLogout"
                 trigger="present-alert"
                 header="Profile Update Successful! Since Email has changed, Please login again."
@@ -33,6 +40,13 @@
                 trigger="present-alert"
                 header="Profile Update Successful!"
                 [buttons]="successButtons"
+        ></ion-alert>
+
+        <ion-alert
+                [isOpen]="wantToBeRemovedAsVolunteer"
+                trigger="present-alert"
+                header="Do you want to remove yourself as a volunteer ?"
+                [buttons]="cancelOkButtonsForVolunteer"
         ></ion-alert>
       
       <form [formGroup]="profileForm">
@@ -81,25 +95,29 @@
       </ion-item>
       <nrna-error [form]="profileForm" [controlName]="'phoneNumber'" [page]="'profile'"></nrna-error>
 
-      <ion-item class="mt-3" *ngIf="profileForm.get('isVolunteer')?.value">
+      <ion-item class="mt-3" *ngIf="profileForm.get('isVolunteer')?.value || originalProfileValues.isVolunteer">
           <ion-checkbox labelPlacement="start" formControlName="isVolunteer">Volunteer</ion-checkbox>
       </ion-item>
 
-      <ion-item class="mt-3" *ngIf="!profileForm.get('isVolunteer')?.value">
+      <ion-item class="mt-3" *ngIf="!originalProfileValues.isVolunteer">
           <ion-checkbox labelPlacement="start" formControlName="isApplyForVolunteer">Apply for Volunteer</ion-checkbox>
       </ion-item>
+      <div class="font-size-12" *ngIf="!originalProfileValues.isVolunteer">* Subject to approval by admin</div>
 
       <ion-item class="mt-3">
-          <ion-checkbox labelPlacement="start" formControlName="isStudent">Enroll as a Student</ion-checkbox>
+          <ion-checkbox labelPlacement="start" formControlName="isStudent">Are you a Student?</ion-checkbox>
       </ion-item>
+      <div class="nrna-flex-center">
+          <ion-button fill="outline" size="small" class="font-size-12 ml-3 nrna-link" (click)="navigateTo()">View in Student Network</ion-button>
+      </div>
 
-      <ion-item *ngIf="profileForm.get('isStudent')?.value">
+      <ion-item *ngIf="profileForm.get('isStudent')?.value" class="mt-2">
           <ion-label>Selected University: </ion-label>
           <ion-label label="Floating label">{{profileForm.get('university')?.value}}</ion-label>
       </ion-item>
       <nrna-error *ngIf="profileForm.get('isStudent')?.value" [form]="profileForm" [controlName]="'university'" [page]="'profile'"></nrna-error>
 
-      <ion-button color="tertiary" expand="full" (click)="openPopOver($event)" *ngIf="profileForm.get('isStudent')?.value">Select University</ion-button>
+      <ion-button size="small" color="tertiary" expand="full" (click)="openPopOver($event)" *ngIf="profileForm.get('isStudent')?.value">Select University</ion-button>
 
       <ion-item class="mt-3">
           <ion-checkbox labelPlacement="start" formControlName="showPhoneNumber">Show Phone Number <br/> (visible to other users)</ion-checkbox>

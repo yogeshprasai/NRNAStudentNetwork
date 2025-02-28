@@ -41,7 +41,7 @@
                 <div><span>City: {{ eachVolunteer.userAddress ? eachVolunteer.userAddress?.city : "N/A" }}</span>
                     <span class="ml-3">State: {{ eachVolunteer.userAddress ? eachVolunteer.userAddress?.state : "N/A"}}</span>
                     <span class="ml-3">Zip Code: {{ eachVolunteer.userAddress ? eachVolunteer.userAddress?.zipCode : "N/A"}}</span></div>
-                <div class="ion-text-center mt-3" (click)="approveVolunteerRequest(eachVolunteer)"><ion-button>Approve Volunteer</ion-button></div>
+                <div class="ion-text-center mt-3" (click)="profileApprovalByAdmin(eachVolunteer)"><ion-button>Approve Volunteer</ion-button></div>
                 <hr>
             </div>
 

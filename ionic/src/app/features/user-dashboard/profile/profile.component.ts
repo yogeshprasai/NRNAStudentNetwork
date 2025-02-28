@@ -12,6 +12,7 @@ import {SelectPopoverComponent} from "../../../shared/components/select-popover/
 import {university} from "../../../shared/model/constants";
 import {NavigationService} from "../../../shared/service/navigation.service";
 import {UserProfile} from "../../../shared/model/user-profile";
+import {NrnaLinks, NrnaRoutes} from "../../../shared/service/constant";
 
 @Component({
   selector: 'nrna-profile',
@@ -28,8 +29,10 @@ export class ProfileComponent implements OnInit {
   public errorMessage: boolean = false;
   public profilePictureUpdateSuccess: boolean = false;
   public profileUpdateSuccess: boolean = false;
+  public navigateToStudentNetwork: boolean = false;
   public successMessageWithLogout: boolean = false;
-  public profileValues: UserProfile = <UserProfile>{};
+  public wantToBeRemovedAsVolunteer: boolean = false;
+  public originalProfileValues: UserProfile = <UserProfile>{};
   public profilePicture: any = null;
   public usaUniversityList: university[] = []
   public dataReturned: any = null;
@@ -63,7 +66,7 @@ export class ProfileComponent implements OnInit {
       university: [''],
       profilePicture: ['']
     });
-    this.usaUniversityList = JSON.parse(JSON.stringify(universities)).filter((val: university) => val.country === 'United States');
+    this.usaUniversityList = JSON.parse(JSON.stringify(universities));
   }
 
   ionViewWillEnter() {
@@ -71,20 +74,20 @@ export class ProfileComponent implements OnInit {
       if(profileResponse.profile.isAdmin){
         this.navigationService.reArrangeMenuItem(true);
       }
-      this.profileValues = profileResponse['profile'];
-      if(this.profileValues){
-        this.profileForm.get('firstName')?.patchValue(this.profileValues.firstName);
-        this.profileForm.get('middleName')?.patchValue(this.profileValues.middleName);
-        this.profileForm.get('lastName')?.patchValue(this.profileValues.lastName);
-        this.profileForm.get('email')?.patchValue(this.profileValues.email);
-        this.profileForm.get('phoneNumber')?.patchValue(this.profileValues.phoneNumber);
-        this.profileForm.get('showPhoneNumber')?.patchValue(this.profileValues.showPhoneNumber);
-        this.profileForm.get('isApplyForVolunteer')?.patchValue(this.profileValues.isApplyForVolunteer);
-        this.profileForm.get('isVolunteer')?.patchValue(this.profileValues.isVolunteer);
-        this.profileForm.get('isStudent')?.patchValue(this.profileValues.isStudent);
-        this.profileForm.get('university')?.patchValue(this.profileValues.university);
-        if(this.profileValues.profilePicture){
-          this.profilePicture = "data:image/jpeg;base64," + this.profileValues.profilePicture;
+      this.originalProfileValues = profileResponse['profile'];
+      if(this.originalProfileValues){
+        this.profileForm.get('firstName')?.patchValue(this.originalProfileValues.firstName);
+        this.profileForm.get('middleName')?.patchValue(this.originalProfileValues.middleName);
+        this.profileForm.get('lastName')?.patchValue(this.originalProfileValues.lastName);
+        this.profileForm.get('email')?.patchValue(this.originalProfileValues.email);
+        this.profileForm.get('phoneNumber')?.patchValue(this.originalProfileValues.phoneNumber);
+        this.profileForm.get('showPhoneNumber')?.patchValue(this.originalProfileValues.showPhoneNumber);
+        this.profileForm.get('isApplyForVolunteer')?.patchValue(this.originalProfileValues.isApplyForVolunteer);
+        this.profileForm.get('isVolunteer')?.patchValue(this.originalProfileValues.isVolunteer);
+        this.profileForm.get('isStudent')?.patchValue(this.originalProfileValues.isStudent);
+        this.profileForm.get('university')?.patchValue(this.originalProfileValues.university);
+        if(this.originalProfileValues.profilePicture){
+          this.profilePicture = "data:image/jpeg;base64," + this.originalProfileValues.profilePicture;
           this.profileForm.get('profilePicture')?.patchValue(this.profilePicture);
         }
       }
@@ -102,6 +105,16 @@ export class ProfileComponent implements OnInit {
         }
       }else {
         this.profileForm.controls['profilePicture']?.setErrors(null);
+      }
+    });
+
+    this.profileForm.get('isVolunteer')?.valueChanges.subscribe((val: boolean) => {
+      if(this.originalProfileValues.isVolunteer){
+        if(!val){
+          this.wantToBeRemovedAsVolunteer = true;
+        }
+      }else{
+        this.wantToBeRemovedAsVolunteer = false;
       }
     });
 
@@ -229,6 +242,11 @@ export class ProfileComponent implements OnInit {
                   next: (response: any) => {
                     const successMessage: string = response.message;
                     if(successMessage){
+                      //To change the visual look of isVolunteer and isApplyForVolunteer
+                      if(this.originalProfileValues.isVolunteer && !this.profileForm.get('isVolunteer')?.value){
+                        this.originalProfileValues.isVolunteer = false;
+                        this.profileForm.get('isVolunteer')?.setValue(false);
+                      }
                       if(successMessage === "Success"){
                         this.profileUpdateSuccess = true;
                       }else if(successMessage === "Success but Logout User"){
@@ -266,6 +284,8 @@ export class ProfileComponent implements OnInit {
     this.profilePictureUpdateSuccess = false;
     this.profileUpdateSuccess = false;
     this.successMessageWithLogout = false;
+    this.wantToBeRemovedAsVolunteer = false;
+    this.navigateToStudentNetwork = false;
   }
 
   public successButtons = [
@@ -292,7 +312,42 @@ export class ProfileComponent implements OnInit {
     },
   ];
 
+  public cancelOkButtonsForVolunteer = [
+    {
+      text: 'Cancel',
+      role: 'confirm',
+      handler: () => {
+          this.profileForm.get('isVolunteer')?.setValue(true);
+          this.profileForm.updateValueAndValidity();
+          this.resetButtons();
+      },
+    },
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: () => {
+        this.resetButtons();
+      },
+    },
+  ];
 
+  public navigateToStudentNetworkButtons = [
+    {
+      text: 'Cancel',
+      role: 'confirm',
+      handler: () => {
+        this.resetButtons();
+      },
+    },
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: () => {
+        this.resetButtons();
+        this.router.navigate([NrnaRoutes.Student]);
+      },
+    },
+  ];
 
   async openPopOver(ev: any) {
     const popover = await this.popoverController.create({
@@ -323,6 +378,10 @@ export class ProfileComponent implements OnInit {
 
   goBack(){
 
+  }
+
+  navigateTo(){
+    this.navigateToStudentNetwork = true;
   }
 }
 

@@ -89,6 +89,22 @@ ion-label {
     margin-left: 24px !important;
 }
 
+.ml-5{
+    margin-left: 32px !important;
+}
+
+.ml-6{
+    margin-left: 48px !important;
+}
+
+.font-size-12{
+    font-size: 12px !important;
+}
+
+.font-size-14{
+    font-size: 14px !important;
+}
+
 .font-size-16{
     font-size: 16px !important;
 }
@@ -142,11 +158,24 @@ ion-label {
     justify-content: center;
 }
 
+.nrna-flex-between{
+    display: flex;
+    justify-content: space-between;
+}
+
 .nrna-flex-right{
     display: flex;
     justify-content: right;
 }
 
+.nrna-link{
+    color: #6262f9;
+}
+
 .underline-none{
     text-decoration: none;
+}
+
+.hr{
+    border-top: 1px solid grey;
 }

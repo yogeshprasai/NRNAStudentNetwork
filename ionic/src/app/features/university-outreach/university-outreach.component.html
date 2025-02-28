@@ -22,16 +22,35 @@
 
             <ion-card-content>
 
-                <ion-item>
-                    <ion-label>Select an Option</ion-label>
-                    <ion-select interface="popover" placeholder="Choose" class="custom-select">
-                        <ion-select-option value="option1">Alabama</ion-select-option>
-                        <ion-select-option value="option2">Option 2</ion-select-option>
-                        <ion-select-option value="option3">Option 3</ion-select-option>
-                        <ion-select-option value="option4">Option 4</ion-select-option>
-                    </ion-select>
-                </ion-item>
+                <div class="nrna-flex-center">
+                    <div *ngIf="universityOutreachForm.get('university')?.value" class="nrna-flex-center">Selected University: </div>
+                    <div>{{universityOutreachForm.get('university')?.value}}</div>
+                </div>
 
+                <ion-button size="small" color="tertiary" expand="full" (click)="openPopOver($event)">Select University</ion-button>
+
+                <ion-list *ngIf="selectedUniversityOutreachers.length">
+                    <ion-item>
+                        <ion-label>
+                            <div *ngFor="let eachMember of selectedUniversityOutreachers; let i = index" class="mt-3 hr pt-3">
+                                <div class="nrna-flex-between mt-2"><div>Name: </div> <div>{{eachMember.fullName}}</div></div>
+                                <div class="nrna-flex-between mt-2"><div>Phone Number: </div> <div>{{eachMember.phoneNumber}}</div></div>
+                                <div class="nrna-flex-between mt-2"><div>Email: </div> <div>{{eachMember.email}}</div></div>
+                                <div class="nrna-flex-between mt-2" [id]="'university' + i"><div>Associated Universities: </div>
+                                <div class="ml-4" [innerHTML]="eachMember.associatedUniversities"></div></div>
+                            </div>
+                        </ion-label>
+                    </ion-item>
+                </ion-list>
+                <ion-list *ngIf="selectedUniversityOutreachers.length === 0 && this.universityOutreachForm.get('university')?.value">
+                    <ion-item>
+                        <ion-label>
+                            Sorry No Contact Exist.<br/>
+                            Please Select Another University.<br/>
+                            Navigate to Volunteer Section to broaden search.
+                        </ion-label>
+                    </ion-item>
+                </ion-list>
             </ion-card-content>
 
         </ion-card>
