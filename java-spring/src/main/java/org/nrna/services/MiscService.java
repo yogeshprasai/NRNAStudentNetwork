@@ -221,8 +221,6 @@ public class MiscService {
 //                "        }\n" +
 //                "    }\n" +
 //                "}";
-        System.out.println(newsJSON);
-        System.out.println(newsJSON);
         ObjectMapper objectMapper = new ObjectMapper();
         SerpApi serpApiNews = new SerpApi();
         try {

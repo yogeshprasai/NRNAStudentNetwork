@@ -112,7 +112,7 @@
       </div>
 
       <ion-item *ngIf="profileForm.get('isStudent')?.value" class="mt-2">
-          <ion-label>Selected University: </ion-label>
+          <ion-label>Selected University:</ion-label>
           <ion-label label="Floating label">{{profileForm.get('university')?.value}}</ion-label>
       </ion-item>
       <nrna-error *ngIf="profileForm.get('isStudent')?.value" [form]="profileForm" [controlName]="'university'" [page]="'profile'"></nrna-error>

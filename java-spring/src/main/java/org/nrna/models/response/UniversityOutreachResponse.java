@@ -1,10 +1,5 @@
 package org.nrna.models.response;
 
-import org.nrna.models.dto.UniversityOutreach;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class UniversityOutreachResponse {
     private String fullName;
@@ -12,6 +7,7 @@ public class UniversityOutreachResponse {
     private String email;
     private String associatedUniversities;
     private String isNSU;
+
 
     public UniversityOutreachResponse(String fullName, String phoneNumber, String email, String associatedUniversities, String isNSU) {
         this.fullName = fullName;
@@ -60,18 +56,4 @@ public class UniversityOutreachResponse {
     public void setIsNSU(String isNSU) {
         this.isNSU = isNSU;
     }
-
-//    public static List<UniversityOutreachResponse> universityOutreachToResponse(List<UniversityOutreach> universityOutreaches){
-//        List<UniversityOutreachResponse> universityOutreachResponses = new ArrayList<>();
-//        universityOutreaches.forEach(universityOutreach -> {
-//            UniversityOutreachResponse universityOutreachResponse = new UniversityOutreachResponse();
-//            universityOutreachResponse.setFullName(universityOutreach.getFullName());
-//            universityOutreachResponse.setPhoneNumber(universityOutreach.getPhoneNumber());
-//            universityOutreachResponse.setEmail(universityOutreach.getEmail());
-//            universityOutreachResponse.setAssociatedUniversities(universityOutreach.getAssociatedUniversities());
-//            universityOutreachResponse.setIsNSU(universityOutreach.getIsNSU());
-//            universityOutreachResponses.add(universityOutreachResponse);
-//        });
-//        return universityOutreachResponses;
-//    }
 }

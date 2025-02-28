@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.navigationService.reArrangeMenuItem(true);
+    this.navigationService.reArrangeMenuItem();
     if(this.authService.isLoggedIn){
       this.profileAddressService.getUserProfile().subscribe((response: any) => {
         if(response && response.isAdmin){

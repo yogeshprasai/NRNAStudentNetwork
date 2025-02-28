@@ -24,7 +24,7 @@
 
                 <div class="nrna-flex-center">
                     <div *ngIf="universityOutreachForm.get('university')?.value" class="nrna-flex-center">Selected University: </div>
-                    <div>{{universityOutreachForm.get('university')?.value}}</div>
+                    <div class="ml-1">{{universityOutreachForm.get('university')?.value}}</div>
                 </div>
 
                 <ion-button size="small" color="tertiary" expand="full" (click)="openPopOver($event)">Select University</ion-button>
@@ -47,7 +47,7 @@
                         <ion-label>
                             Sorry No Contact Exist.<br/>
                             Please Select Another University.<br/>
-                            Navigate to Volunteer Section to broaden search.
+                            Volunteer Section has more search options.
                         </ion-label>
                     </ion-item>
                 </ion-list>

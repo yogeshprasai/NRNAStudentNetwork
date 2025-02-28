@@ -19,6 +19,7 @@ export class NavigationService {
     { title: NrnaLinks.Volunteer, url: NrnaRoutes.Volunteer, icon: 'people' },
     { title: NrnaLinks.Student, url: NrnaRoutes.Student, icon: 'people-circle' },
     { title: NrnaLinks.UniversityOutreach, url: NrnaRoutes.UniversityOutreach, icon: 'school' },
+    { title: NrnaLinks.Events, url: NrnaRoutes.Events, icon: 'flash' },
     { title: NrnaLinks.Info, url: NrnaRoutes.Info, icon: 'information-circle'},
     { title: NrnaLinks.News, url: NrnaRoutes.News, icon: 'newspaper'},
     { title: NrnaLinks.AboutUs, url: NrnaRoutes.AboutUs, icon: 'information-circle'},

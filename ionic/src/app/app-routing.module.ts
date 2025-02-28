@@ -32,6 +32,10 @@ const routes: Routes = [
     loadChildren: () => import('./features/university-outreach/university-outreach.module').then(m => m.UniversityOutreachModule)
   },
   {
+    path: 'events',
+    loadChildren: () => import('./features/events/events.module').then(m => m.EventsModule)
+  },
+  {
     path: 'info',
     loadChildren: () => import('./features/info/info.module').then(m => m.InfoModule)
   },

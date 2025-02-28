@@ -23,6 +23,7 @@ public class ProfileController {
 	
 	@Autowired
 	UserService userService;
+
     @Autowired
     private UserRepository userRepository;
 
