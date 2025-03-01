@@ -1,2 +1,2 @@
 # NRNAMobileApp
-NRNA Student Network
+NRNA Student Committee

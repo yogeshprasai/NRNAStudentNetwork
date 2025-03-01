@@ -4,16 +4,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.nrna.models.UserProfile;
-import org.nrna.models.dto.UserDetailsImpl;
+import org.nrna.dto.UserProfile;
+import org.nrna.dto.UserDetailsImpl;
 import org.nrna.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import org.nrna.models.dto.Address;
-import org.nrna.models.response.MessageResponse;
+import org.nrna.dao.Address;
+import org.nrna.dto.response.MessageResponse;
 import org.nrna.services.UserService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)

@@ -1,13 +1,13 @@
 package org.nrna.services;
 
-import org.nrna.exception.CustomGenericException;
-import org.nrna.exception.ResourceNotFoundException;
-import org.nrna.models.UserAddress;
-import org.nrna.models.UserProfileAndAddress;
-import org.nrna.models.dto.PasswordResetToken;
-import org.nrna.models.dto.UserDetailsImpl;
-import org.nrna.models.UserProfile;
-import org.nrna.models.request.PasswordResetWithToken;
+import org.nrna.services.exception.CustomGenericException;
+import org.nrna.services.exception.ResourceNotFoundException;
+import org.nrna.dto.response.UserAddress;
+import org.nrna.dto.UserProfileAndAddress;
+import org.nrna.dao.PasswordResetToken;
+import org.nrna.dto.UserDetailsImpl;
+import org.nrna.dto.UserProfile;
+import org.nrna.dto.request.PasswordResetWithToken;
 import org.nrna.repository.PasswordResetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,15 +21,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import org.nrna.models.dto.User;
-import org.nrna.models.dto.Address;
-import org.nrna.models.request.LoginRequest;
-import org.nrna.models.request.SignupRequest;
-import org.nrna.models.response.MessageResponse;
-import org.nrna.models.response.UserResponse;
+import org.nrna.dao.User;
+import org.nrna.dao.Address;
+import org.nrna.dto.request.LoginRequest;
+import org.nrna.dto.request.SignupRequest;
+import org.nrna.dto.response.MessageResponse;
+import org.nrna.dto.response.UserResponse;
 import org.nrna.repository.AddressRepository;
 import org.nrna.repository.UserRepository;
-import org.nrna.security.jwt.JwtUtils;
+import org.nrna.security.JwtUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;

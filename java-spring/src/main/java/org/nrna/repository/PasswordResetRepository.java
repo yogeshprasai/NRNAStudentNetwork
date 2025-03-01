@@ -1,7 +1,6 @@
 package org.nrna.repository;
 
-import org.nrna.models.dto.PasswordResetToken;
-import org.nrna.models.dto.User;
+import org.nrna.dao.PasswordResetToken;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

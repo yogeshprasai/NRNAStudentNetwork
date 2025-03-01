@@ -1,18 +1,14 @@
 package org.nrna.services;
 
 import com.sun.mail.smtp.SMTPTransport;
-import org.nrna.exception.CustomGenericException;
-import org.nrna.models.UserProfile;
-import org.nrna.models.dto.User;
-import org.nrna.models.dto.UserDetailsImpl;
-import org.nrna.models.response.MessageResponse;
+import org.nrna.services.exception.CustomGenericException;
+import org.nrna.dto.UserProfile;
+import org.nrna.dao.User;
+import org.nrna.dto.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +19,6 @@ import javax.mail.Session;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
 import java.util.Properties;
 
 @Service
