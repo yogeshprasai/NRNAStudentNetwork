@@ -16,9 +16,14 @@ public class UsersController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/getAll")
-    public ResponseEntity<?> getAllUsers() {
-        return userService.getAllUsers();
+    @GetMapping("/getAllVolunteers")
+    public ResponseEntity<?> getAllVolunteers() {
+        return userService.getAllVolunteers();
+    }
+
+    @GetMapping("/getAllStudents")
+    public ResponseEntity<?> getAllStudents() {
+        return userService.getAllStudents();
     }
 
 }

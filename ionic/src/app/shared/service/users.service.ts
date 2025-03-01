@@ -10,10 +10,17 @@ export class UsersService {
 
   constructor(private apiService: ApiService) { }
 
-    getAllUsers(): Observable<any>{
-        return this.apiService.get(environment.server_url + "/api/users/getAll").pipe(
+    getAllVolunteers(): Observable<any>{
+        return this.apiService.get(environment.server_url + "/api/users/getAllVolunteers").pipe(
             catchError(err => {
               throw new Error("Error while retrieving Profile. " + err);
+            }));
+    }
+
+    getAllStudents(): Observable<any>{
+        return this.apiService.get(environment.server_url + "/api/users/getAllStudents").pipe(
+            catchError(err => {
+                throw new Error("Error while retrieving Profile. " + err);
             }));
     }
 }

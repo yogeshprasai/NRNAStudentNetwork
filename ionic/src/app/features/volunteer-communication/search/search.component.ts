@@ -28,7 +28,7 @@ export class SearchComponent  implements OnInit {
   }
 
   getVolunteers(): void{
-    this.usersService.getAllUsers().subscribe(response => {
+    this.usersService.getAllVolunteers().subscribe(response => {
       this.allVolunteers = response
       this.volunteersFilteredList = this.allVolunteers;
     })

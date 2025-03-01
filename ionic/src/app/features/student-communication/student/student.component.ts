@@ -27,7 +27,7 @@ export class StudentComponent implements OnInit {
   updateStudentsInfo(){
     this.route?.data.subscribe((response: any) => {
       if(response.allStudents){
-        this.students = response.allStudents.filter((student: any) => student.isStudent);
+        this.students = response.allStudents;
       }else{
         this.students = null;
       }

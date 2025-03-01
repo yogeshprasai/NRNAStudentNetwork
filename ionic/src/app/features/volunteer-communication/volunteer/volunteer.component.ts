@@ -25,7 +25,7 @@ export class VolunteerComponent implements OnInit {
     //console.log(this.route);
     this.route?.data.subscribe((response: any) => {
       if(response.allVolunteers){
-        this.volunteers = response.allVolunteers.filter((volunteer: any) => volunteer.isVolunteer);
+        this.volunteers = response.allVolunteers;
       }
     });
   }

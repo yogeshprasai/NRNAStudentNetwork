@@ -11,7 +11,7 @@ export class VolunteerResolverService implements Resolve<any>{
     constructor(private usersService: UsersService) {}
 
     resolve(): Observable<any>{
-        return this.usersService.getAllUsers().pipe(
+        return this.usersService.getAllVolunteers().pipe(
             filter(users => users.filter((user: any) => user.isApplyForVolunteer === true)
         ));
     }

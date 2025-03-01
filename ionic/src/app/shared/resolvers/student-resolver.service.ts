@@ -13,7 +13,7 @@ export class StudentResolverService implements Resolve<any>{
 
   resolve(): Observable<any>{
     if(this.authService.isLoggedIn){
-      return this.usersService.getAllUsers();
+      return this.usersService.getAllStudents();
     }
     return of(null);
   }

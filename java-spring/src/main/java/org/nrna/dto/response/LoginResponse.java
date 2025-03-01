@@ -1,9 +1,8 @@
 package org.nrna.dto.response;
 
-import org.nrna.dao.User;
 import org.nrna.dto.UserDetailsImpl;
 
-public class UserResponse {
+public class LoginResponse {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -11,9 +10,9 @@ public class UserResponse {
 	private Long id;
 	private String email;
 	
-	public UserResponse() {}
+	public LoginResponse() {}
 
-	public UserResponse(Long id, String email) {
+	public LoginResponse(Long id, String email) {
 		this.id = id;
 		this.email = email;
 	}
@@ -42,17 +41,10 @@ public class UserResponse {
 		this.email = email;
 	}
 
-	public static UserResponse userDetailsToUserResponse(UserDetailsImpl userDetails) {
-		UserResponse userResponse = new UserResponse();
+	public static LoginResponse convertUserDetailsToUserResponse(UserDetailsImpl userDetails) {
+		LoginResponse userResponse = new LoginResponse();
 		userResponse.setId(userDetails.getId());
 		userResponse.setEmail(userDetails.getEmail());
-		return userResponse;
-	}
-
-	public static UserResponse userDetailsToUserResponse(User user) {
-		UserResponse userResponse = new UserResponse();
-		userResponse.setId(user.getId());
-		userResponse.setEmail(user.getEmail());
 		return userResponse;
 	}
 	

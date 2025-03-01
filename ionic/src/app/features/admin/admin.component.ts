@@ -34,7 +34,7 @@ export class AdminComponent implements OnInit {
             if(res.message === "Success"){
               volunteer.isApplyForVolunteer = true;
               this.volunteerUpdateSuccess = true;
-              return this.usersService.getAllUsers();
+              return this.usersService.getAllVolunteers();
             }else{
               this.showErrorAlert("Failed to approve volunteer. Please try again.")
               return of(null);

@@ -165,6 +165,9 @@ public class User {
 	}
 
 	public byte[] getProfilePicture() {
+		if(profilePicture == null) {
+			return new byte[0];
+		}
 		return profilePicture;
 	}
 
@@ -173,6 +176,9 @@ public class User {
 	}
 
 	public Address getAddress() {
+		if(address == null) {
+			address = new Address();
+		}
 		return address;
 	}
 

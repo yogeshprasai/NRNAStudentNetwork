@@ -1,5 +1,6 @@
 package org.nrna.services;
 
+import org.nrna.dto.response.LoginResponse;
 import org.nrna.services.exception.CustomGenericException;
 import org.nrna.services.exception.ResourceNotFoundException;
 import org.nrna.dto.response.UserAddress;
@@ -26,13 +27,13 @@ import org.nrna.dao.Address;
 import org.nrna.dto.request.LoginRequest;
 import org.nrna.dto.request.SignupRequest;
 import org.nrna.dto.response.MessageResponse;
-import org.nrna.dto.response.UserResponse;
 import org.nrna.repository.AddressRepository;
 import org.nrna.repository.UserRepository;
 import org.nrna.security.JwtUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -87,7 +88,7 @@ public class UserService {
 		Authentication authentication = null;
 		String jwt = null;
 		UserDetailsImpl userDetails = null;
-		UserResponse userResponse = null;
+		LoginResponse loginResponse = null;
 		try{
 			authentication = authenticationManager.authenticate(
 						new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -100,10 +101,10 @@ public class UserService {
 		jwt = jwtUtils.generateJwtToken(authentication);
 
 		userDetails = (UserDetailsImpl) authentication.getPrincipal();
-		userResponse = UserResponse.userDetailsToUserResponse(userDetails);
-		userResponse.setToken(jwt);
+		loginResponse = LoginResponse.convertUserDetailsToUserResponse(userDetails);
+		loginResponse.setToken(jwt);
 
-		return new ResponseEntity<>(userResponse, HttpStatus.OK);
+		return new ResponseEntity<>(loginResponse, HttpStatus.OK);
 	}
 	
 	public User getUser(Long id){
@@ -279,7 +280,7 @@ public class UserService {
 		if(address == null){
 			return new ResponseEntity<>(new MessageResponse("No Saved Address"), HttpStatus.OK);
 		}
-		userAddress = UserAddress.converterAddressToUserAddress(address);
+		userAddress = UserAddress.convertAddressToUserAddress(address);
 		return new ResponseEntity<>(userAddress, HttpStatus.OK);
 	}
 	
@@ -300,8 +301,6 @@ public class UserService {
 		if(userAddress == null){
 			userAddress = new Address();
 		}
-		userAddress.setAddressLine1(addressToBeUpdated.getAddressLine1());
-		userAddress.setAddressLine2(addressToBeUpdated.getAddressLine2());
 		userAddress.setCity(addressToBeUpdated.getCity());
 		userAddress.setState(addressToBeUpdated.getState());
 		userAddress.setZipCode(addressToBeUpdated.getZipCode());
@@ -341,10 +340,46 @@ public class UserService {
 
 	}
 
-	public ResponseEntity<?> getAllUsers(){
-		List<UserProfileAndAddress> userProfileAndAddress = new ArrayList<>();
+	public ResponseEntity<?> getAllVolunteers(){
 		List<User> allUsers = userRepository.findAllUsers();
-		allUsers.forEach(user -> userProfileAndAddress.add(UserProfileAndAddress.userToUserProfileAndAddress(user)));
+		List<UserProfileAndAddress> userProfileAndAddresses = allUsers.stream()
+				.filter(User::isVolunteer)
+				.map(p -> new UserProfileAndAddress(
+						p.getFirstName(),
+						p.getMiddleName(),
+						p.getLastName(),
+						p.getEmail(),
+						p.getPhoneNumber(),
+						p.isShowPhoneNumber(),
+						p.getUniversity(),
+						new String(p.getProfilePicture()),
+						new UserAddress(p.getAddress().getCity(), p.getAddress().getState(), p.getAddress().getZipCode())
+				))
+				.collect(Collectors.toList());
+
+
+		//allUsers.forEach(user -> userProfileAndAddress.add(UserProfileAndAddress.userToUserProfileAndAddress(user)));
+		System.out.println(userProfileAndAddresses);
+		return new ResponseEntity<>(userProfileAndAddresses,HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> getAllStudents(){
+
+		List<User> allUsers = userRepository.findAllUsers();
+		List<UserProfileAndAddress> userProfileAndAddress = allUsers.stream()
+				.filter(User::isStudent)
+				.map(user -> new UserProfileAndAddress(
+						user.getFirstName(),
+						user.getMiddleName(),
+						user.getLastName(),
+						user.getEmail(),
+						user.getPhoneNumber(),
+						user.isShowPhoneNumber(),
+						user.getUniversity(),
+						new String(user.getProfilePicture()),
+						new UserAddress(user.getAddress().getCity(), user.getAddress().getState(), user.getAddress().getZipCode())
+				))
+				.collect(Collectors.toList());
 		System.out.println(userProfileAndAddress);
 		return new ResponseEntity<>(userProfileAndAddress,HttpStatus.OK);
 	}
