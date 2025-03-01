@@ -25,7 +25,6 @@
           <ion-item class="mb-15 green" *ngFor="let eachMember of students">
             <ion-label class="white profile-container">
               <div class="profile-picture">
-                
                   <div *ngIf="eachMember.profilePicture">
                     <img src= {{getProfilePic(eachMember.profilePicture)}}>
                   </div>

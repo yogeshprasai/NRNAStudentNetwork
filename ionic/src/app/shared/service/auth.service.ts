@@ -95,7 +95,7 @@ export class AuthService {
         catchError(err => {
           console.log("Email Not Exist");
           //Show user failed message if server error or bad credentials
-          return of([]);
+          return of(err);
         })
     );
   }

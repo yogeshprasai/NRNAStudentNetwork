@@ -22,7 +22,8 @@ export class StudentCommunicationPage implements OnInit {
       header: 'Requires Login',
       subHeader: '',
       message: 'Please Login to see students list',
-      buttons: this.loginRequiredButtons
+      buttons: this.loginRequiredButtons,
+      backdropDismiss: false
     });
     if(!this.authService.isLoggedIn){
       await alert.present();
@@ -35,7 +36,6 @@ export class StudentCommunicationPage implements OnInit {
       text: 'OK',
       role: 'confirm',
       handler: () => {
-        // this.resetButtons();
         this.router.navigate([NrnaRoutes.Login]);
       },
     },

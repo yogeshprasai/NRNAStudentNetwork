@@ -5,6 +5,8 @@ import {university} from "../../shared/model/constants";
 import {universities} from "../../../assets/json/world_universities_and_domains";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {MiscService} from "../../shared/service/misc.service";
+import {UsersService} from "../../shared/service/users.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-university-outreach',
@@ -15,20 +17,27 @@ export class UniversityOutreachComponent implements OnInit {
 
   public memo: any = null;
   public dataReturned: any = null;
+  private allVolunteers: any = [];
   public universityOutreachers: any = [];
   public usaUniversityList: university[] = [];
   public selectedUniversityOutreachers: any = [];
   public universityOutreachForm: FormGroup = new FormGroup({});
 
-  constructor(private popoverController: PopoverController, private fb: FormBuilder, private miscService: MiscService) { }
+  constructor(private route: ActivatedRoute, private popoverController: PopoverController, private fb: FormBuilder,
+              private miscService: MiscService, private usersService: UsersService) { }
 
   ngOnInit() {
     this.universityOutreachForm = this.fb.group({
         university: new FormControl("")
     })
+    this.route?.data.subscribe((response: any) => {
+      this.allVolunteers = response.allVolunteers;
+    })
+
     this.usaUniversityList = JSON.parse(JSON.stringify(universities));
     this.miscService.getUniversityOutreachList().subscribe((response: any) => {
       this.universityOutreachers = JSON.parse(JSON.stringify(response));
+      // this.selectedUniversityOutreachers = this.universityOutreachers;
     });
 
     this.universityOutreachForm.valueChanges.subscribe(() => {
@@ -60,5 +69,15 @@ export class UniversityOutreachComponent implements OnInit {
       this.memo = this?.dataReturned + "/" + this.memo;
     }
   }
+
+  getProfilePic(email: string): string {
+    const isVolunteerFound = this.allVolunteers.filter((volunteer: any) => volunteer.email === email);
+    if(isVolunteerFound.length){
+      return "data:image/jpeg;base64," + isVolunteerFound[0].profilePicture
+    }
+    return "";
+  }
+
+
 
 }

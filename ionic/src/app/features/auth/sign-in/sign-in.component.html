@@ -51,9 +51,10 @@
 
           <ion-item>
             <ion-label class="white input-background" position="stacked">Password</ion-label>
-            <ion-input class="white" formControlName="password" type="password" placeholder="Your password"
-              [class.invalid]="!loginForm.controls['password'].valid&& loginForm.controls['password'].touched">
+            <ion-input class="white" formControlName="password" type="{{ showPassword ? 'text' : 'password' }}" placeholder="Your password"
+              [class.invalid]="!loginForm.controls['password'].valid && loginForm.controls['password'].touched">
             </ion-input>
+            <ion-icon name="{{ showPassword ? 'eye-off' : 'eye' }}" slot="end" (click)="togglePasswordVisibility()" class="password-icon"></ion-icon>
           </ion-item>
           <nrna-error [form]="loginForm" [controlName]="'password'" [page]="'login'"></nrna-error>
           <br/> 

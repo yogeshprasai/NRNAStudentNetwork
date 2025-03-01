@@ -29,6 +29,7 @@ export const Validation_Password_Reset_Send = {
             { type: 'pattern', message: 'Please enter a valid Email' },
             { type: 'noEmailExist', message: 'No Email Registered with above id' },
             { type: 'emailSendingFailed', message: 'Failure to send reset email, Please try again.' },
+            { type: 'noMessageReceived', message: 'Server Error. Please try again.'}
         ]
 }
 

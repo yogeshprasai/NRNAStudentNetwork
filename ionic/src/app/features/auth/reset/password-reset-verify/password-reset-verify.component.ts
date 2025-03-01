@@ -4,6 +4,7 @@ import {Validation_Password_Reset_Verify} from "../../../../shared/validation";
 import {AuthService} from "../../../../shared/service/auth.service";
 import {ToastController} from "@ionic/angular";
 import {ActivatedRoute, Router} from "@angular/router";
+import {NrnaRoutes} from "../../../../shared/service/constant";
 
 @Component({
   selector: 'app-password-reset-verify',
@@ -13,6 +14,12 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class PasswordResetVerifyComponent implements OnInit {
 
   public userEmail: string = "";
+  public showPassword: boolean = false;
+  public invalidToken: boolean = false;
+  public passwordResetFailed: boolean = false;
+  public errorSendingNewToken: boolean = false;
+  public successSendingNewToken: boolean = false;
+  public passwordResetSuccessful: boolean = false;
   public Validation_Password_Reset_Verify = Validation_Password_Reset_Verify;
   public passwordResetVerifyForm: FormGroup = new FormGroup({});
 
@@ -40,11 +47,9 @@ export class PasswordResetVerifyComponent implements OnInit {
   resendToken(){
     this.authService.sendEmailAndToken(this.userEmail).subscribe(res => {
       if(res.message === "Email Exist") {
-        this.presentToast("Token Sent in your email. Check your spam too");
-      }else if(res.message === "Error Sending Email") {
-        this.presentToast("Token Sent in your email. Check your spam too");
+        this.successSendingNewToken = true;
       }else {
-        this.presentToast("Something went wrong. Please try again");
+        this.errorSendingNewToken = true;
       }
     })
   }
@@ -57,18 +62,53 @@ export class PasswordResetVerifyComponent implements OnInit {
       const password = this.passwordResetVerifyForm.get('password')?.value;
       this.authService.passwordResetWithToken(this.userEmail, token, password).subscribe(res => {
         if(res.message === "Success"){
-          this.router.navigate(['../../sign-in', {data: {passwordResetSuccessful: "password-reset-success"}}], { relativeTo: this.activiatedRoute });
+          this.passwordResetSuccessful = true;
+        }else if(res.message === "Invalid Token"){
+          this.invalidToken = true;
+        }
+        else{
+          this.passwordResetFailed = true;
         }
       });
     }
   }
 
-  async presentToast(text: any) {
-    const toast = await this.toastCtrl.create({
-      message: text,
-      duration: 3000
-    });
-    toast.present();
+  private resetButtons(){
+    this.invalidToken = false
+    this.passwordResetFailed = false;
+    this.errorSendingNewToken = false;
+    this.successSendingNewToken = false;
+    this.passwordResetSuccessful = false;
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  public passwordResetFailedButtons = [
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: () => {
+        this.resetButtons();
+      },
+    }
+  ];
+
+  public passwordResetSuccessfulButtons = [
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: () => {
+        this.resetButtons();
+        this.navigateToLogin();
+      }
+    }
+  ];
+
+  navigateToLogin(){
+    this.passwordResetVerifyForm.reset();
+    this.router.navigate(['../../sign-in', {data: {passwordResetSuccessful: "password-reset-success"}}], { relativeTo: this.activiatedRoute });
   }
 
 }

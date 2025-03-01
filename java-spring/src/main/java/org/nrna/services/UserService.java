@@ -27,7 +27,6 @@ import org.nrna.dao.Address;
 import org.nrna.dto.request.LoginRequest;
 import org.nrna.dto.request.SignupRequest;
 import org.nrna.dto.response.MessageResponse;
-import org.nrna.repository.AddressRepository;
 import org.nrna.repository.UserRepository;
 import org.nrna.security.JwtUtils;
 
@@ -43,9 +42,6 @@ public class UserService {
 	
 	@Autowired
 	UserRepository userRepository;
-	
-	@Autowired
-	AddressRepository addressRepository;
 
 	@Autowired
 	PasswordResetRepository passwordResetRepository;
@@ -175,10 +171,13 @@ public class UserService {
 				try{
 					newUserToBeUpdated.setPassword(encoder.encode(passwordResetWithToken.getPassword()));
 					userRepository.save(newUserToBeUpdated);
+					expireAllPreviousTokens(newUserToBeUpdated);
 				} catch (Exception e) {
 					throw new CustomGenericException("Cannot Save User");
 				}
 				return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
+			}else{
+				return new ResponseEntity<>(new MessageResponse("Invalid Token"), HttpStatus.BAD_REQUEST);
 			}
 		}
 		return new ResponseEntity<>(new MessageResponse("Password Reset Failed"), HttpStatus.BAD_REQUEST);

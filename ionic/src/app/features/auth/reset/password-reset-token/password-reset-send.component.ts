@@ -20,10 +20,7 @@ export class PasswordResetSendComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private loadingCtrl: LoadingController,
-    private alertController: AlertController,
     private authService: AuthService,
-    private toastCtrl: ToastController
   ) { }
 
   ngOnInit() {
@@ -36,9 +33,6 @@ export class PasswordResetSendComponent implements OnInit {
   }
 
   sendEmailAndToken(passwordResetForm: FormGroup): void {
-    if (!passwordResetForm.valid) {
-      console.log('Form is not valid yet, current value:', passwordResetForm.value);
-    } else {
       const credentials = {
         email: passwordResetForm.value.email,
       };
@@ -48,23 +42,13 @@ export class PasswordResetSendComponent implements OnInit {
           this.router.navigate(['./password-reset-verify', {email: credentials.email}], {relativeTo: this.route});
         }else if(res.message === "Error Sending Email"){
           this.passwordResetForm.get('email')?.setErrors({'emailSendingFailed': true});
-        }else {
+        }else if(!res.message){
+          this.passwordResetForm.get('email')?.setErrors({'noMessageReceived': true});
+        }
+        else {
           this.passwordResetForm.get('email')?.setErrors({'noEmailExist': true});
         }
       })
-    }
-  }
-
-  private passwordReset(credentials: any){
-
-  }
-
-  async presentToast(text: any) {
-    const toast = await this.toastCtrl.create({
-      message: text,
-      duration: 3000
-    });
-    toast.present();
   }
 
 }

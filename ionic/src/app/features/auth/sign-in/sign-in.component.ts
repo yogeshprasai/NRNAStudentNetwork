@@ -9,7 +9,6 @@ import { LoadingService } from 'src/app/shared/service/loading.service';
 import { User } from 'src/app/shared/interface/user';
 import { NrnaRoutes } from 'src/app/shared/service/constant';
 import { NavigationService } from 'src/app/shared/service/navigation.service';
-import {concatMap} from "rxjs/operators";
 import {ProfileAddressService} from "../../../shared/service/profile-address.service";
 
 @Component({
@@ -23,6 +22,7 @@ export class SignInComponent  implements OnInit {
   validationLogin = Validation_Login;
   showSpinner: boolean = false;
   isLoggedIn: boolean = false;
+  showPassword: boolean = false;
   showFailMessage: boolean = false;
 
   constructor(private router: Router, private activiatedRoute: ActivatedRoute, private formBuilder: FormBuilder,
@@ -79,6 +79,10 @@ export class SignInComponent  implements OnInit {
         }
       });
     }
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   public LoginFailButtons = [
