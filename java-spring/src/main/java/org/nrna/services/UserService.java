@@ -259,11 +259,8 @@ public class UserService {
 
 	public void updateProfileForVolunteer(UserProfile userProfile){
 		User user = getUserByEmail(userProfile.getEmail());
-
-		if(userProfile.isApplyForVolunteer()){
-			user.setVolunteer(true);
-			user.setApplyForVolunteer(false);
-		}
+		user.setVolunteer(true);
+		user.setApplyForVolunteer(false);
 
 		try{
 			userRepository.save(user);
@@ -344,6 +341,29 @@ public class UserService {
 		List<User> allUsers = userRepository.findAllUsers();
 		List<UserProfileAndAddress> userProfileAndAddresses = allUsers.stream()
 				.filter(User::isVolunteer)
+				.map(p -> new UserProfileAndAddress(
+						p.getFirstName(),
+						p.getMiddleName(),
+						p.getLastName(),
+						p.getEmail(),
+						p.getPhoneNumber(),
+						p.isShowPhoneNumber(),
+						p.getUniversity(),
+						new String(p.getProfilePicture()),
+						new UserAddress(p.getAddress().getCity(), p.getAddress().getState(), p.getAddress().getZipCode())
+				))
+				.collect(Collectors.toList());
+
+
+		//allUsers.forEach(user -> userProfileAndAddress.add(UserProfileAndAddress.userToUserProfileAndAddress(user)));
+		System.out.println(userProfileAndAddresses);
+		return new ResponseEntity<>(userProfileAndAddresses,HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> getAllApplyForVolunteerRequest(){
+		List<User> allUsers = userRepository.findAllUsers();
+		List<UserProfileAndAddress> userProfileAndAddresses = allUsers.stream()
+				.filter(User::isApplyForVolunteer)
 				.map(p -> new UserProfileAndAddress(
 						p.getFirstName(),
 						p.getMiddleName(),

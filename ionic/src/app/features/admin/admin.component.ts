@@ -23,8 +23,6 @@ export class AdminComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe((resolveResponse: any) => {
       this.appliedForVolunteers  = resolveResponse.appliedForVolunteers;
-      this.appliedForVolunteers = resolveResponse.appliedForVolunteers
-                                  .filter((user: any) => user.isApplyForVolunteer === true);
     })
   }
 

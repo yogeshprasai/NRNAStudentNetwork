@@ -6,12 +6,12 @@ import {UsersService} from "../service/users.service";
 @Injectable({
     providedIn: 'root'
 })
-export class VolunteerResolverService implements Resolve<any>{
+export class ApplyForVolunteerResolverService implements Resolve<any>{
 
     constructor(private usersService: UsersService) {}
 
     resolve(): Observable<any>{
-        return this.usersService.getAllVolunteers().pipe(
+        return this.usersService.getAllApplyForVolunteerRequest().pipe(
             filter(users => users
         ));
     }

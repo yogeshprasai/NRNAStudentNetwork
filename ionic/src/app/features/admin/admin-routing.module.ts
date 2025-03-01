@@ -2,6 +2,7 @@ import {RouterModule, Routes} from "@angular/router";
 import { AdminComponent } from "./admin.component";
 import {NgModule} from "@angular/core";
 import {VolunteerResolverService} from "../../shared/resolvers/volunteer-resolver.service";
+import {ApplyForVolunteerResolverService} from "../../shared/resolvers/apply-for-volunteer-resolver.service";
 
 const routes: Routes = [
     {
@@ -13,7 +14,7 @@ const routes: Routes = [
         path: '',
         component: AdminComponent,
         resolve: {
-            appliedForVolunteers: VolunteerResolverService
+            appliedForVolunteers: ApplyForVolunteerResolverService
         },
     }
 ];

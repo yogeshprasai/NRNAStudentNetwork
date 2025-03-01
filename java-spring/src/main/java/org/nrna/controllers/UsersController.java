@@ -26,4 +26,10 @@ public class UsersController {
         return userService.getAllStudents();
     }
 
+    @GetMapping("/getAllApplyForVolunteerRequest")
+    public ResponseEntity<?> getAllApplyForVolunteerRequest(){
+        //only admin has this functionality available
+        return userService.getAllApplyForVolunteerRequest();
+    }
+
 }
