@@ -12,7 +12,7 @@ import {SelectPopoverComponent} from "../../../shared/components/select-popover/
 import {university} from "../../../shared/model/constants";
 import {NavigationService} from "../../../shared/service/navigation.service";
 import {UserProfile} from "../../../shared/model/user-profile";
-import {NrnaLinks, NrnaRoutes} from "../../../shared/service/constant";
+import {NrnaRoutes} from "../../../shared/service/constant";
 
 @Component({
   selector: 'nrna-profile',
@@ -22,8 +22,6 @@ import {NrnaLinks, NrnaRoutes} from "../../../shared/service/constant";
 export class ProfileComponent implements OnInit {
 
   public statesList = StatesList;
-
-  //public World_UniversityList = World_University;
 
   public profileForm: FormGroup = new FormGroup({});
   public errorMessage: boolean = false;
@@ -100,7 +98,6 @@ export class ProfileComponent implements OnInit {
         if(!this.profileForm.controls['profilePicture']?.value){
           this.profileForm.controls['profilePicture'].markAsTouched();
           this.profileForm.controls['profilePicture']?.setErrors({'required': true});
-          console.log(this.profileForm);
           return;
         }
       }else {
@@ -181,7 +178,6 @@ export class ProfileComponent implements OnInit {
         })
     ).subscribe({
         next: res => {
-          console.log('HTTP response', res);
           this.profilePicture = null;
         },
         error: () => {
@@ -200,12 +196,9 @@ export class ProfileComponent implements OnInit {
     this.profileForm.controls['email'].markAsTouched();
     this.profileForm.controls['phoneNumber'].markAsTouched();
 
-    console.log(this.profileForm.controls['isStudent']?.value);
-    console.log(this.profileForm.get('university')?.value?.length);
     if(this.profileForm.controls['isStudent']?.value && !this.profileForm.get('university')?.value){
       this.profileForm.controls['university'].markAsTouched();
       this.profileForm.controls['university']?.setErrors({'required': true});
-      console.log(this.profileForm);
       return;
     }
 
@@ -216,18 +209,12 @@ export class ProfileComponent implements OnInit {
           if(!this.profileForm.get('isStudent')?.value){
             this.profileForm.get('university')?.patchValue("");
           }
-          console.log(this.profileForm.get('isApplyForVolunteer')?.value);
-          console.log(this.profileForm.get('profilePicture')?.value);
-          console.log(this.profileForm);
           if(this.profileForm.get('isApplyForVolunteer')?.value && !this.profileForm.get('profilePicture')?.value){
             this.profileForm.controls['profilePicture'].markAsTouched();
             this.profileForm.get('profilePicture')?.setErrors({'required': true});
-            console.log(this.profileForm.get('profilePicture'));
           }else{
             this.profileForm.get('profilePicture')?.setErrors(null);
           }
-
-          console.log(this.profileForm);
           if(this.profileForm.status === 'INVALID'){
             return;
           }
@@ -255,7 +242,6 @@ export class ProfileComponent implements OnInit {
                     }
                   },
                   error: ()=> {
-                    //try again popup
                     this.showErrorAlert("Error! Please Try Again.");
                   }
               });

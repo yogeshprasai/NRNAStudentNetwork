@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/shared/service/auth.service';
 })
 export class SignUpComponent  implements OnInit {
 
+  public showPassword: boolean = false;
   public isEmailRegistered: boolean = false;
   public isEmailAlreadyExist: boolean = false;
   public validationSignUp = Validation_SignUp;
@@ -44,17 +45,36 @@ export class SignUpComponent  implements OnInit {
     const email = signUpForm.get('email')?.value;
     const password = signUpForm.get('password')?.value;
     if(signUpForm.get('email')?.invalid || signUpForm.get('password')?.invalid){
-      console.log('Form has erros ', signUpForm);
       return;
     }
     this.authService.signup(email, password).subscribe(data => {
         if(data.message === "Success"){
           this.isEmailRegistered = true;
-          //this.router.navigate(['\sign-in']);
-        }else if(data.message === "EmailExist"){
-          this.isEmailAlreadyExist = true;
         }
+    }, err => {
+      if(err && err.message === "Email already in use"){
+        this.isEmailAlreadyExist = true;
+      }
     })
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  async showPopUpAlert(message: string){
+    const showErrorPopup = await this.alertController.create({
+      header: message,
+      buttons: [
+        {
+          text: 'OK',
+          htmlAttributes: {
+            'aria-label': 'close',
+          },
+        },
+      ],
+    });
+    showErrorPopup.present();
   }
 
   public successButtons = [

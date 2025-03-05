@@ -15,6 +15,8 @@ import {finalize} from "rxjs";
 })
 export class AddressComponent  implements OnInit {
 
+  public addressUpdateFailed: boolean = false;
+  public addressUpdateSuccessful: boolean = false;
   public statesList = StatesList;
 
   public addressForm: FormGroup = new FormGroup({});
@@ -84,11 +86,11 @@ export class AddressComponent  implements OnInit {
               .subscribe({
                 next: response => {
                   if(response.message.includes("Success")){
-                    this.presentToast("Address Update Complete.")
+                    this.showSuccessOrFailureAlert("Address Update Successful.");
                   }
                 },
                 error: () => {
-                  this.showErrorAlert("Error! Please Try Again.");
+                  this.showSuccessOrFailureAlert("Error! Please Try Again.");
                 }
               });
     }else {
@@ -96,16 +98,8 @@ export class AddressComponent  implements OnInit {
     }
   }
 
-  async presentToast(text: any) {
-    const toast = await this.toastCtrl.create({
-      message: text,
-      duration: 3000
-    });
-    toast.present();
-  }
-
     //Error Popup
-  async showErrorAlert(message: string){
+  async showSuccessOrFailureAlert(message: string){
     const showErrorPopup = await this.alertController.create({
       header: message,
       buttons: [

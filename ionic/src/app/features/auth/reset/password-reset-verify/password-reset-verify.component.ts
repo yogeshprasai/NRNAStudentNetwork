@@ -63,10 +63,9 @@ export class PasswordResetVerifyComponent implements OnInit {
       this.authService.passwordResetWithToken(this.userEmail, token, password).subscribe(res => {
         if(res.message === "Success"){
           this.passwordResetSuccessful = true;
-        }else if(res.message === "Invalid Token"){
-          this.invalidToken = true;
         }
-        else{
+      }, error => {
+        if(error && error.message === "Invalid Token"){
           this.passwordResetFailed = true;
         }
       });

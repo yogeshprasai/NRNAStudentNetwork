@@ -10,7 +10,9 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.localStorageService.getTokenFromLocalStorage(); // you probably want to store it in localStorage or something
+
+    // You probably want to store it in localStorage or something
+    const token = this.localStorageService.getTokenFromLocalStorage();
 
     if (!token) {
       return next.handle(req);

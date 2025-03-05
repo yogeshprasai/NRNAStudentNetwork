@@ -10,6 +10,8 @@ import org.nrna.dto.UserDetailsImpl;
 import org.nrna.dto.UserProfile;
 import org.nrna.dto.request.PasswordResetWithToken;
 import org.nrna.repository.PasswordResetRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +32,15 @@ import org.nrna.dto.response.MessageResponse;
 import org.nrna.repository.UserRepository;
 import org.nrna.security.JwtUtils;
 
+import javax.mail.SendFailedException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService {
+
+	private static final Logger logger = LoggerFactory.getLogger(UserService.class) ;
 	
 	@Autowired
 	PasswordEncoder encoder;
@@ -62,13 +67,15 @@ public class UserService {
 	public ResponseEntity<?> signUp(SignupRequest signUpRequest) {
 		try {
 			if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-				return ResponseEntity.badRequest().body(new MessageResponse("EmailExist"));
+				throw new BadCredentialsException("Email already in use");
 			}
 
 			User user = new User();
 			user.setPassword(encoder.encode(signUpRequest.getPassword()));
 			user.setEmail(signUpRequest.getEmail());
 			userRepository.save(user);
+		}catch (BadCredentialsException ex){
+			throw new BadCredentialsException("Email already in use");
 		}catch (Exception e) {
 			throw new CustomGenericException("Cannot Retrieve and Save User");
 		}
@@ -80,7 +87,7 @@ public class UserService {
 		return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
 	}
 	
-	public ResponseEntity<?> signin(LoginRequest loginRequest) throws AuthenticationException {
+	public ResponseEntity<?> signin(LoginRequest loginRequest) throws BadCredentialsException {
 		Authentication authentication = null;
 		String jwt = null;
 		UserDetailsImpl userDetails = null;
@@ -113,7 +120,7 @@ public class UserService {
 				.orElseThrow(()-> new ResourceNotFoundException("User not found"));
 	}
 
-	public ResponseEntity<?> passwordResetRequest(String email){
+	public ResponseEntity<?> passwordResetRequest(String email) throws SendFailedException {
 		Optional<User> user = null;
 		try{
 			user = userRepository.findByEmail(email);
@@ -131,14 +138,11 @@ public class UserService {
 			//createPasswordResetTokenForUser(user.get(), "123456");
 			createPasswordResetTokenForUser(user.get(), shortToken);
 
-			try{
-				emailService.sendEmail(userProfile, "password-reset", shortToken);
-			}catch (Exception e){
-				return new ResponseEntity<>(new MessageResponse("Error Sending Email"), HttpStatus.BAD_REQUEST);
-			}
+			emailService.sendEmail(userProfile, "password-reset", shortToken);
+
 			return new ResponseEntity<>(new MessageResponse("Email Exist"), HttpStatus.OK);
 		}
-		return new ResponseEntity<>(new MessageResponse("No Email Exist"), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(new MessageResponse("No Email Exist"), HttpStatus.OK);
 	}
 
 	private void expireAllPreviousTokens(User user){
@@ -202,6 +206,7 @@ public class UserService {
 	public ResponseEntity<?> getProfile(UserDetailsImpl sessionUser) {
 		User user = getUser(sessionUser.getId());
 		UserProfile userProfile =  UserProfile.userDetailsToUserProfile(user);
+		logger.info(userProfile.toString());
 		return new ResponseEntity<>(userProfile, HttpStatus.OK);
 	}
 	
@@ -250,6 +255,7 @@ public class UserService {
 		}
 
 		try{
+			logger.info("User to be updated " + user);
 			userRepository.save(user);
 		} catch (Exception e) {
 			throw new CustomGenericException("Error Saving User " + e);
@@ -262,6 +268,7 @@ public class UserService {
 		user.setApplyForVolunteer(false);
 
 		try{
+			logger.info("User set to be volunteer: " + user);
 			userRepository.save(user);
 		} catch (Exception e) {
 			throw new CustomGenericException("Error Saving User " + e);
@@ -304,6 +311,7 @@ public class UserService {
 		user.setAddress(userAddress);
 
 		try{
+			logger.info("User Saving address: " + user);
 			userRepository.save(user);
 		}catch (Exception e){
 			System.out.println("ErrorMessage: " + e.getMessage());
@@ -337,70 +345,85 @@ public class UserService {
 	}
 
 	public ResponseEntity<?> getAllVolunteers(){
-		List<User> allUsers = userRepository.findAllUsers();
-		List<UserProfileAndAddress> userProfileAndAddresses = allUsers.stream()
-				.filter(User::isVolunteer)
-				.map(p -> new UserProfileAndAddress(
-						p.getFirstName(),
-						p.getMiddleName(),
-						p.getLastName(),
-						p.getEmail(),
-						p.getPhoneNumber(),
-						p.isShowPhoneNumber(),
-						p.getUniversity(),
-						new String(p.getProfilePicture()),
-						new UserAddress(p.getAddress().getCity(), p.getAddress().getState(), p.getAddress().getZipCode())
-				))
-				.collect(Collectors.toList());
+		try{
+			List<User> allUsers = userRepository.findAllUsers();
+			List<UserProfileAndAddress> userProfileAndAddresses = allUsers.stream()
+					.filter(User::isVolunteer)
+					.map(p -> {
+							logger.info("Volunteer Details: " + p);
+							return new UserProfileAndAddress(
+							p.getFirstName(),
+							p.getMiddleName(),
+							p.getLastName(),
+							p.getEmail(),
+							p.getPhoneNumber(),
+							p.isShowPhoneNumber(),
+							p.getUniversity(),
+							new String(p.getProfilePicture()),
+							new UserAddress(p.getAddress().getCity(), p.getAddress().getState(), p.getAddress().getZipCode()
+							));
+					}
 
-
-		//allUsers.forEach(user -> userProfileAndAddress.add(UserProfileAndAddress.userToUserProfileAndAddress(user)));
-		System.out.println(userProfileAndAddresses);
-		return new ResponseEntity<>(userProfileAndAddresses,HttpStatus.OK);
+					)
+					.collect(Collectors.toList());
+			if(userProfileAndAddresses.isEmpty()){
+				return new ResponseEntity<>(new MessageResponse("No Volunteers Found"),HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<>(userProfileAndAddresses,HttpStatus.OK);
+		}catch(Exception ex){
+			throw new CustomGenericException(ex.getMessage());
+		}
 	}
 
 	public ResponseEntity<?> getAllApplyForVolunteerRequest(){
-		List<User> allUsers = userRepository.findAllUsers();
-		List<UserProfileAndAddress> userProfileAndAddresses = allUsers.stream()
-				.filter(User::isApplyForVolunteer)
-				.map(p -> new UserProfileAndAddress(
-						p.getFirstName(),
-						p.getMiddleName(),
-						p.getLastName(),
-						p.getEmail(),
-						p.getPhoneNumber(),
-						p.isShowPhoneNumber(),
-						p.getUniversity(),
-						new String(p.getProfilePicture()),
-						new UserAddress(p.getAddress().getCity(), p.getAddress().getState(), p.getAddress().getZipCode())
-				))
-				.collect(Collectors.toList());
+		try {
+			List<User> allUsers = userRepository.findAllUsers();
+			List<UserProfileAndAddress> userProfileAndAddresses = allUsers.stream()
+					.filter(User::isApplyForVolunteer)
+					.map(p -> new UserProfileAndAddress(
+							p.getFirstName(),
+							p.getMiddleName(),
+							p.getLastName(),
+							p.getEmail(),
+							p.getPhoneNumber(),
+							p.isShowPhoneNumber(),
+							p.getUniversity(),
+							new String(p.getProfilePicture()),
+							new UserAddress(p.getAddress().getCity(), p.getAddress().getState(), p.getAddress().getZipCode())
+					))
+					.collect(Collectors.toList());
 
-
-		//allUsers.forEach(user -> userProfileAndAddress.add(UserProfileAndAddress.userToUserProfileAndAddress(user)));
-		System.out.println(userProfileAndAddresses);
-		return new ResponseEntity<>(userProfileAndAddresses,HttpStatus.OK);
+			return new ResponseEntity<>(userProfileAndAddresses, HttpStatus.OK);
+		} catch(Exception e){
+			throw new CustomGenericException("Error approving volunteer request");
+		}
 	}
 
 	public ResponseEntity<?> getAllStudents(){
 
-		List<User> allUsers = userRepository.findAllUsers();
-		List<UserProfileAndAddress> userProfileAndAddress = allUsers.stream()
-				.filter(User::isStudent)
-				.map(user -> new UserProfileAndAddress(
-						user.getFirstName(),
-						user.getMiddleName(),
-						user.getLastName(),
-						user.getEmail(),
-						user.getPhoneNumber(),
-						user.isShowPhoneNumber(),
-						user.getUniversity(),
-						new String(user.getProfilePicture()),
-						new UserAddress(user.getAddress().getCity(), user.getAddress().getState(), user.getAddress().getZipCode())
-				))
-				.collect(Collectors.toList());
-		System.out.println(userProfileAndAddress);
-		return new ResponseEntity<>(userProfileAndAddress,HttpStatus.OK);
+		try{
+			List<User> allUsers = userRepository.findAllUsers();
+			List<UserProfileAndAddress> userProfileAndAddress = allUsers.stream()
+					.filter(User::isStudent)
+					.map(user -> {
+						logger.info("Student Details: " + user);
+						return new UserProfileAndAddress(
+							user.getFirstName(),
+							user.getMiddleName(),
+							user.getLastName(),
+							user.getEmail(),
+							user.getPhoneNumber(),
+							user.isShowPhoneNumber(),
+							user.getUniversity(),
+							new String(user.getProfilePicture()),
+							new UserAddress(user.getAddress().getCity(), user.getAddress().getState(), user.getAddress().getZipCode())
+					);
+					})
+					.collect(Collectors.toList());
+			return new ResponseEntity<>(userProfileAndAddress,HttpStatus.OK);
+		} catch(Exception e){
+			throw new CustomGenericException("Error gettting all students");
+		}
 	}
 
 	public ResponseEntity<?> deleteProfilePicture(UserDetailsImpl userSession) {
@@ -409,8 +432,8 @@ public class UserService {
 		try{
 			userRepository.save(user);
 		}catch (Exception e){
-			System.out.println("ErrorMessage: " + e.getMessage());
-			throw new BadCredentialsException("Bad Data");
+			logger.error("Error while deleting picture: " + e.getMessage());
+			throw new CustomGenericException(e.getMessage());
 		}
 		return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
 	}

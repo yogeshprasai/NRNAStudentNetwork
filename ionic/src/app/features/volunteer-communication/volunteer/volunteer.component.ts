@@ -10,6 +10,7 @@ import {UsersService} from "../../../shared/service/users.service";
 export class VolunteerComponent implements OnInit {
 
   public folder!: string;
+  public errorWhileRetrievingVolunteers: boolean = false;
   private activatedRoute = inject(ActivatedRoute);
   public volunteers: any = [];
 
@@ -22,10 +23,11 @@ export class VolunteerComponent implements OnInit {
   }
 
   updateVolunteerInfo(){
-    //console.log(this.route);
     this.route?.data.subscribe((response: any) => {
       if(response.allVolunteers){
         this.volunteers = response.allVolunteers;
+      }else{
+        this.errorWhileRetrievingVolunteers = true;
       }
     });
   }
@@ -41,5 +43,19 @@ export class VolunteerComponent implements OnInit {
   getProfilePic(base64String: string): string{
     return "data:image/jpeg;base64," + base64String;
   }
+
+  resetButtons(){
+    this.errorWhileRetrievingVolunteers = false;
+  }
+
+  public errorButtons = [
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: () => {
+        this.resetButtons();
+      },
+    },
+  ];
 
 }

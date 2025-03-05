@@ -164,4 +164,21 @@ public class UserProfile implements Serializable {
 		}
 		return userProfile;
 	}
+
+	@Override
+	public String toString() {
+		return "UserProfile { " +
+				"firstName='" + firstName + '\'' +
+				", middleName='" + middleName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", email='" + email + '\'' +
+				", phoneNumber='" + phoneNumber + '\'' +
+				", showPhoneNumber=" + showPhoneNumber +
+				", isStudent=" + isStudent +
+				", university='" + university + '\'' +
+				", applyForVolunteer=" + applyForVolunteer +
+				", isVolunteer=" + isVolunteer +
+				", isAdmin=" + isAdmin +
+				'}';
+	}
 }

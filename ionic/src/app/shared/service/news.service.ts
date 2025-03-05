@@ -11,10 +11,7 @@ export class NewsService {
   constructor(private apiService: ApiService) { }
 
   public getLatestNews(){
-    return this.apiService.get(environment.server_url + "/api/news/latestNews").pipe(
-        catchError(err => {
-          throw new Error("Error while retrieving News. " + err);
-        }));
+    return this.apiService.get(environment.server_url + "/api/news/latestNews");
   }
 
   public getTopUniversities(){

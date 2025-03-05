@@ -21,6 +21,7 @@ export class PasswordResetSendComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private loadingCtrl: LoadingController,
   ) { }
 
   ngOnInit() {
@@ -32,21 +33,33 @@ export class PasswordResetSendComponent implements OnInit {
     });
   }
 
-  sendEmailAndToken(passwordResetForm: FormGroup): void {
+  ionViewWillEnter() {
+    this.passwordResetForm.reset();
+  }
+
+  async sendEmailAndToken(passwordResetForm: FormGroup) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Sending Request...',
+    });
+    this.passwordResetForm.get('email')?.setErrors(null);
       const credentials = {
         email: passwordResetForm.value.email,
       };
-      this.authService.sendEmailAndToken(credentials.email).subscribe(res => {
-        console.log(res);
-        if(res.message === "Email Exist") {
+      loading.present();
+      this.authService.sendEmailAndToken(credentials.email).subscribe(data => {
+        loading.dismiss();
+        if(data.message === "Email Exist") {
           this.router.navigate(['./password-reset-verify', {email: credentials.email}], {relativeTo: this.route});
-        }else if(res.message === "Error Sending Email"){
-          this.passwordResetForm.get('email')?.setErrors({'emailSendingFailed': true});
-        }else if(!res.message){
-          this.passwordResetForm.get('email')?.setErrors({'noMessageReceived': true});
-        }
-        else {
+        }  else if(data.message && data.message === "No Email Exist") {
           this.passwordResetForm.get('email')?.setErrors({'noEmailExist': true});
+        }
+      }, error => {
+        console.log(error);
+        loading.dismiss();
+        if(error.message.includes("Email address is not verified")) {
+          this.passwordResetForm.get('email')?.setErrors({'emailNotVerified': true});
+        }else {
+          this.passwordResetForm.get('email')?.setErrors({'emailSendingFailed': true});
         }
       })
   }

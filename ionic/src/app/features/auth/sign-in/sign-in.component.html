@@ -37,6 +37,7 @@
           header="Login Failed!"
           message="Please try again"
           [buttons]="LoginFailButtons"
+          (didDismiss)="resetButtons()"
         ></ion-alert>
 
         <form [formGroup]="loginForm">

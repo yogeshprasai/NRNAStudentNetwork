@@ -73,16 +73,21 @@ export class SignInComponent  implements OnInit {
           this.authService.token = loginResponse.token;
           this.router.navigate([NrnaRoutes.Profile]);
           this.navigationService.reArrangeMenuItem();
-        }else{
-          this.isLoggedIn = false;
-          this.showFailMessage = true;
         }
+      }, error => {
+        this.showSpinner = false;
+        this.isLoggedIn = false;
+        this.showFailMessage = true;
       });
     }
   }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+  }
+
+  resetButtons() {
+    this.showFailMessage = false;
   }
 
   public LoginFailButtons = [
@@ -92,6 +97,7 @@ export class SignInComponent  implements OnInit {
       handler: () => {
         this.isLoggedIn = false;
         this.showFailMessage = false;
+        this.resetButtons();
       },
     },
   ];

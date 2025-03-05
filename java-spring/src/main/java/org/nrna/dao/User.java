@@ -185,4 +185,23 @@ public class User {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+
+	@Override
+	public String toString() {
+		return "User { " +
+				"id=" + id +
+				", isAdmin=" + isAdmin +
+				", email='" + email + '\'' +
+				", firstName='" + firstName + '\'' +
+				", middleName='" + middleName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", phoneNumber='" + phoneNumber + '\'' +
+				", showPhoneNumber=" + showPhoneNumber +
+				", isApplyForVolunteer=" + isApplyForVolunteer +
+				", isVolunteer=" + isVolunteer +
+				", isStudent=" + isStudent +
+				", university='" + university + '\'' +
+				", address=" + address +
+				'}';
+	}
 }

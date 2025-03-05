@@ -7,6 +7,8 @@ import javax.validation.Valid;
 import org.nrna.dto.UserProfile;
 import org.nrna.dto.UserDetailsImpl;
 import org.nrna.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +22,8 @@ import org.nrna.services.UserService;
 @RestController
 @RequestMapping("/api/user")
 public class ProfileController {
+
+	private static final Logger logger = LoggerFactory.getLogger(ProfileController.class);
 	
 	@Autowired
 	UserService userService;

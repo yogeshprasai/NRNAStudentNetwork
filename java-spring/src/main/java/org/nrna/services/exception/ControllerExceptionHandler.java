@@ -9,9 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-@ControllerAdvice
+import javax.mail.SendFailedException;
+
+@RestControllerAdvice
 public class ControllerExceptionHandler {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
@@ -38,6 +41,18 @@ public class ControllerExceptionHandler {
 
     logger.debug("Bad Credentials: ", ex);
     return new ResponseEntity<ErrorMessage>(message, HttpStatus.NOT_FOUND);
+  }
+
+  @ExceptionHandler(SendFailedException.class)
+  public ResponseEntity<?> SendFailedException(SendFailedException ex, WebRequest request) {
+    ErrorMessage message = new ErrorMessage(
+            HttpStatus.BAD_REQUEST.value(),
+            new Date(),
+            ex.getMessage(),
+            request.getDescription(false)
+    );
+    logger.info("SendFailedException Error: ", ex);
+    return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(CustomGenericException.class)

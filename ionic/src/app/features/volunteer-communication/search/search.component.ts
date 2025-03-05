@@ -13,6 +13,7 @@ export class SearchComponent  implements OnInit {
   public searchForm: FormGroup = new FormGroup({});
   public allVolunteers: any = [];
   public volunteersFilteredList: any = [];
+  public errorWhileRetrievingVolunteers: boolean = false;
   private activatedRoute = inject(ActivatedRoute);
   constructor(private router: Router, private usersService: UsersService, private fb: FormBuilder) { }
 
@@ -29,8 +30,12 @@ export class SearchComponent  implements OnInit {
 
   getVolunteers(): void{
     this.usersService.getAllVolunteers().subscribe(response => {
-      this.allVolunteers = response
-      this.volunteersFilteredList = this.allVolunteers;
+      if(response.allVolunteers){
+        this.allVolunteers = response
+        this.volunteersFilteredList = this.allVolunteers;
+      }else{
+        this.errorWhileRetrievingVolunteers = true;
+      }
     })
   }
 
@@ -49,5 +54,19 @@ export class SearchComponent  implements OnInit {
   navigateTo(page: string){
     this.router.navigate(['..', page], {relativeTo: this.activatedRoute});
   }
+
+  resetButtons(){
+    this.errorWhileRetrievingVolunteers = false;
+  }
+
+  public errorButtons = [
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: () => {
+        this.resetButtons();
+      },
+    },
+  ];
 
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import {filter, map, Observable, tap} from 'rxjs';
+import {catchError, filter, map, Observable, of, tap, throwError} from 'rxjs';
 import {UsersService} from "../service/users.service";
 
 @Injectable({
@@ -12,7 +12,11 @@ export class VolunteerResolverService implements Resolve<any>{
 
     resolve(): Observable<any>{
         return this.usersService.getAllVolunteers().pipe(
-            filter(users => users
-        ));
+            filter(users => users),
+            catchError(err => {
+                //not regular practice but to show error on page
+                return of(null);
+            })
+        );
     }
 }

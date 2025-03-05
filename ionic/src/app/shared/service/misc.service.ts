@@ -12,9 +12,6 @@ export class MiscService {
     constructor(private apiService: ApiService) { }
 
     public getUniversityOutreachList(){
-        return this.apiService.get(environment.server_url + "/api/universityOutreachList").pipe(
-            catchError(err => {
-                throw new Error("Error while retrieving News. " + err);
-            }));
+        return this.apiService.get(environment.server_url + "/api/universityOutreachList");
     }
 }

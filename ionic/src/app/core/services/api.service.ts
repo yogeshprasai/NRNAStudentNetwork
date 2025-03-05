@@ -11,8 +11,9 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  private formatErrors(error: any) {
-    return throwError(error.error);
+  private formatErrors(err: any) {
+    console.error('Error occurred ', err);
+    return throwError(err.error);
   }
 
   get(path: string, params: HttpParams = new HttpParams()): Observable<any> {

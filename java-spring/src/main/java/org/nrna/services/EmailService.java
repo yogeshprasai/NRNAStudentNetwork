@@ -3,13 +3,10 @@ package org.nrna.services;
 import com.sun.mail.smtp.SMTPTransport;
 import org.nrna.services.exception.CustomGenericException;
 import org.nrna.dto.UserProfile;
-import org.nrna.dao.User;
-import org.nrna.dto.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Message;
@@ -76,16 +73,7 @@ public class EmailService {
         return null;
     }
 
-    private UserProfile getUserProfile(){
-        UserDetailsImpl userDetailsImpl = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(userDetailsImpl != null){
-            User user = userService.getUser(userDetailsImpl.getId());
-            return UserProfile.userDetailsToUserProfile(user);
-        }
-        return null;
-    }
-
-    public void sendEmail(UserProfile userProfile, String emailType, String token) {
+    public void sendEmail(UserProfile userProfile, String emailType, String token) throws SendFailedException {
 
         Properties props = new Properties();
         props.put("mail.transport.protocol", mail_protocol);
@@ -269,17 +257,17 @@ public class EmailService {
                 System.out.println("\nMessageId: " + messageId);
                 System.out.println("Email Sent to: " + userProfile.getEmail());
             }
-        } catch (SendFailedException e) {
-            logger.error("Error Sending Email, SendFailedException: " + e.getMessage());
-            throw new RuntimeException(e);
-        } catch (AddressException e) {
-            logger.error("Error Sending Email, AddressException: " + e.getMessage());
-            throw new RuntimeException(e);
-        } catch (MessagingException e) {
-            logger.error("Error Sending Email, MessagingException: " + e.getMessage());
-            throw new RuntimeException(e);
-        } catch (Exception e) {
-            throw new CustomGenericException("Error Sending Email, Generic:  " + e.getMessage());
+        } catch (SendFailedException ex) {
+            logger.error("Error Sending Email " + ex.getMessage());
+            throw new SendFailedException(ex.getMessage());
+        } catch (AddressException ex) {
+            logger.error("Error Sending Email, AddressException: " + ex.getMessage());
+            throw new RuntimeException(ex);
+        } catch (MessagingException ex) {
+            logger.error("Error Sending Email, MessagingException: " + ex.getMessage());
+            throw new RuntimeException(ex);
+        } catch (Exception ex) {
+            throw new CustomGenericException("Error Sending Email, Generic:  " + ex.getMessage());
         }
     }
 

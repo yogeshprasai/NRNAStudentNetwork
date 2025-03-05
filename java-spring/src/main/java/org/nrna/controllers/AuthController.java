@@ -1,10 +1,12 @@
 package org.nrna.controllers;
 
+import javax.mail.SendFailedException;
 import javax.validation.Valid;
 
 import org.nrna.dto.UserDetailsImpl;
 import org.nrna.dto.request.EmailExist;
 import org.nrna.dto.request.PasswordResetWithToken;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,8 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+	//private static final Logger logger
 	
 	@Autowired
 	UserService userService;
@@ -45,8 +49,7 @@ public class AuthController {
 
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		ResponseEntity<?> hello = userService.signin(loginRequest);
-			return hello;
+		return userService.signin(loginRequest);
 	}
 
 	@PostMapping("/logout")
@@ -55,7 +58,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/passwordResetRequest")
-	public ResponseEntity<?> passwordResetRequest(@Valid @RequestBody EmailExist emailExist) {
+	public ResponseEntity<?> passwordResetRequest(@Valid @RequestBody EmailExist emailExist) throws SendFailedException {
 		return userService.passwordResetRequest(emailExist.getEmail());
 	}
 

@@ -29,7 +29,6 @@ export class SearchComponent  implements OnInit {
 
   getStudents(): void{
     this.activatedRoute.data.subscribe((response: any) => {
-      console.log(response.allStudents);
       this.allStudents = response.allStudents;
       if(this.allStudents){
         this.studentsFilteredList = this.allStudents;

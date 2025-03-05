@@ -32,7 +32,6 @@ export class AuthService {
   }
 
   get isAdmin(): boolean{
-    //if()
     return true;
   }
 
@@ -58,22 +57,11 @@ export class AuthService {
   }
 
   public signup(email: string, password: string): Observable<any> {
-    return this.apiService.post(environment.server_url + "/api/auth/signup", {email, password}).pipe(
-      catchError(err => {
-        console.log(err);
-        return of(err);
-      })
-    )
+    return this.apiService.post(environment.server_url + "/api/auth/signup", {email, password});
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.apiService.post(environment.server_url + "/api/auth/authenticate", {email, password}).pipe(
-        catchError(err => {
-          console.log("Bad Credentials");
-          //Show user failed message if server error or bad credentials
-          return of([]);
-        })
-    );
+    return this.apiService.post(environment.server_url + "/api/auth/authenticate", {email, password});
   }
 
   public logout() {
@@ -81,23 +69,12 @@ export class AuthService {
   }
 
   public sendEmailAndToken(email: string) {
-    return this.apiService.post(environment.server_url + '/api/auth/passwordResetRequest', {email}).pipe(
-        catchError(err => {
-          console.log("Email Not Exist");
-          //Show user failed message if server error or bad credentials
-          return of(err);
-        })
-    );
+    return this.apiService.post(environment.server_url + '/api/auth/passwordResetRequest', {email});
   }
 
   public passwordResetWithToken(email: string, token: string, password: string) {
-    return this.apiService.post(environment.server_url + '/api/auth/passwordResetWithToken', {email: email, token: token, password: password}).pipe(
-        catchError(err => {
-          console.log("Email Not Exist");
-          //Show user failed message if server error or bad credentials
-          return of(err);
-        })
-    );
+    return this.apiService.post(environment.server_url + '/api/auth/passwordResetWithToken',
+                                    {email: email, token: token, password: password});
   }
 
 }
