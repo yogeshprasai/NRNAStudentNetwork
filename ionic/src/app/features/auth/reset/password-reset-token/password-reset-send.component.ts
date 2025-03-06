@@ -56,7 +56,7 @@ export class PasswordResetSendComponent implements OnInit {
       }, error => {
         console.log(error);
         loading.dismiss();
-        if(error.message.includes("Email address is not verified")) {
+        if(error.message && error.message.includes("Email address is not verified")) {
           this.passwordResetForm.get('email')?.setErrors({'emailNotVerified': true});
         }else {
           this.passwordResetForm.get('email')?.setErrors({'emailSendingFailed': true});

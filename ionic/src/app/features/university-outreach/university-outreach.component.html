@@ -17,7 +17,7 @@
             <ion-card-header>
                 <ion-card-subtitle class="white"></ion-card-subtitle>
                 <ion-card-title class="nrna-card-title ion-text-center">University Outreach</ion-card-title>
-                <p class="mt-3">Please select any university from the list for the contact person to reach incase you need help</p>
+                <p class="mt-3">Please select any university from the list if you need info about the university and surrounding area.</p>
             </ion-card-header>
 
             <ion-card-content>
@@ -52,9 +52,8 @@
                 <ion-list *ngIf="selectedUniversityOutreachers.length === 0 && this.universityOutreachForm.get('university')?.value">
                     <ion-item>
                         <ion-label>
-                            Sorry No Contact Exist.<br/>
-                            Please Select Another University.<br/>
-                            Volunteer Section has more search options.
+                            <div class="nrna-flex-center">No Contact Exist</div>
+                            <div class="nrna-flex-center">Please Select Another University.</div>
                         </ion-label>
                     </ion-item>
                 </ion-list>

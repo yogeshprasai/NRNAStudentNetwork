@@ -13,3 +13,7 @@ java-spring/.DS_Store
 java-spring/src/main/.DS_Store
 ionic/.DS_Store
 .DS_Store
+Important_Prod_Related/nrna-student-key-pair.pem
+Important_Prod_Related/sql_commands.sql
+Important_Prod_Related/university-outreach.sql
+java-spring/src/main/resources/application.properties

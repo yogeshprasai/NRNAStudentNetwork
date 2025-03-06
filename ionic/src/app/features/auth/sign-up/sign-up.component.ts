@@ -55,6 +55,7 @@ export class SignUpComponent  implements OnInit {
       if(err && err.message === "Email already in use"){
         this.isEmailAlreadyExist = true;
       }
+      this.showPopUpAlert("Create Account Failed! Please try again")
     })
   }
 

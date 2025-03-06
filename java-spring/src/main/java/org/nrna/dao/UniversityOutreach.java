@@ -11,14 +11,20 @@ public class UniversityOutreach {
 
     @Id
     private int id;
+
+    @Column(name="full_name")
     private String fullName;
+
+    @Column(name="phone_number")
     private String phoneNumber;
+
+    @Column(name="email")
     private String email;
 
     @Column(name="associated_universities")
     private String associatedUniversities;
 
-    @Column(name="is_NSU")
+    @Column(name="is_nsu")
     private String isNSU;
 
     public int getId() {
@@ -60,7 +66,6 @@ public class UniversityOutreach {
     public void setAssociatedUniversities(String associatedUniversities) {
         this.associatedUniversities = associatedUniversities;
     }
-
 
     public String getIsNSU() {
         return isNSU;

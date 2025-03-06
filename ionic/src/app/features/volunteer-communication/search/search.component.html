@@ -12,14 +12,6 @@
 
 <ion-content [fullscreen]="true">
 
-    <ion-alert
-            [isOpen]="errorWhileRetrievingVolunteers"
-            trigger="present-alert"
-            header="Error Retrieving Volunteers. Please try again"
-            [buttons]="errorButtons"
-            (didDismiss)="resetButtons()"
-    ></ion-alert>
-
   <div id="container">
     <ion-card class="white">
       <ion-card-header>

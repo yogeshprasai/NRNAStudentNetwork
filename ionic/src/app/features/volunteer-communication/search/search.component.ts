@@ -55,18 +55,4 @@ export class SearchComponent  implements OnInit {
     this.router.navigate(['..', page], {relativeTo: this.activatedRoute});
   }
 
-  resetButtons(){
-    this.errorWhileRetrievingVolunteers = false;
-  }
-
-  public errorButtons = [
-    {
-      text: 'OK',
-      role: 'confirm',
-      handler: () => {
-        this.resetButtons();
-      },
-    },
-  ];
-
 }

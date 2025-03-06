@@ -37,13 +37,27 @@ export class UniversityOutreachComponent implements OnInit {
     this.usaUniversityList = JSON.parse(JSON.stringify(universities));
     this.miscService.getUniversityOutreachList().subscribe((response: any) => {
       this.universityOutreachers = JSON.parse(JSON.stringify(response));
-      // this.selectedUniversityOutreachers = this.universityOutreachers;
+        this.selectedUniversityOutreachers = this.sortingUniversityList(this.universityOutreachers);
     });
 
     this.universityOutreachForm.valueChanges.subscribe(() => {
         this.selectedUniversityOutreachers = this.universityOutreachers.filter((val: any) =>
           val.associatedUniversities.includes(this.universityOutreachForm.get('university')?.value)
         )
+    });
+  }
+
+  sortingUniversityList(universityOutreachers: any){
+    return universityOutreachers.sort((a: any, b:any) => {
+      const nameA = a.fullName.toLowerCase();
+      const nameB = b.fullName.toLowerCase();
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
     });
   }
 

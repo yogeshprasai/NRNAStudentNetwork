@@ -1,17 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {UsersService} from "../../../shared/service/users.service";
+import {ViewDidEnter, ViewWillEnter} from "@ionic/angular";
 
 @Component({
   selector: 'nrna-volunteer',
   templateUrl: './volunteer.component.html',
   styleUrls: ['./volunteer.component.scss'],
 })
-export class VolunteerComponent implements OnInit {
+export class VolunteerComponent implements OnInit, ViewWillEnter, ViewDidEnter {
 
-  public folder!: string;
-  public errorWhileRetrievingVolunteers: boolean = false;
-  private activatedRoute = inject(ActivatedRoute);
   public volunteers: any = [];
 
   constructor(private route: ActivatedRoute, private usersService: UsersService) {
@@ -26,8 +24,6 @@ export class VolunteerComponent implements OnInit {
     this.route?.data.subscribe((response: any) => {
       if(response.allVolunteers){
         this.volunteers = response.allVolunteers;
-      }else{
-        this.errorWhileRetrievingVolunteers = true;
       }
     });
   }
@@ -43,19 +39,5 @@ export class VolunteerComponent implements OnInit {
   getProfilePic(base64String: string): string{
     return "data:image/jpeg;base64," + base64String;
   }
-
-  resetButtons(){
-    this.errorWhileRetrievingVolunteers = false;
-  }
-
-  public errorButtons = [
-    {
-      text: 'OK',
-      role: 'confirm',
-      handler: () => {
-        this.resetButtons();
-      },
-    },
-  ];
 
 }
