@@ -23,5 +23,9 @@ export const NrnaRoutes = {
     News: '/news',
     AboutUs: '/about-us',
     Login: '/auth/sign-in',
-    Logout: '/auth/sign-in'
+    Logout: '/auth/sign-in',
+    SendToken: '/auth/reset-password/send-token',
+    VerifyToken: '/auth/reset-password/verify-token',
+    CreateNewPassword: '/auth/reset-password/create-new-password',
+
 }

@@ -1,5 +1,6 @@
 package org.nrna.services;
 
+import org.nrna.dto.request.CreateNewPassword;
 import org.nrna.dto.response.LoginResponse;
 import org.nrna.services.exception.CustomGenericException;
 import org.nrna.services.exception.ResourceNotFoundException;
@@ -8,7 +9,7 @@ import org.nrna.dto.UserProfileAndAddress;
 import org.nrna.dao.PasswordResetToken;
 import org.nrna.dto.UserDetailsImpl;
 import org.nrna.dto.UserProfile;
-import org.nrna.dto.request.PasswordResetWithToken;
+import org.nrna.dto.request.VerifyToken;
 import org.nrna.repository.PasswordResetRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -120,13 +120,13 @@ public class UserService {
 				.orElseThrow(()-> new ResourceNotFoundException("User not found"));
 	}
 
-	public ResponseEntity<?> passwordResetRequest(String email) throws SendFailedException {
+	public ResponseEntity<?> sendTokenEmailToResetPassword(String email) throws SendFailedException {
 		Optional<User> user = null;
 		try{
 			user = userRepository.findByEmail(email);
 		}catch (Exception e){
-			System.out.println("ErrorMessage: " + e.getMessage());
-			throw new BadCredentialsException("Bad Data");
+			logger.error("ErrorMessage: " + e.getMessage());
+			throw new BadCredentialsException("User not found");
 		}
 
 		if (user.isPresent()) {
@@ -134,15 +134,14 @@ public class UserService {
 			String longToken = String.valueOf(Math.round(Math.random()*1000000));
 			String shortToken = longToken.substring(0, 6);
 			expireAllPreviousTokens(user.get());
-			//For Local Testing
-			//createPasswordResetTokenForUser(user.get(), "123456");
 			createPasswordResetTokenForUser(user.get(), shortToken);
 
 			emailService.sendEmail(userProfile, "password-reset", shortToken);
 
 			return new ResponseEntity<>(new MessageResponse("Email Exist"), HttpStatus.OK);
 		}
-		return new ResponseEntity<>(new MessageResponse("No Email Exist"), HttpStatus.OK);
+		logger.info("Send Token Email To Reset Password");
+		throw new BadCredentialsException("User not found");
 	}
 
 	private void expireAllPreviousTokens(User user){
@@ -153,6 +152,7 @@ public class UserService {
 				passwordResetRepository.save(passwordResetToken);
 			}
 		}catch (Exception e) {
+			logger.error("Expire All Previous Tokens Error : " + e.getMessage());
 			throw new CustomGenericException("Cannot Expire Tokens");
 		}
 	}
@@ -163,31 +163,58 @@ public class UserService {
 		try{
 			passwordResetRepository.save(myToken);
 		}catch (Exception e) {
-			throw new CustomGenericException("Cannot Save User");
+			logger.error("Cannot Save Tokens Error : " + e.getMessage());
+			throw new CustomGenericException("Cannot Save Token");
 		}
 	}
 
-	public ResponseEntity<?> passwordResetWithToken(PasswordResetWithToken passwordResetWithToken) {
-		Optional<User> user = userRepository.findByEmail(passwordResetWithToken.getEmail());
+	public ResponseEntity<?> verifyTokenToResetPassword(VerifyToken verifyToken) {
+		Optional<User> user = null;
+		try{
+			user = userRepository.findByEmail(verifyToken.getEmail());
+			if (user.isPresent()) {
+				User newUserToBeUpdated = user.get();
+				if(verifyToken(newUserToBeUpdated, verifyToken)){
+					return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
+				}
+				throw new CustomGenericException("Invalid Token");
+			}
+			throw new ResourceNotFoundException("User Not Found");
+		}catch (ResourceNotFoundException ex) {
+			logger.error("User Not Found : " + ex.getMessage());
+			throw new CustomGenericException(ex.getMessage());
+		}catch (CustomGenericException ex) {
+			logger.error("Invalid Token Error : " + ex.getMessage());
+			throw new CustomGenericException(ex.getMessage());
+		}catch (Exception ex) {
+			logger.error("Verify Token Error : " + ex.getMessage());
+			throw new CustomGenericException(ex.getMessage());
+		}
+	}
+
+	public ResponseEntity<?> newPasswordToResetPassword(CreateNewPassword createNewPassword) {
+		Optional<User> user = null;
+		try{
+			user = userRepository.findByEmail(createNewPassword.getEmail());
+		} catch (Exception ex) {
+			throw new CustomGenericException(ex.getMessage());
+		}
+
 		if (user.isPresent()) {
 			User newUserToBeUpdated = user.get();
-			if(verifyToken(newUserToBeUpdated, passwordResetWithToken)){
 				try{
-					newUserToBeUpdated.setPassword(encoder.encode(passwordResetWithToken.getPassword()));
-					userRepository.save(newUserToBeUpdated);
+					newUserToBeUpdated.setPassword(encoder.encode(createNewPassword.getPassword()));
 					expireAllPreviousTokens(newUserToBeUpdated);
+					userRepository.save(newUserToBeUpdated);
 				} catch (Exception e) {
 					throw new CustomGenericException("Cannot Save User");
 				}
 				return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
-			}else{
-				return new ResponseEntity<>(new MessageResponse("Invalid Token"), HttpStatus.BAD_REQUEST);
-			}
 		}
-		return new ResponseEntity<>(new MessageResponse("Password Reset Failed"), HttpStatus.BAD_REQUEST);
+		throw new CustomGenericException("User doesn't exist");
 	}
 
-	private boolean verifyToken(User user, PasswordResetWithToken passwordResetWithToken){
+	private boolean verifyToken(User user, VerifyToken passwordResetWithToken){
 		Optional<PasswordResetToken> savedUnExpiredPasswordToken = null;
 		try{
 			savedUnExpiredPasswordToken = passwordResetRepository.findByUserId(user.getId())

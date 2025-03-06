@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AlertController, LoadingController, NavController, Platform, PopoverController} from '@ionic/angular';
+import {AlertController, NavController, Platform, PopoverController} from '@ionic/angular';
 import {AuthService} from 'src/app/shared/service/auth.service';
 import {ProfileAddressService} from 'src/app/shared/service/profile-address.service';
 import {StatesList} from 'src/app/shared/validation';
@@ -42,7 +42,6 @@ export class ProfileComponent implements OnInit {
     private profileAddressService: ProfileAddressService,
     public fb: FormBuilder,
     public route: ActivatedRoute,
-    private loadingCtrl: LoadingController,
     private alertController: AlertController,
     private platForm: Platform,
     private popoverController: PopoverController,
@@ -139,14 +138,9 @@ export class ProfileComponent implements OnInit {
 
   // Upload the base64String to db
   async uploadData(base64Image: any) {
-    const loading = await this.loadingCtrl.create({
-      message: 'Uploading image...',
-    });
-    await loading.present();
     this.profileAddressService.saveProfilePicture(base64Image)
         .pipe(
             finalize(() => {
-              loading.dismiss();
               this.profileForm.controls['profilePicture'].setErrors(null);
               this.profileForm.controls['profilePicture'].patchValue(base64Image);
             })
@@ -166,13 +160,8 @@ export class ProfileComponent implements OnInit {
   }
 
   async deleteImage() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Deleting Profile Picture...'
-    });
-    await loading.present();
     this.profileAddressService.deleteProfilePicture().pipe(
         finalize(() => {
-          loading.dismiss();
           this.profileForm.get('profilePicture')?.patchValue(null);
           this.profilePictureUpdateSuccess = true;
         })
@@ -187,10 +176,6 @@ export class ProfileComponent implements OnInit {
   }
 
   async submitProfileForm(){
-    const loading = await this.loadingCtrl.create({
-      message: 'Updating Profile...',
-    });
-
     this.profileForm.controls['firstName'].markAsTouched();
     this.profileForm.controls['lastName'].markAsTouched();
     this.profileForm.controls['email'].markAsTouched();
@@ -218,13 +203,7 @@ export class ProfileComponent implements OnInit {
           if(this.profileForm.status === 'INVALID'){
             return;
           }
-          await loading.present();
           this.profileAddressService.updateProfile(this.profileForm.value)
-              .pipe(
-                  finalize(() => {
-                    loading.dismiss()
-                  })
-              )
               .subscribe({
                   next: (response: any) => {
                     const successMessage: string = response.message;

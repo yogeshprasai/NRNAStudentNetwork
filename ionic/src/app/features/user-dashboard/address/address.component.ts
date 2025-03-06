@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AlertController, IonRouterOutlet, LoadingController, NavController, ToastController} from '@ionic/angular';
+import {AlertController, IonRouterOutlet, NavController, ToastController} from '@ionic/angular';
 import { AuthService } from 'src/app/shared/service/auth.service';
 import { ProfileAddressService } from 'src/app/shared/service/profile-address.service';
 import { StatesList } from 'src/app/shared/validation';
@@ -28,7 +28,6 @@ export class AddressComponent  implements OnInit {
     private profileAddressService: ProfileAddressService,
     public fb: FormBuilder,
     private route: ActivatedRoute,
-    private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private alertController: AlertController,
     private navController: NavController,
@@ -63,11 +62,7 @@ export class AddressComponent  implements OnInit {
     this.router.navigateByUrl('login');
   }
 
-  async submitAddressForm(){
-    const loading = await this.loadingCtrl.create({
-      message: 'Updating Profile...',
-    });
-
+  submitAddressForm(){
     this.addressForm.controls['addressLine1'].markAsTouched();
     this.addressForm.controls['city'].markAsTouched();
     this.addressForm.controls['state'].markAsTouched();
@@ -78,11 +73,6 @@ export class AddressComponent  implements OnInit {
           !this.addressForm.controls['zipCode'].errors){
           //Submit Form
           this.profileAddressService.saveOrUpdateAddress(this.addressForm.value)
-              .pipe(
-                  finalize(() => {
-                    loading.dismiss()
-                  })
-              )
               .subscribe({
                 next: response => {
                   if(response.message.includes("Success")){
@@ -93,8 +83,6 @@ export class AddressComponent  implements OnInit {
                   this.showSuccessOrFailureAlert("Error! Please Try Again.");
                 }
               });
-    }else {
-      loading.dismiss();
     }
   }
 

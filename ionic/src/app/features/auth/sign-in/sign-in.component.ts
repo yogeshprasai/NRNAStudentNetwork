@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { Validation_Login } from 'src/app/shared/validation';
 import { loginResponse } from 'src/app/shared/model/loginResponse';
 import { AuthService } from 'src/app/shared/service/auth.service';
@@ -20,15 +20,12 @@ export class SignInComponent  implements OnInit {
 
   public loginForm: FormGroup;
   validationLogin = Validation_Login;
-  showSpinner: boolean = false;
   isLoggedIn: boolean = false;
   showPassword: boolean = false;
   showFailMessage: boolean = false;
 
   constructor(private router: Router, private activiatedRoute: ActivatedRoute, private formBuilder: FormBuilder,
-              private loadingService: LoadingService, private loadingCtrl: LoadingController,
-              private alertController: AlertController, private authService: AuthService,
-              private navigationService: NavigationService, private profileAddressService: ProfileAddressService) {
+              private authService: AuthService, private navigationService: NavigationService) {
       this.loginForm = this.formBuilder.group({
         email: ['', Validators.compose([
           Validators.required,
@@ -59,11 +56,9 @@ export class SignInComponent  implements OnInit {
     if (!loginForm.valid) {
       console.log('Form is not valid yet, current value:', loginForm.value);
     } else {
-      this.showSpinner = true;
       const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
       this.authService.login(email, password).subscribe((loginResponse: loginResponse) => {
-        this.showSpinner = false;
         if(loginResponse.token){
           this.isLoggedIn = true;
           const user: User = {
@@ -75,11 +70,14 @@ export class SignInComponent  implements OnInit {
           this.navigationService.reArrangeMenuItem();
         }
       }, error => {
-        this.showSpinner = false;
         this.isLoggedIn = false;
         this.showFailMessage = true;
       });
     }
+  }
+
+  navigateToNextPage(){
+    this.router.navigate([NrnaRoutes.SendToken]);
   }
 
   togglePasswordVisibility() {

@@ -61,8 +61,7 @@
           <br/> 
         
           <ion-button (click)="submitCredentials(loginForm)" expand="block">
-            <span *ngIf="!showSpinner">Login</span>
-            <span><ion-spinner *ngIf="showSpinner"></ion-spinner></span>
+            <span>Login</span>
           </ion-button>
         </form>
 
@@ -70,7 +69,7 @@
           Create a new account
         </ion-button>
       
-        <ion-button expand="block" fill="clear" [routerLink]="['../password-reset']" class="link">
+        <ion-button expand="block" fill="clear" (click)="navigateToNextPage()" class="link">
           I forgot my password :(
         </ion-button>
 

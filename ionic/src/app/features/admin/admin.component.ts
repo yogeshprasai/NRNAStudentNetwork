@@ -45,7 +45,7 @@ export class AdminComponent implements OnInit {
             .filter((user: UserProfile) => user.isApplyForVolunteer);
       }
     }, error => {
-      alert(error.message);
+      console.log(error.message);
     });
   }
 

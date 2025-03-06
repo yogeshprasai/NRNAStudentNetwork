@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../interface/user';
 import { ApiService } from 'src/app/core/services/api.service';
-import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import {Observable, Subject, catchError, of, tap, map} from 'rxjs';
 import { LocalStorageService } from 'src/app/core/services/local-storage.service';
@@ -68,13 +67,18 @@ export class AuthService {
     return this.apiService.post(environment.server_url + '/api/auth/logout');
   }
 
-  public sendEmailAndToken(email: string) {
-    return this.apiService.post(environment.server_url + '/api/auth/passwordResetRequest', {email});
+  public sendTokenEmailToResetPassword(email: string) {
+    return this.apiService.post(environment.server_url + '/api/auth/sendTokenEmailToResetPassword', {email});
   }
 
-  public passwordResetWithToken(email: string, token: string, password: string) {
-    return this.apiService.post(environment.server_url + '/api/auth/passwordResetWithToken',
-                                    {email: email, token: token, password: password});
+  public verifyTokenToResetPassword(email: string, token: string) {
+    return this.apiService.post(environment.server_url + '/api/auth/verifyTokenToResetPassword',
+                                    {email: email, token: token});
+  }
+
+  public newPasswordToResetPassword(email: string, password: string) {
+    return this.apiService.post(environment.server_url + '/api/auth/newPasswordToResetPassword',
+                                    {email: email, password: password});
   }
 
 }

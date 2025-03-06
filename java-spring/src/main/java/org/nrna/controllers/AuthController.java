@@ -4,9 +4,7 @@ import javax.mail.SendFailedException;
 import javax.validation.Valid;
 
 import org.nrna.dto.UserDetailsImpl;
-import org.nrna.dto.request.EmailExist;
-import org.nrna.dto.request.PasswordResetWithToken;
-import org.slf4j.Logger;
+import org.nrna.dto.request.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import org.nrna.dto.request.LoginRequest;
-import org.nrna.dto.request.SignupRequest;
 import org.nrna.services.UserService;
 
 import java.util.HashMap;
@@ -57,14 +53,19 @@ public class AuthController {
 		return userService.logout();
 	}
 
-	@PostMapping("/passwordResetRequest")
-	public ResponseEntity<?> passwordResetRequest(@Valid @RequestBody EmailExist emailExist) throws SendFailedException {
-		return userService.passwordResetRequest(emailExist.getEmail());
+	@PostMapping("/sendTokenEmailToResetPassword")
+	public ResponseEntity<?> sendTokenEmailToResetPassword(@Valid @RequestBody EmailExist emailExist) throws SendFailedException {
+		return userService.sendTokenEmailToResetPassword(emailExist.getEmail());
 	}
 
-	@PostMapping("/passwordResetWithToken")
-	public ResponseEntity<?> passwordResetWithToken(@Valid @RequestBody PasswordResetWithToken passwordResetWithToken) {
-		return userService.passwordResetWithToken(passwordResetWithToken);
+	@PostMapping("/verifyTokenToResetPassword")
+	public ResponseEntity<?> verifyTokenToResetPassword(@Valid @RequestBody VerifyToken verifyToken) {
+		return userService.verifyTokenToResetPassword(verifyToken);
+	}
+
+	@PostMapping("/newPasswordToResetPassword")
+	public ResponseEntity<?> newPasswordToResetPassword(@Valid @RequestBody CreateNewPassword createNewPassword) {
+		return userService.newPasswordToResetPassword(createNewPassword);
 	}
 	
 }

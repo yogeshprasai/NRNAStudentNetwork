@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AlertController, LoadingController, ToastController} from '@ionic/angular';
-import {AuthService} from "../../../../shared/service/auth.service";
-import {Validation_Password_Reset_Send} from "../../../../shared/validation";
+import {AuthService} from "../../../../../shared/service/auth.service";
+import {Validation_Password_Reset_Send} from "../../../../../shared/validation";
+import {NrnaRoutes} from "../../../../../shared/service/constant";
 
 @Component({
-  selector: 'nrna-password-reset-token',
-  templateUrl: './password-reset-send.component.html',
-  styleUrls: ['./password-reset-send.component.scss'],
+  selector: 'nrna-send-token',
+  templateUrl: './send-token-reset-password.component.html',
+  styleUrls: ['./send-token-reset-password.component.scss'],
 })
-export class PasswordResetSendComponent implements OnInit {
+export class SendTokenResetPasswordComponent implements OnInit {
 
   public noEmailExist: boolean = false;
   public passwordResetForm: FormGroup = new FormGroup({});
@@ -20,8 +20,7 @@ export class PasswordResetSendComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private loadingCtrl: LoadingController,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -38,25 +37,20 @@ export class PasswordResetSendComponent implements OnInit {
   }
 
   async sendEmailAndToken(passwordResetForm: FormGroup) {
-    const loading = await this.loadingCtrl.create({
-      message: 'Sending Request...',
-    });
     this.passwordResetForm.get('email')?.setErrors(null);
       const credentials = {
         email: passwordResetForm.value.email,
       };
-      loading.present();
-      this.authService.sendEmailAndToken(credentials.email).subscribe(data => {
-        loading.dismiss();
+      this.authService.sendTokenEmailToResetPassword(credentials.email).subscribe(data => {
         if(data.message === "Email Exist") {
-          this.router.navigate(['./password-reset-verify', {email: credentials.email}], {relativeTo: this.route});
+          this.router.navigate([NrnaRoutes.VerifyToken, {email: credentials.email}], {relativeTo: this.route});
         }  else if(data.message && data.message === "No Email Exist") {
           this.passwordResetForm.get('email')?.setErrors({'noEmailExist': true});
         }
       }, error => {
-        console.log(error);
-        loading.dismiss();
-        if(error.message && error.message.includes("Email address is not verified")) {
+        if(error.message && error.message.includes("User not found")) {
+          this.passwordResetForm.get('email')?.setErrors({'noUserExist': true});
+        }else if(error.message && error.message.includes("Email address is not verified")) {
           this.passwordResetForm.get('email')?.setErrors({'emailNotVerified': true});
         }else {
           this.passwordResetForm.get('email')?.setErrors({'emailSendingFailed': true});

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { Validation_SignUp } from 'src/app/shared/validation';
 import { AuthService } from 'src/app/shared/service/auth.service';
 
@@ -19,8 +19,7 @@ export class SignUpComponent  implements OnInit {
 
   public signUpForm: FormGroup = this.formBuilder.group({});
 
-  constructor(private router: Router, private formBuilder: FormBuilder,
-    private loadingCtrl: LoadingController, private alertController: AlertController,
+  constructor(private router: Router, private formBuilder: FormBuilder, private alertController: AlertController,
     private authService: AuthService) { 
       this.signUpForm = this.formBuilder.group({
         email: ['', Validators.compose([
