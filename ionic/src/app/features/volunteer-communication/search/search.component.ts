@@ -2,20 +2,21 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {UsersService} from "../../../shared/service/users.service";
+import {ViewWillEnter} from "@ionic/angular";
 
 @Component({
   selector: 'nrna-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent  implements OnInit {
+export class SearchComponent  implements OnInit, ViewWillEnter {
 
   public searchForm: FormGroup = new FormGroup({});
   public allVolunteers: any = [];
   public volunteersFilteredList: any = [];
   public errorWhileRetrievingVolunteers: boolean = false;
   private activatedRoute = inject(ActivatedRoute);
-  constructor(private router: Router, private usersService: UsersService, private fb: FormBuilder) { }
+  constructor(private router: Router, private route: ActivatedRoute, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
@@ -25,18 +26,18 @@ export class SearchComponent  implements OnInit {
   }
 
   ionViewWillEnter(): void{
+    this.searchForm.get('search')?.reset();
     this.getVolunteers();
   }
 
-  getVolunteers(): void{
-    this.usersService.getAllVolunteers().subscribe(response => {
+  getVolunteers(){
+    this.route?.data.subscribe((response: any) => {
       if(response.allVolunteers){
-        this.allVolunteers = response
+        this.allVolunteers = response.allVolunteers;
+        console.log(this.allVolunteers);
         this.volunteersFilteredList = this.allVolunteers;
-      }else{
-        this.errorWhileRetrievingVolunteers = true;
       }
-    })
+    });
   }
 
   filterVolunteerList(){

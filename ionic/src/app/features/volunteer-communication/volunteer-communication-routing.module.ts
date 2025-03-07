@@ -27,6 +27,9 @@ const routes: Routes = [
         path: 'search',
         component: SearchComponent,
         pathMatch: 'full',
+        resolve: {
+          allVolunteers: VolunteerResolverService
+        },
       }
     ]
   }

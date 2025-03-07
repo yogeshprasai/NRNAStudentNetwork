@@ -2,14 +2,14 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService} from 'src/app/shared/service/users.service';
 import {AuthService} from "../../../shared/service/auth.service";
-import {AlertController} from "@ionic/angular";
+import {AlertController, ViewWillEnter} from "@ionic/angular";
 
 @Component({
   selector: 'nrna-student',
   templateUrl: './student.component.html',
   styleUrls: ['./student.component.scss'],
 })
-export class StudentComponent implements OnInit {
+export class StudentComponent implements OnInit, ViewWillEnter {
 
   public folder!: string;
   private activatedRoute = inject(ActivatedRoute);

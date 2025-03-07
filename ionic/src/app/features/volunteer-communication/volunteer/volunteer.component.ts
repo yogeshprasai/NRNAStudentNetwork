@@ -20,20 +20,20 @@ export class VolunteerComponent implements OnInit, ViewWillEnter, ViewDidEnter {
 
   }
 
-  updateVolunteerInfo(){
-    this.route?.data.subscribe((response: any) => {
-      if(response.allVolunteers){
-        this.volunteers = response.allVolunteers;
-      }
-    });
-  }
-
   ionViewWillEnter() {
     this.updateVolunteerInfo();
   }
 
   ionViewDidEnter(){
     this.updateVolunteerInfo();
+  }
+
+  updateVolunteerInfo(){
+    this.route?.data.subscribe((response: any) => {
+      if(response.allVolunteers){
+        this.volunteers = response.allVolunteers;
+      }
+    });
   }
 
   getProfilePic(base64String: string): string{

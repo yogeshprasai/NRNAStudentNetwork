@@ -2,13 +2,14 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService} from 'src/app/shared/service/users.service';
+import {ViewWillEnter} from "@ionic/angular";
 
 @Component({
   selector: 'nrna-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent  implements OnInit {
+export class SearchComponent  implements OnInit, ViewWillEnter {
 
   public searchForm: FormGroup = new FormGroup({});
   public allStudents: any = [];
@@ -20,11 +21,11 @@ export class SearchComponent  implements OnInit {
     this.searchForm = this.fb.group({
       search: [''],
     });
-    this.getStudents();
   }
 
   ionViewWillEnter(): void{
     this.getStudents();
+    this.searchForm.get('search')?.reset();
   }
 
   getStudents(): void{
