@@ -39,14 +39,16 @@ export class AdminComponent implements OnInit {
             }
           }),
         catchError(err => of('Error Handled ' + err.message))
-    ).subscribe((userProfiles: UserProfile[]) => {
-      if(typeof(userProfiles) == "object"){
-        this.appliedForVolunteers = userProfiles
-            .filter((user: UserProfile) => user.isApplyForVolunteer);
-      }
-    }, error => {
-      console.log(error.message);
-    });
+    ).subscribe({
+      next: (userProfiles: UserProfile[]) => {
+        if(typeof(userProfiles) == "object"){
+          this.appliedForVolunteers = userProfiles
+              .filter((user: UserProfile) => user.isApplyForVolunteer);
+        }
+      },
+      error: (error: any) => {
+        console.log(error.message);
+    }});
   }
 
   private resetButtons(){

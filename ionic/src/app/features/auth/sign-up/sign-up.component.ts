@@ -46,15 +46,19 @@ export class SignUpComponent  implements OnInit {
     if(signUpForm.get('email')?.invalid || signUpForm.get('password')?.invalid){
       return;
     }
-    this.authService.signup(email, password).subscribe(data => {
+    this.authService.signup(email, password).subscribe({
+      next: (data: any) => {
         if(data.message === "Success"){
           this.isEmailRegistered = true;
         }
-    }, err => {
-      if(err && err.message === "Email already in use"){
-        this.isEmailAlreadyExist = true;
+      },
+      error: (err: any) => {
+        if(err && err.message === "Email already in use"){
+          this.isEmailAlreadyExist = true;
+        }else{
+          this.showPopUpAlert("Create Account Failed! Please try again");
+        }
       }
-      this.showPopUpAlert("Create Account Failed! Please try again")
     })
   }
 

@@ -39,7 +39,7 @@ export class NewPasswordResetPasswordComponent implements OnInit {
             this.passwordResetSuccessful = true;
           }
         }, error => {
-          if(error && error.message === "Invalid Token"){
+          if(error && error.message === "Password Not Saved"){
             this.passwordResetFailed = true;
           }
         });

@@ -76,8 +76,6 @@ public class UserService {
 			userRepository.save(user);
 		}catch (BadCredentialsException ex){
 			throw new BadCredentialsException("Email already in use");
-		}catch (Exception e) {
-			throw new CustomGenericException("Cannot Retrieve and Save User");
 		}
 		return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
 	}
@@ -207,7 +205,7 @@ public class UserService {
 					expireAllPreviousTokens(newUserToBeUpdated);
 					userRepository.save(newUserToBeUpdated);
 				} catch (Exception e) {
-					throw new CustomGenericException("Cannot Save User");
+					throw new CustomGenericException("Password Not Saved");
 				}
 				return new ResponseEntity<>(new MessageResponse("Success"), HttpStatus.OK);
 		}

@@ -41,21 +41,23 @@ export class SendTokenResetPasswordComponent implements OnInit {
       const credentials = {
         email: passwordResetForm.value.email,
       };
-      this.authService.sendTokenEmailToResetPassword(credentials.email).subscribe(data => {
-        if(data.message === "Email Exist") {
-          this.router.navigate([NrnaRoutes.VerifyToken, {email: credentials.email}], {relativeTo: this.route});
-        }  else if(data.message && data.message === "No Email Exist") {
-          this.passwordResetForm.get('email')?.setErrors({'noEmailExist': true});
-        }
-      }, error => {
-        if(error.message && error.message.includes("User not found")) {
-          this.passwordResetForm.get('email')?.setErrors({'noUserExist': true});
-        }else if(error.message && error.message.includes("Email address is not verified")) {
-          this.passwordResetForm.get('email')?.setErrors({'emailNotVerified': true});
-        }else {
-          this.passwordResetForm.get('email')?.setErrors({'emailSendingFailed': true});
-        }
-      })
+      this.authService.sendTokenEmailToResetPassword(credentials.email).subscribe({
+        next: data => {
+          if(data.message === "Email Exist") {
+              this.router.navigate([NrnaRoutes.VerifyToken, {email: credentials.email}], {relativeTo: this.route});
+            }  else if(data.message && data.message === "No Email Exist") {
+              this.passwordResetForm.get('email')?.setErrors({'noEmailExist': true});
+            }
+          },
+        error: error => {
+          if(error.message && error.message.includes("User not found")) {
+            this.passwordResetForm.get('email')?.setErrors({'noUserExist': true});
+          }else if(error.message && error.message.includes("Email address is not verified")) {
+            this.passwordResetForm.get('email')?.setErrors({'emailNotVerified': true});
+          }else {
+            this.passwordResetForm.get('email')?.setErrors({'emailSendingFailed': true});
+          }
+      }});
   }
 
 }

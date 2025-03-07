@@ -41,7 +41,6 @@ export class ApiService {
   }
 
   public async loaderPresent(): Promise<void> {
-
     if (!this.isShowing) {
       this.isShowing = true;
       this.loading = await this.loadingController.create({

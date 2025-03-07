@@ -80,15 +80,17 @@ export class VerifyTokenResetPasswordComponent implements OnInit, OnDestroy {
     if(this.passwordResetVerifyForm.valid){
       const token = this.passwordResetVerifyForm.get('token')?.value;
       const password = this.passwordResetVerifyForm.get('password')?.value;
-      this.authService.verifyTokenToResetPassword(this.userEmail, token).subscribe(res => {
-        if(res.message === "Success"){
-          this.router.navigate([NrnaRoutes.CreateNewPassword, {email: this.userEmail}], {relativeTo: this.route});
-        }
-      }, error => {
-        if(error && error.message === "Invalid Token"){
-          this.invalidToken = true;
-        }
-      });
+      this.authService.verifyTokenToResetPassword(this.userEmail, token).subscribe({
+        next: (res: any) => {
+          if(res.message === "Success"){
+            this.router.navigate([NrnaRoutes.CreateNewPassword, {email: this.userEmail}], {relativeTo: this.route});
+          }
+        },
+        error: error => {
+          if(error && error.message === "Invalid Token"){
+            this.invalidToken = true;
+          }
+        }});
     }
   }
 
