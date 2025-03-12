@@ -13,7 +13,6 @@ import {university} from "../../../shared/model/constants";
 import {NavigationService} from "../../../shared/service/navigation.service";
 import {UserProfile} from "../../../shared/model/user-profile";
 import {NrnaRoutes} from "../../../shared/service/constant";
-import {Keyboard} from "@capacitor/keyboard";
 
 @Component({
   selector: 'nrna-profile',
@@ -119,13 +118,6 @@ export class ProfileComponent implements OnInit {
     this.profileForm.get('profilePicture')?.valueChanges.subscribe((val:boolean) => {
       if(val){
         this.profileForm.controls['profilePicture'].setErrors({});
-      }
-    });
-
-    Keyboard.addListener("keyboardDidShow", () => {
-      if (document.activeElement) {
-        console.log("Keyboard will move the text focus upwards");
-        document.activeElement.scrollIntoView({behavior: "smooth", block: "center"});
       }
     });
   }
