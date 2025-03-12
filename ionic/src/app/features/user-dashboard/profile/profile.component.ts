@@ -13,6 +13,7 @@ import {university} from "../../../shared/model/constants";
 import {NavigationService} from "../../../shared/service/navigation.service";
 import {UserProfile} from "../../../shared/model/user-profile";
 import {NrnaRoutes} from "../../../shared/service/constant";
+import {Keyboard} from "@capacitor/keyboard";
 
 @Component({
   selector: 'nrna-profile',
@@ -118,14 +119,21 @@ export class ProfileComponent implements OnInit {
       if(val){
         this.profileForm.controls['profilePicture'].setErrors({});
       }
-    })
+    });
+
+    Keyboard.addListener("keyboardDidShow", () => {
+      if (document.activeElement) {
+        console.log("Keyboard will move the text focus upwards");
+        document.activeElement.scrollIntoView({behavior: "smooth", block: "center"});
+      }
+    });
   }
 
   async uploadFromCameraOrGallery() {
     let isLocal = document.URL.startsWith('http://localhost:42');
     const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
+      quality: 100,
+      allowEditing: true,
       resultType: CameraResultType.Base64,
       source: isLocal ? CameraSource.Photos : CameraSource.Prompt // Camera, Photos or Prompt!
     });
@@ -133,11 +141,14 @@ export class ProfileComponent implements OnInit {
     if (image) {
       const base64String = `${image.base64String}`;
       this.uploadData(base64String);
+    }else{
+      alert("No Image");
     }
   }
 
   // Upload the base64String to db
   async uploadData(base64Image: any) {
+    console.log(base64Image);
     this.profileAddressService.saveProfilePicture(base64Image)
         .pipe(
             finalize(() => {

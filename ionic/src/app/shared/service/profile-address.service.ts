@@ -41,7 +41,8 @@ export class ProfileAddressService {
 
     saveProfilePicture(base64Image: any) {
         let params = new HttpParams()
-            .set('image', base64Image)
+            .set('image', base64Image);
+        console.log(params);
         return this.apiService.post(environment.server_url + "/api/user/saveOrUpdateProfilePic", params);
     }
 

@@ -47,6 +47,8 @@ export class SignInComponent  implements OnInit {
   ionViewWillEnter(){
     if(this.authService.isLoggedIn){
       this.router.navigate(['user-dashboard/profile']);
+    }else{
+      this.loginForm.reset();
     }
   }
 
