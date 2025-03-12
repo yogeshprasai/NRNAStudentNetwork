@@ -56,7 +56,7 @@ export class ProfileComponent implements OnInit {
       middleName: ['', [Validators.compose([Validators.minLength(1), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
       lastName: ['', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
       email: ['', [Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)])]],
-      phoneNumber: ['', [Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(16), Validators.pattern(/^[0-9\s]*$/)])]],
+      phoneNumber: ['', [Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9\s]*$/)])]],
       showPhoneNumber: [''],
       isApplyForVolunteer: [''],
       isVolunteer: [''],
@@ -92,18 +92,19 @@ export class ProfileComponent implements OnInit {
     });
     this.usaUniversityList = JSON.parse(JSON.stringify(universities));
 
-    this.profileForm.get('isApplyForVolunteer')?.valueChanges.subscribe((val:boolean) => {
-      if(val){
-        this.profileForm.controls['profilePicture'].markAsTouched();
-        if(!this.profileForm.controls['profilePicture']?.value){
-          this.profileForm.controls['profilePicture'].markAsTouched();
-          this.profileForm.controls['profilePicture']?.setErrors({'required': true});
-          return;
-        }
-      }else {
-        this.profileForm.controls['profilePicture']?.setErrors(null);
-      }
-    });
+    //Validation to make profile picture mandatory
+    // this.profileForm.get('isApplyForVolunteer')?.valueChanges.subscribe((val:boolean) => {
+    //   if(val){
+    //     this.profileForm.controls['profilePicture'].markAsTouched();
+    //     if(!this.profileForm.controls['profilePicture']?.value){
+    //       this.profileForm.controls['profilePicture'].markAsTouched();
+    //       this.profileForm.controls['profilePicture']?.setErrors({'required': true});
+    //       return;
+    //     }
+    //   }else {
+    //     this.profileForm.controls['profilePicture']?.setErrors(null);
+    //   }
+    // });
 
     this.profileForm.get('isVolunteer')?.valueChanges.subscribe((val: boolean) => {
       if(this.originalProfileValues.isVolunteer){
@@ -148,7 +149,7 @@ export class ProfileComponent implements OnInit {
 
   // Upload the base64String to db
   async uploadData(base64Image: any) {
-    console.log(base64Image);
+    console.log(base64Image)
     this.profileAddressService.saveProfilePicture(base64Image)
         .pipe(
             finalize(() => {
@@ -165,7 +166,7 @@ export class ProfileComponent implements OnInit {
               this.showErrorAlert('File upload failed. Please try again.');
             }},
           error: () => {
-            this.showErrorAlert("File upload failed. Please try again.");
+            this.showErrorAlert("File upload failed. Decrease picture size to less than 1 MB.");
           }
         });
   }
@@ -205,12 +206,13 @@ export class ProfileComponent implements OnInit {
           if(!this.profileForm.get('isStudent')?.value){
             this.profileForm.get('university')?.patchValue("");
           }
-          if(this.profileForm.get('isApplyForVolunteer')?.value && !this.profileForm.get('profilePicture')?.value){
-            this.profileForm.controls['profilePicture'].markAsTouched();
-            this.profileForm.get('profilePicture')?.setErrors({'required': true});
-          }else{
-            this.profileForm.get('profilePicture')?.setErrors(null);
-          }
+          //Validation to make Picture mandatory
+          // if(this.profileForm.get('isApplyForVolunteer')?.value && !this.profileForm.get('profilePicture')?.value){
+          //   this.profileForm.controls['profilePicture'].markAsTouched();
+          //   this.profileForm.get('profilePicture')?.setErrors({'required': true});
+          // }else{
+          //   this.profileForm.get('profilePicture')?.setErrors(null);
+          // }
           if(this.profileForm.status === 'INVALID'){
             return;
           }
