@@ -8,9 +8,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JobsComponent {
-    readonly nrnaEmail = "students@nrnusa.org";
-
-    mailTo(){
-        window.location.href = 'mailto:' + this.nrnaEmail;
-    }
+    readonly nrnaEmail: string = "students@nrnusa.org";
 }

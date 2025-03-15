@@ -5,6 +5,8 @@ import { AboutUsRoutingModule } from './about-us.routing';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { BoardComponent } from './board/board.component';
+import { OurMissionComponent } from './our-mission/our-mission.component';
 
 @NgModule({
   imports: [
@@ -14,6 +16,6 @@ import { IonicModule } from '@ionic/angular';
     SharedModule,
     ReactiveFormsModule
   ],
-  declarations: [AboutUsComponent]
+  declarations: [AboutUsComponent, OurMissionComponent, BoardComponent]
 })
 export class AboutUsModule { }

@@ -1,8 +1,8 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title class="app-title">NRNA Student Committee</ion-title>
+        <ion-title class="app-title">NRNA Youths</ion-title>
         <ion-buttons slot="start">
-            <ion-back-button defaultHref="/volunteer-communication"></ion-back-button>
+            <ion-back-button defaultHref="/about-us"></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
             <ion-menu-button></ion-menu-button>
@@ -13,7 +13,7 @@
 <ion-content [fullscreen]="true">
 
     <div id="container">
-        <ion-card class="white">
+        <ion-card class="white mt-3">
             <ion-card-header>
                 <ion-card-subtitle class="white"></ion-card-subtitle>
                 <ion-card-title class="nrna-card-title ion-text-center">University Outreach</ion-card-title>
@@ -29,26 +29,28 @@
 
                 <ion-button size="small" color="tertiary" expand="full" (click)="openPopOver($event)">Select University</ion-button>
 
-                <div class="university-outreach-list mt-3" *ngFor="let eachMember of selectedUniversityOutreachers; let i = index">
-                    <p></p> <!--Cannot remove this-->
-                    <div class="card pt-2 pb-2">
-                        <div class="profile-picture">
-                            <div *ngIf="getProfilePic(eachMember.email)" class="mb-2">
-                                <img src= {{getProfilePic(eachMember.email)}}>
-                            </div>
+                <ng-container *ngIf="selectedUniversityOutreachers.length">
+                    <div class="university-outreach-list mt-3" *ngFor="let eachMember of selectedUniversityOutreachers; let i = index" >
+                        <p></p> <!--Cannot remove this-->
+                        <div class="card pt-2 pb-2">
+                            <div class="profile-picture">
+                                <div *ngIf="getProfilePic(eachMember.email)" class="mb-2">
+                                    <img src= {{getProfilePic(eachMember.email)}}>
+                                </div>
 
-                        </div>
-                        <p class="font-size-18">{{ eachMember.fullName }}</p>
-                        <p class="font-size-16"><ion-icon name="call" class="mr-2 icon"></ion-icon><a href="{{'tel:' + eachMember.phoneNumber}}">{{eachMember.phoneNumber}}</a></p>
-                        <p class="font-size-16"><ion-icon name="mail" class="mr-2 icon"></ion-icon><a href="{{'mailto:' + eachMember.email }}">{{eachMember.email}}</a></p>
-                        <p class="font-size-14">Associated Universities</p>
-                        <ion-icon name="arrow-down"></ion-icon>
-                        <p class="university-list font-size-14" [innerHTML]="eachMember.associatedUniversities"></p>
-                        <div class="mt-3" *ngIf="eachMember.socialNetwork">
-                            <ion-icon name="logo-facebook" size="large"></ion-icon>
+                            </div>
+                            <p class="font-size-18">{{ eachMember.fullName }}</p>
+                            <p class="font-size-16"><ion-icon name="call" class="mr-2 icon"></ion-icon><a href="{{'tel:' + eachMember.phoneNumber}}">{{eachMember.phoneNumber}}</a></p>
+                            <p class="font-size-16"><ion-icon name="mail" class="mr-2 icon"></ion-icon><a href="{{'mailto:' + eachMember.email }}">{{eachMember.email}}</a></p>
+                            <p class="font-size-16">Associated Universities</p>
+                            <ion-icon name="arrow-down"></ion-icon>
+                            <p class="university-list font-size-16" [innerHTML]="eachMember.associatedUniversities"></p>
+                            <div class="mt-3" *ngIf="eachMember.socialNetwork">
+                                <ion-icon name="logo-facebook" size="large"></ion-icon>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </ng-container>
                 <ion-list *ngIf="selectedUniversityOutreachers.length === 0 && this.universityOutreachForm.get('university')?.value">
                     <ion-item>
                         <ion-label>

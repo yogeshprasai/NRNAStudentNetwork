@@ -268,8 +268,9 @@ body {
   color: black;
   background: linear-gradient(#efeef3, #a29dc3) padding-box, linear-gradient(
           var(--angle),
-          #da4040,
-          #6f6f7c
+          red,
+          green,
+          blue
   ) border-box;
   animation: 3s rotate linear infinite;
 }
@@ -286,3 +287,43 @@ body {
   inherits: false;
 }
 
+.horizontal-oscillating-object {
+  width: 50px;
+  height: 10px;
+  position: relative;
+  animation-name: oscillating;
+  animation-duration: 10s;
+  animation-iteration-count: 50;
+}
+
+@keyframes oscillating {
+  0%   {background-color:cyan; left:0%; top:0%;}
+  50%  {background-color: lightblue; left:85%; top:100%;}
+  100% {background-color:lightseagreen; left:0%; top:0%;}
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.wavy-text span {
+  display: inline-block;
+  animation: wave 5s infinite ease-in-out;
+}
+
+@keyframes neon {
+  0% { text-shadow: 0 0 5px #634d63, 0 0 10px #776e77; }
+  50% { text-shadow: 0 0 20px #594659, 0 0 40px #bcacbc; }
+  100% { text-shadow: 0 0 5px #a6a0a6, 0 0 10px #f1ebf1; }
+}
+
+.neon-text {
+  font-size: 14px;
+  color: #252325;
+  animation: neon 1.5s infinite alternate;
+}

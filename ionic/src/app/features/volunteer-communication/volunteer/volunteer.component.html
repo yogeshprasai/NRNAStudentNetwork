@@ -1,8 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title class="app-title">NRNA Student Committee</ion-title>
+    <ion-title class="app-title">NRNA Youths</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/volunteer-communication"></ion-back-button>
+      <ion-back-button defaultHref="/about-us"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
@@ -13,7 +13,7 @@
 <ion-content [fullscreen]="true">
 
   <div id="container">
-    <ion-card class="white">
+    <ion-card class="white mt-3">
       <ion-card-header>
         <ion-card-subtitle class="white"></ion-card-subtitle>
         <ion-card-title class="nrna-card-title ion-text-center">All Volunteers</ion-card-title>
@@ -22,18 +22,23 @@
     
       <ion-card-content>
 
+        <div class="ion-activatable ripple-parent rounded-rectangle">
+            <ion-ripple-effect>Email Selected Volunteers</ion-ripple-effect>
+        </div>
+        <ion-button size="small" class="nrna-flex-center mb-3">
+          <ion-icon slot="start" name="star"></ion-icon>
+                Click to Email Selected Volunteers
+        </ion-button>
         <div>
           <ion-item class="mb-15 green" *ngFor="let eachMember of volunteers">
             <ion-label class="white profile-container">
               <div class="profile-picture">
-                
                   <div *ngIf="eachMember.profilePicture">
                     <img src= {{getProfilePic(eachMember.profilePicture)}}>
                   </div>
                   <div *ngIf="!eachMember.profilePicture">
                       <img src="../../assets/icon/volunteer.png">
                   </div>
-                
               </div>
               <div class="volunteer-info">
                   <h2 *ngIf="eachMember.firstName && eachMember.lastName" class="font-bold">{{eachMember.firstName}} {{eachMember.lastName}}</h2>

@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import {SelectPopoverComponent} from "../../shared/components/select-popover/select-popover.component";
-import {PopoverController} from "@ionic/angular";
+import {AlertController, PopoverController, ViewWillEnter} from "@ionic/angular";
 import {university} from "../../shared/model/constants";
 import {universities} from "../../../assets/json/world_universities_and_domains";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {MiscService} from "../../shared/service/misc.service";
 import {UsersService} from "../../shared/service/users.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {AuthService} from "../../shared/service/auth.service";
+import {NrnaRoutes} from "../../shared/service/constant";
 
 @Component({
   selector: 'app-university-outreach',
   templateUrl: './university-outreach.component.html',
   styleUrls: ['./university-outreach.component.scss']
 })
-export class UniversityOutreachComponent implements OnInit {
+export class UniversityOutreachComponent implements OnInit, ViewWillEnter {
 
   public memo: any = null;
   public dataReturned: any = null;
@@ -24,9 +26,15 @@ export class UniversityOutreachComponent implements OnInit {
   public universityOutreachForm: FormGroup = new FormGroup({});
 
   constructor(private route: ActivatedRoute, private popoverController: PopoverController, private fb: FormBuilder,
-              private miscService: MiscService, private usersService: UsersService) { }
+              private miscService: MiscService, private authService: AuthService, private alertController: AlertController,
+              private router: Router) { }
+
 
   ngOnInit() {
+
+  }
+
+  async ionViewWillEnter() {
     this.universityOutreachForm = this.fb.group({
         university: new FormControl("")
     })
@@ -36,8 +44,12 @@ export class UniversityOutreachComponent implements OnInit {
 
     this.usaUniversityList = JSON.parse(JSON.stringify(universities));
     this.miscService.getUniversityOutreachList().subscribe((response: any) => {
-      this.universityOutreachers = JSON.parse(JSON.stringify(response));
-        this.selectedUniversityOutreachers = this.sortingUniversityList(this.universityOutreachers);
+      if(this.authService.isLoggedIn){
+        this.universityOutreachers = JSON.parse(JSON.stringify(response));
+        this.selectedUniversityOutreachers = this.universityOutreachers;
+      }else{
+
+      }
     });
 
     this.universityOutreachForm.valueChanges.subscribe(() => {
@@ -45,20 +57,17 @@ export class UniversityOutreachComponent implements OnInit {
           val.associatedUniversities.includes(this.universityOutreachForm.get('university')?.value)
         )
     });
-  }
 
-  sortingUniversityList(universityOutreachers: any){
-    return universityOutreachers.sort((a: any, b:any) => {
-      const nameA = a.fullName.toLowerCase();
-      const nameB = b.fullName.toLowerCase();
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
+    const alert = await this.alertController.create({
+      header: 'Login Required',
+      subHeader: '',
+      message: 'Please Login to see University Outreach list',
+      buttons: this.loginRequiredButtons,
+      backdropDismiss: false
     });
+    if(!this.authService.isLoggedIn){
+      await alert.present();
+    }
   }
 
   async openPopOver(ev: any) {
@@ -92,6 +101,15 @@ export class UniversityOutreachComponent implements OnInit {
     return "";
   }
 
+  public loginRequiredButtons = [
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: () => {
+        this.router.navigate([NrnaRoutes.Login]);
+      },
+    },
+  ];
 
 
 }

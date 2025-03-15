@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import {catchError, EMPTY, filter, map, Observable, of, tap, throwError} from 'rxjs';
+import {catchError, EMPTY, filter, Observable, of, tap, throwError} from 'rxjs';
 import {UsersService} from "../service/users.service";
 import {AlertController} from "@ionic/angular";
-import {NrnaRoutes} from "../service/constant";
+import {AuthService} from "../service/auth.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class VolunteerResolverService implements Resolve<any>{
 
-    constructor(private usersService: UsersService, private alertController: AlertController) {}
+    constructor(private authService: AuthService, private usersService: UsersService, private alertController: AlertController) {}
 
     resolve(): Observable<any>{
+        if(!this.authService.isLoggedIn){
+            return of(null);
+        }
         return this.usersService.getAllVolunteers().pipe(
             filter(users => users),
             catchError(err => {

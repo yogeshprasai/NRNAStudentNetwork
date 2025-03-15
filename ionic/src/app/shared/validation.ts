@@ -75,12 +75,12 @@ export  const Validation_ProfilePage = {
     ],
     'phoneNumber': [
         { type: 'required', message: 'Phone Number is required.' },
-        { type: 'minlength', message: 'Phone Number must be at least 10 characters long.' },
-        { type: 'maxlength', message: 'Phone Number should not be more than 16 characters long.' },
+        { type: 'minlength', message: 'Phone Number must be at least 10 digit long.' },
+        { type: 'maxlength', message: 'Phone Number should not be more than 10 digit long.' },
         { type: 'pattern', message: 'Please enter a valid Phone Number.' },
     ],
     'university': [
-        { type: 'required', message: 'University is required.' }
+        { type: 'required', message: 'Please select your University.' }
     ],
 }
 

@@ -13,7 +13,7 @@
 	<artifactId>nrna-student-committee</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>nrna-student-committee</name>
-	<description>NRNA Student Network Backend</description>
+	<description>NRNA Youths Backend</description>
 
 	<properties>
 		<java.version>1.8</java.version>

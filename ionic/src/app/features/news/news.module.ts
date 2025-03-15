@@ -4,13 +4,16 @@ import { NewsComponent } from './news.component';
 import {NewsRoutingModule} from "./news-routing.module";
 import {IonicModule} from "@ionic/angular";
 import {ReactiveFormsModule} from "@angular/forms";
+import {CustomDatePipe} from "../../shared/pipes/custom-date.pipe";
+import {SharedModule} from "../../shared/shared.module";
 
 @NgModule({
   imports: [
     CommonModule,
     NewsRoutingModule,
     IonicModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   declarations: [NewsComponent]
 })

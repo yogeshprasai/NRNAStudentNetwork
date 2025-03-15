@@ -6,7 +6,7 @@ import {ViewDidEnter, ViewWillEnter} from "@ionic/angular";
 @Component({
   selector: 'nrna-volunteer',
   templateUrl: './volunteer.component.html',
-  styleUrls: ['./volunteer.component.scss'],
+  styleUrls: ['./volunteer.component.scss']
 })
 export class VolunteerComponent implements OnInit, ViewWillEnter, ViewDidEnter {
 

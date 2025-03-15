@@ -1,8 +1,8 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title class="app-title">NRNA Student Committee</ion-title>
+        <ion-title class="app-title">NRNA Youths</ion-title>
         <ion-buttons slot="start">
-            <ion-back-button defaultHref="/volunteer-communication"></ion-back-button>
+            <ion-back-button defaultHref="/about-us"></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
             <ion-menu-button></ion-menu-button>
@@ -12,7 +12,7 @@
 
 <ion-content [fullscreen]="true">
     <div id="container">
-        <ion-card class="white">
+        <ion-card class="white mt-3">
             <ion-card-header>
                 <ion-card-subtitle class="white"></ion-card-subtitle>
                 <ion-card-title class="nrna-card-title ion-text-center">Nepali Student News</ion-card-title>
@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="ml-3">
                                     <div class="sources" [style.background-image]="changeColor()" id="news-source" #newsSource>{{eachNews.source}}</div>
-                                    <div class="text-center nrna-news-date mt-2 mb-2">{{eachNews.newsDate}}</div>
+                                    <div class="text-center nrna-news-date mt-2 mb-2">{{eachNews.newsDate | customDate}}</div>
                                     <div><a target="_blank" class="title" (click)="goTo(eachNews.link)">{{eachNews.title}}</a>></div>
                                 </div>
                             </div>

@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsefulInfoComponent implements OnInit {
 
-  readonly nrnaEmail = "students@nrnusa.org";
+  readonly nrnaEmail: string = "students@nrnusa.org";
 
   constructor() { }
 

@@ -19,17 +19,30 @@ export class NewsComponent implements OnInit {
     this.newsService.getLatestNews().subscribe((response: News[]) => {
       if(response.length){
         this.news = response;
-        this.news = response.sort((a, b) =>  {
-             let aDate: string = a.newsDate;
-             let bDate: string = b.newsDate;
-             if(a.newsDate.includes("hour") || a.newsDate.includes("hours") || b.newsDate.includes("hour") || b.newsDate.includes("hours")){
-               if(a.newsDate.includes("hour") || a.newsDate.includes("hours")){
-                 aDate = new Date().toString();
-               }else if(b.newsDate.includes("hour") || b.newsDate.includes("hours")){
-                 bDate = new Date().toString();
-               }
-             }
-             return Date.parse(bDate) - Date.parse(aDate);
+        this.news = response.sort((a: News, b: News) =>  {
+             let aInDateFormat: string = a.newsDate;
+             let bInDateFormat: string = b.newsDate;
+             let aInMilliSeconds: number = Date.parse(aInDateFormat);
+             let bInMilliSeconds: number = Date.parse(bInDateFormat);
+             const currentInMilliSeconds: number = Date.parse(new Date().toString());
+
+            if(a.newsDate.includes("minute") || a.newsDate.includes("minutes")){
+                const aToMilliSeconds: number = +a.newsDate.replace(/\D/g,'') * 1000 * 60;
+                aInMilliSeconds =  currentInMilliSeconds - aToMilliSeconds;
+            }else if(a.newsDate.includes("hour") || a.newsDate.includes("hours")){
+                const aToMilliSeconds: number = +a.newsDate.replace(/\D/g,'') * 1000 * 60 * 60;
+                aInMilliSeconds =  currentInMilliSeconds - aToMilliSeconds;
+            }
+
+            if(b.newsDate.includes("minute") || b.newsDate.includes("minutes")){
+                const bToMilliSeconds: number = +b.newsDate.replace(/\D/g,'') * 1000 * 60;
+                bInMilliSeconds =  currentInMilliSeconds - bToMilliSeconds;
+            }else if(b.newsDate.includes("hour") || b.newsDate.includes("hours")){
+                const bToMilliSeconds: number = +b.newsDate.replace(/\D/g,'') * 1000 * 60 * 60;
+                bInMilliSeconds =  currentInMilliSeconds - bToMilliSeconds;
+            }
+
+             return bInMilliSeconds - aInMilliSeconds;
         });
       }
     });
@@ -48,7 +61,6 @@ export class NewsComponent implements OnInit {
     //return "linear-gradient(yellow, red)";
     const firstEnumArray = Object.values(firstGradient);
     const secondEnumArray = Object.values(secondGradient);
-    console.log(firstEnumArray);
     const randomNumber1 = Math.floor(Math.random()* firstEnumArray.length);
     const randomNumber2 = Math.floor(Math.random()* firstEnumArray.length);
     return "linear-gradient("+ firstEnumArray[randomNumber1] +", "+ secondEnumArray[randomNumber2]  + ")";

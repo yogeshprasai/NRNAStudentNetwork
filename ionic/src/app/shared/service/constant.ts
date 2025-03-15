@@ -4,7 +4,7 @@ export const NrnaLinks = {
     Volunteer: 'Volunteer',
     Student: 'Student Network',
     UniversityOutreach: 'University Outreach',
-    Info: 'Info and Links',
+    Info: 'Helpful Info',
     Events: 'Events',
     News: 'News',
     AboutUs: 'About Us',

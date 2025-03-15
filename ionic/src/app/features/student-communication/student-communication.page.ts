@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {AlertController} from "@ionic/angular";
+import {AlertController, ViewWillEnter} from "@ionic/angular";
 import {AuthService} from "../../shared/service/auth.service";
 import {NrnaLinks, NrnaRoutes} from "../../shared/service/constant";
 
@@ -9,7 +9,7 @@ import {NrnaLinks, NrnaRoutes} from "../../shared/service/constant";
   templateUrl: './student-communication.page.html',
   styleUrls: ['./student-communication.page.scss'],
 })
-export class StudentCommunicationPage implements OnInit {
+export class StudentCommunicationPage implements OnInit, ViewWillEnter {
 
   constructor(private authService: AuthService, private alertController: AlertController,
               private router: Router) {}
@@ -19,7 +19,7 @@ export class StudentCommunicationPage implements OnInit {
 
   async ionViewWillEnter(){
     const alert = await this.alertController.create({
-      header: 'Requires Login',
+      header: 'Login Required',
       subHeader: '',
       message: 'Please Login to see students list',
       buttons: this.loginRequiredButtons,

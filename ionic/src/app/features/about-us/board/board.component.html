@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="app-title">
+        NRNA Youths
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <!-- Mission Statement -->
+    <div id="container">
+
+        <section class="mission-section ion-padding">
+            <ion-card class="white mt-0">
+                <h2 class="nrna-flex-center">Student Committee</h2>
+                <ion-card-content>
+                    <img class="" src="../../assets/student-committee1.jpg">
+                    <img class="mt-3" src="../../assets/student-committee2.jpg">
+                    <img class="mt-3" src="../../assets/student-committee3.jpg">
+                </ion-card-content>
+            </ion-card>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section ion-padding">
+            <ion-card>
+                <ion-card-header>
+                    <ion-card-title>Get in Touch</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-button expand="block" fill="solid" href="{{'mailto:' + nrnaEmail }}">
+                        {{ nrnaEmail }}
+                        <ion-icon name="mail-outline" slot="end"></ion-icon>
+                    </ion-button>
+                </ion-card-content>
+            </ion-card>
+        </section>
+    </div>  
+</ion-content>

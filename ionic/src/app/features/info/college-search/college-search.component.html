@@ -1,10 +1,10 @@
 <ion-header>
     <ion-toolbar>
       <ion-title class="app-title">
-        NRNA Student Committee
+          NRNA Youths
       </ion-title>
       <ion-buttons slot="start">
-            <ion-back-button defaultHref="/volunteer-communication"></ion-back-button>
+            <ion-back-button defaultHref="/about-us"></ion-back-button>
       </ion-buttons>
       <ion-buttons slot="end">
         <ion-menu-button></ion-menu-button>
@@ -16,9 +16,8 @@
   
     <div id="container">
   
-      <ion-card class="white">
-        <ion-card-header>
-          <ion-card-subtitle class="white ion-text-center"></ion-card-subtitle>
+      <ion-card class="white mt-3">
+        <ion-card-header class="pt-0">
           <ion-card-title class="nrna-card-title ion-text-center sub-header search-container">Use College Search to find perfect school for your requirements.</ion-card-title>
         </ion-card-header>
       
@@ -41,7 +40,9 @@
                     <li><a href="https://www.petersons.com/college-search.aspx">Peterson’s</a></li>
                 </ul>
             </div>
-  
+
+            <p class="nrna-flex nrna-flex-center neon-text">Most Popular Universities Among Nepali Students</p>
+
             <div class="college-grid" *ngFor="let uni of universities">
                 <!-- College Card 1 -->
                 <div class="college-card">

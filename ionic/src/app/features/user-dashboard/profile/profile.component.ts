@@ -49,12 +49,12 @@ export class ProfileComponent implements OnInit {
     private navController: NavController
   ) {}
 
-  async ngOnInit(){
+  ngOnInit(){
     this.profileForm = this.fb.group({
       firstName: ['', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
       middleName: ['', [Validators.compose([Validators.minLength(1), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
       lastName: ['', [Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('^[a-zA-Z ]+$')])]],
-      email: ['', [Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)])]],
+      email: ['', [Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")])]],
       phoneNumber: ['', [Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9\s]*$/)])]],
       showPhoneNumber: [''],
       isApplyForVolunteer: [''],
@@ -115,11 +115,11 @@ export class ProfileComponent implements OnInit {
       }
     });
 
-    this.profileForm.get('profilePicture')?.valueChanges.subscribe((val:boolean) => {
-      if(val){
-        this.profileForm.controls['profilePicture'].setErrors({});
+    this.profileForm.get('isStudent')?.valueChanges.subscribe((val: boolean) => {
+      if(!val){
+        this.profileForm.get('university')?.patchValue(null);
       }
-    });
+    })
   }
 
   async uploadFromCameraOrGallery() {
@@ -185,7 +185,8 @@ export class ProfileComponent implements OnInit {
     this.profileForm.controls['email'].markAsTouched();
     this.profileForm.controls['phoneNumber'].markAsTouched();
 
-    if(this.profileForm.controls['isStudent']?.value && !this.profileForm.get('university')?.value){
+    if(this.profileForm.controls['isStudent']?.value &&
+        (this.profileForm.get('university')?.value == null || this.profileForm.get('university')?.value === "")){
       this.profileForm.controls['university'].markAsTouched();
       this.profileForm.controls['university']?.setErrors({'required': true});
       return;
@@ -208,6 +209,33 @@ export class ProfileComponent implements OnInit {
           if(this.profileForm.status === 'INVALID'){
             return;
           }
+
+          //Capitalize Names
+          if(!this.profileForm.controls['firstName'].errors){
+            const firstName = this.profileForm.controls['firstName'].value;
+            if(firstName){
+              const capitalized = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+              this.profileForm.get('firstName')?.patchValue(capitalized);
+            }
+          }
+
+          if(!this.profileForm.controls['middleName'].errors){
+            const middleName = this.profileForm.controls['middleName'].value;
+            if(middleName){
+              const capitalized = middleName.charAt(0).toUpperCase() + middleName.slice(1);
+              this.profileForm.get('middleName')?.patchValue(capitalized);
+            }
+
+          }
+
+          if(!this.profileForm.controls['lastName'].errors){
+            const lastName = this.profileForm.controls['lastName'].value;
+            if(lastName){
+              const capitalized = lastName.charAt(0).toUpperCase() + lastName.slice(1);
+              this.profileForm.get('lastName')?.patchValue(capitalized);
+            }
+          }
+
           this.profileAddressService.updateProfile(this.profileForm.value)
               .subscribe({
                   next: (response: any) => {

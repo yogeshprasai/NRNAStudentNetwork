@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="app-title">
+        NRNA Youths
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <!-- Mission Statement -->
+    <section class="mission-section ion-padding">
+        <ion-card>
+            <ion-card-content>
+                <h2 class="nrna-flex-center font-size-24">Our Mission</h2>
+                <p class="white medium-text mt-3">
+                    Student Connect is an innovative social networking platform designed exclusively for students to collaborate, share knowledge, and build meaningful academic and professional connections. Whether you're looking for study groups, mentorship, career opportunities, or simply a space to engage with like-minded peers, Student Connect brings everything into one seamless experience.
+                    <br/>
+                    <br/>
+                    Key Features:<br/>
+                    ✅ Study Groups & Collaboration – Create or join study groups for courses, exams, and projects.<br/>
+                    ✅ Mentorship & Peer Support – Connect with senior students, alumni, or professors for academic and career guidance.<br/>
+                    ✅ Event & Workshop Discovery – Stay updated with university events, webinars, and networking meetups.<br/>
+                    ✅ Job & Internship Board – Find internship and job opportunities tailored to your field of study.<br/>
+                    ✅ Q&A Forums & Discussions – Ask questions, exchange notes, and engage in academic discussions.<br/>
+                    ✅ Personalized Dashboard – Get content recommendations, upcoming deadlines, and important announcements.<br/>
+                </p>
+            </ion-card-content>
+        </ion-card>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section ion-padding">
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>Get in Touch</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-button expand="block" fill="solid" href="{{'mailto:' + nrnaEmail }}">
+                    {{ nrnaEmail }}
+                    <ion-icon name="mail-outline" slot="end"></ion-icon>
+                </ion-button>
+            </ion-card-content>
+        </ion-card>
+    </section>
+</ion-content>
