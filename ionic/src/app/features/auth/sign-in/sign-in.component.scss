@@ -3,6 +3,24 @@
     justify-content: center;
 }
 
+.nrna-square-image{
+    margin: auto;
+    height: 200px;
+    width: 200px;
+    border-radius: 5%;
+    box-shadow: 0 0 40px #6c6ce2;
+    display: block;
+}
+
+.nrna-round-image{
+    margin: auto;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    box-shadow: 0 0 40px #6c6ce2;
+    display: block;
+}
+
 .input-background{
     background: white;
 }

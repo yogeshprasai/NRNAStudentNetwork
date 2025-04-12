@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="app-title">
+        NRNA Youths
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <!-- Mission Statement -->
+    <section class="mission-section ion-padding">
+        <ion-card>
+            <ion-card-content>
+                <h2 class="nrna-flex-center font-size-24 mt-3 mb-3">Meet The Development Team</h2>
+
+<!--                <div class="nrna-flex-image">-->
+<!--                    <img class="mt-10" src="../../../../assets/dev-team.jpg">-->
+<!--                    Name: Yogesh Prasai-->
+<!--                    Phone: 240-993-6466-->
+<!--                    Email: yogeshprasaiatgmail.com-->
+<!--                    github: https://github.com/yogeshprasai-->
+
+<!--                </div>-->
+
+                <div id="login-container" class="ml-3 profile">
+                    <div class="profile-img"><img class="mt-10" src="../../../../assets/dev-team.jpg"></div>
+                    <h1>
+                        Yogesh Prasai
+                    </h1>
+                    <div class="description">
+                        Yogesh is a full stack developer in Washington DC currently working as federal contractor.
+                    </div>
+                    <div class="social">
+                        <a href="https://github.com/yogeshprasai">GitHub</a>
+                        <a href="https://www.facebook.com/yogesh.prasai.9">Facebook</a>
+                        <a href="https://www.linkedin.com/in/yogesh-prasai-80b81012b/">LinkedIn</a>
+                    </div>
+                    <p class="white medium-text ml-3 mt-3 mr-3 mb-3">
+                        If you have any questions, suggestions, or feedback about App related features, please feel free to reach out to us.
+                        We are always open to hearing from you and improving our platform.<br/><br/>
+                        Phone: 240-993-66466
+                    </p>
+<!--                    <button (click)="{{'mailto:' + devEmail }}">Contact Me</button>-->
+                    <ion-button expand="block" fill="solid" href="{{'mailto:' + devEmail }}">
+                        Email
+                        <ion-icon name="mail-outline" slot="end"></ion-icon>
+                    </ion-button>
+
+                    <footer>
+                        <div class="likes">
+                            <p><i class='fa fa-heart'></i></p>
+                            <p>1.5K</p>
+                        </div>
+                        <div class="projects">
+                            <p>Projects</p>
+                            <p>8</p>
+                        </div>
+                    </footer>
+                </div>
+
+
+
+
+            </ion-card-content>
+
+
+        </ion-card>
+    </section>
+</ion-content>

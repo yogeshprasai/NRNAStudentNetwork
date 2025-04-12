@@ -6,6 +6,7 @@ import org.joda.time.LocalDate;
 import org.nrna.dao.News;
 import org.nrna.dao.University;
 import org.nrna.dao.UniversityOutreach;
+import org.nrna.dto.UserProfileAndAddress;
 import org.nrna.dto.response.news.NewsResult;
 import org.nrna.dto.response.news.SerpApi;
 import org.nrna.dto.response.UniversityOutreachResponse;
@@ -44,7 +45,7 @@ public class MiscService {
         if(allNewsFromDb.isEmpty()) {
             allNewsFromSerpApi = (ArrayList<NewsResult>) getLatestNewsFromSerpApi();
             if(!allNewsFromSerpApi.isEmpty()) {
-                persistAllNews(allNewsFromSerpApi, allNewsFromDb);
+                persistAllNewsForEmptyDB(allNewsFromSerpApi, allNewsFromDb);
             }
 
         }else{
@@ -59,11 +60,10 @@ public class MiscService {
             if(LocalDate.parse(latestNews.getPersistDate()).isBefore(LocalDate.now())){
                 allNewsFromSerpApi = (ArrayList<NewsResult>) getLatestNewsFromSerpApi();
                 if(!allNewsFromSerpApi.isEmpty()){
-                    persistAllNews(allNewsFromSerpApi, allNewsFromDb);
+                    persistAllNewsIfDbHasSomeAlready(allNewsFromSerpApi, allNewsFromDb);
                 }
             }
         }
-
         return new ResponseEntity<>(getAllNewsFromDB(), HttpStatus.OK);
     }
 
@@ -86,9 +86,46 @@ public class MiscService {
         return serpApiNews.getNewsResults();
     }
 
+    private void persistAllNewsForEmptyDB(ArrayList<NewsResult> allNewsFromSerpApi, ArrayList<News> allNewsFromDb){
+        for(NewsResult eachNewsToPersist : allNewsFromSerpApi){
+            News news = new News();
+            news.setTitle(eachNewsToPersist.getTitle());
+            news.setLink(eachNewsToPersist.getLink());
+            news.setTitle(eachNewsToPersist.getTitle());
+            news.setSource(eachNewsToPersist.getSource());
+            if(eachNewsToPersist.getDate() != null){
+                String getDate = eachNewsToPersist.getDate();
+                if(getDate.contains("minute") || getDate.contains("minutes")){
+                    news.setNewsDate(LocalDate.now().toString());
+                }else if(getDate.contains("hour") || getDate.contains("hours")){
+                    news.setNewsDate(LocalDate.now().toString());
+                }else if(getDate.contains("day") || getDate.contains("days")){
+                    int digitOnly = Integer.parseInt(getDate.replaceAll("[^0-9]", ""));
+                    news.setNewsDate(LocalDate.now().minusDays(digitOnly).toString());
+                }else if(getDate.contains("week") || getDate.contains("weeks")){
+                    int digitOnly = Integer.parseInt(getDate.replaceAll("[^0-9]", ""));
+                    news.setNewsDate(LocalDate.now().minusDays(digitOnly * 7).toString());
+                } else if(getDate.contains("month") || getDate.contains("months")){
+                    int digitOnly = Integer.parseInt(getDate.replaceAll("[^0-9]", ""));
+                    news.setNewsDate(LocalDate.now().minusDays(digitOnly * 30).toString());
+                }else{
+                    news.setNewsDate(LocalDate.now().toString());
+                }
+            }
+            news.setPersistDate(LocalDate.now().toString());
+            news.setSnippet(eachNewsToPersist.getSnippet());
+            news.setThumbnail(eachNewsToPersist.getThumbnail());
+            try{
+                miscRepository.save(news);
+            } catch (Exception e) {
+                throw new CustomGenericException(e.getMessage());
+            }
+        }
+    }
+
     //Check if news exist in db
     //If news exist, don't persist to all news object, just persist latest date
-    private void persistAllNews(ArrayList<NewsResult> allNewsFromSerpApi, ArrayList<News> allNewsFromDb){
+    private void persistAllNewsIfDbHasSomeAlready(ArrayList<NewsResult> allNewsFromSerpApi, ArrayList<News> allNewsFromDb){
         if(!allNewsFromSerpApi.isEmpty()){
             for(NewsResult eachNewsToPersist : allNewsFromSerpApi){
                 boolean newsExist = false;
@@ -120,7 +157,7 @@ public class MiscService {
     }
 
     private @NotNull ArrayList<News> getAllNewsFromDB() {
-        return (ArrayList<News>) miscRepository.findAll();
+        return (ArrayList<News>) miscRepository.findAll().stream().collect(Collectors.toList());
     }
 
     public ArrayList<University> getTopUniversities(){
@@ -139,7 +176,9 @@ public class MiscService {
                                 universityOutreach.getAssociatedUniversities(),
                                 universityOutreach.getIsNSU()
                                 )
-                ).collect(Collectors.toList());
+                )
+                .sorted(Comparator.comparing(UniversityOutreachResponse::getFullName))
+                .collect(Collectors.toList());
         return universityOutreachResponses;
     }
 

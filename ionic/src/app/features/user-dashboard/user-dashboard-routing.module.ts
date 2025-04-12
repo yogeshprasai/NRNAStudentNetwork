@@ -2,15 +2,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from 'src/app/shared/guards/auth.guard';
-import { AddressComponent } from './address/address.component';
-import { UserDashboardComponent } from './user-dashboard.component';
+
 import {ProfileResolverService} from "../../shared/resolvers/profile-resolver.service";
-import {AddressResolverService} from "../../shared/resolvers/address-resolver.service";
 
 const routes: Routes = [
   {
     path: '',
-    component: UserDashboardComponent,
+    component: ProfileComponent,
+    resolve : {
+      profile: ProfileResolverService,
+    },
+    canActivate: [AuthGuard],
     children : [
       {
         path: '',
@@ -26,14 +28,6 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         resolve: {
           profile: ProfileResolverService
-        }
-      },
-      {
-        path: 'address',
-        component: AddressComponent,
-        canActivate: [AuthGuard],
-        resolve: {
-          address: AddressResolverService
         }
       }
     ]

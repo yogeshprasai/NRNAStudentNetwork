@@ -144,7 +144,7 @@ public class EmailService {
                     "        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width: 600px;\">\n" +
                     "          <tr>\n" +
                     "            <td align=\"left\" bgcolor=\"#ffffff\" style=\"padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; border-top: 3px solid #d4dadf;\">\n" +
-                    "              <h1 style=\"margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -1px; text-align: center; line-height: 48px;\">NRNA Student Committee</h1>\n" +
+                    "              <h1 style=\"margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -1px; text-align: center; line-height: 48px;\">NRNA Youths</h1>\n" +
                     "              <h1 style=\"margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -1px; text-align: center; line-height: 48px;\">Reset Your Password</h1>\n" +
                     "            </td>\n" +
                     "          </tr>\n" +
@@ -171,7 +171,7 @@ public class EmailService {
                     "          <!-- start copy -->\n" +
                     "          <tr>\n" +
                     "            <td align=\"left\" bgcolor=\"#ffffff\" style=\"padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">\n" +
-                    "              <p style=\"margin: 0;\">We received a request to reset your password for your NRNA Student Committee account. If you didn't request a new password, you can safely delete this email.</p>\n" +
+                    "              <p style=\"margin: 0;\">We received a request to reset your password for your NRNA Youths account. If you didn't request a new password, you can safely delete this email.</p>\n" +
                     "              <p style=\"margin: 0;\">Please enter this token in the app.</p>\n" +
                     "            </td>\n" +
                     "          </tr>\n" +
@@ -193,7 +193,7 @@ public class EmailService {
                     "          <!-- start copy -->\n" +
                     "          <tr>\n" +
                     "            <td align=\"left\" bgcolor=\"#ffffff\" style=\"padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf\">\n" +
-                    "              <p style=\"margin: 0;\">Thanks,<br> NRNA Student Committee</p>\n" +
+                    "              <p style=\"margin: 0;\">Thanks,<br> NRNA Youths</p>\n" +
                     "            </td>\n" +
                     "          </tr>\n" +
                     "          <!-- end copy -->\n" +
@@ -229,7 +229,7 @@ public class EmailService {
                     "          <!-- start unsubscribe -->\n" +
                     "          <tr>\n" +
                     "            <td align=\"center\" bgcolor=\"#e9ecef\" style=\"padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;\">\n" +
-                    "              <p style=\"margin: 0;\">NRNA Student Committee</p>\n" +
+                    "              <p style=\"margin: 0;\">NRNA Youths</p>\n" +
                     "              <p style=\"margin: 0;\">10520 Warwick Ave, Fairfax, VA 22030</p>\n" +
                     "            </td>\n" +
                     "          </tr>\n" +

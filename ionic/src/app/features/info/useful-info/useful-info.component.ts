@@ -9,6 +9,8 @@ export class UsefulInfoComponent implements OnInit {
 
   readonly nrnaEmail: string = "students@nrnusa.org";
 
+  readonly nrnUSAEmail: string = "students@nrnusa.org";
+
   constructor() { }
 
   ngOnInit() {}

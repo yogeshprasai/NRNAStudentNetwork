@@ -31,10 +31,6 @@ export class ProfileAddressService {
       return this.apiService.get(environment.server_url + "/api/user/profile");
     }
 
-    getUserAddress(): Observable<Address>{
-      return this.apiService.get(environment.server_url + "/api/user/address");
-    }
-
     saveOrUpdateAddress(userAddress: Address){
       return this.apiService.post(environment.server_url + "/api/user/address", userAddress);
     }

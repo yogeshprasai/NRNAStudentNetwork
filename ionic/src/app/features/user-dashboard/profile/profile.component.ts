@@ -43,7 +43,6 @@ export class ProfileComponent implements OnInit {
     public fb: FormBuilder,
     public route: ActivatedRoute,
     private alertController: AlertController,
-    private platForm: Platform,
     private popoverController: PopoverController,
     private navigationService: NavigationService,
     private navController: NavController
@@ -61,7 +60,10 @@ export class ProfileComponent implements OnInit {
       isVolunteer: [''],
       isStudent: [''],
       university: [''],
-      profilePicture: ['']
+      profilePicture: [''],
+      city: ['', [Validators.compose([Validators.required, Validators.maxLength(32), Validators.pattern("^[a-zA-Z ]*$")])]],
+      state: ['', [Validators.compose([Validators.required, Validators.pattern("^[a-zA-Z ]*$")])]],
+      zipCode: ['', [Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(5), Validators.pattern("^[0-9]*$")])]]
     });
     this.usaUniversityList = JSON.parse(JSON.stringify(universities));
   }
@@ -83,6 +85,9 @@ export class ProfileComponent implements OnInit {
         this.profileForm.get('isVolunteer')?.patchValue(this.originalProfileValues.isVolunteer);
         this.profileForm.get('isStudent')?.patchValue(this.originalProfileValues.isStudent);
         this.profileForm.get('university')?.patchValue(this.originalProfileValues.university);
+        this.profileForm.get('city')?.patchValue(this.originalProfileValues.city);
+        this.profileForm.get('state')?.patchValue(this.originalProfileValues.state);
+        this.profileForm.get('zipCode')?.patchValue(this.originalProfileValues.zipCode);
         if(this.originalProfileValues.profilePicture){
           this.profilePicture = "data:image/jpeg;base64," + this.originalProfileValues.profilePicture;
           this.profileForm.get('profilePicture')?.patchValue(this.profilePicture);
@@ -90,20 +95,6 @@ export class ProfileComponent implements OnInit {
       }
     });
     this.usaUniversityList = JSON.parse(JSON.stringify(universities));
-
-    //Validation to make profile picture mandatory
-    // this.profileForm.get('isApplyForVolunteer')?.valueChanges.subscribe((val:boolean) => {
-    //   if(val){
-    //     this.profileForm.controls['profilePicture'].markAsTouched();
-    //     if(!this.profileForm.controls['profilePicture']?.value){
-    //       this.profileForm.controls['profilePicture'].markAsTouched();
-    //       this.profileForm.controls['profilePicture']?.setErrors({'required': true});
-    //       return;
-    //     }
-    //   }else {
-    //     this.profileForm.controls['profilePicture']?.setErrors(null);
-    //   }
-    // });
 
     this.profileForm.get('isVolunteer')?.valueChanges.subscribe((val: boolean) => {
       if(this.originalProfileValues.isVolunteer){
@@ -184,6 +175,17 @@ export class ProfileComponent implements OnInit {
     this.profileForm.controls['lastName'].markAsTouched();
     this.profileForm.controls['email'].markAsTouched();
     this.profileForm.controls['phoneNumber'].markAsTouched();
+    this.profileForm.controls['city'].markAsTouched();
+    this.profileForm.controls['state'].markAsTouched();
+    this.profileForm.controls['zipCode'].markAsTouched();
+
+    this.profileForm.controls['firstName'].setValue(this.profileForm.controls['firstName'].value.trim());
+    this.profileForm.controls['lastName'].setValue(this.profileForm.controls['lastName'].value.trim());
+    this.profileForm.controls['email'].setValue(this.profileForm.controls['email'].value.trim());
+    this.profileForm.controls['phoneNumber'].setValue(this.profileForm.controls['phoneNumber'].value.trim());
+    this.profileForm.controls['city'].setValue(this.profileForm.controls['city'].value.trim());
+    this.profileForm.controls['state'].setValue(this.profileForm.controls['state'].value.trim());
+    this.profileForm.controls['zipCode'].setValue(this.profileForm.controls['zipCode'].value.trim());
 
     if(this.profileForm.controls['isStudent']?.value &&
         (this.profileForm.get('university')?.value == null || this.profileForm.get('university')?.value === "")){
@@ -194,18 +196,12 @@ export class ProfileComponent implements OnInit {
 
     if(!this.profileForm.controls['firstName'].errors && !this.profileForm.controls['middleName'].errors && 
           !this.profileForm.controls['lastName'].errors && !this.profileForm.controls['email'].errors && 
-          !this.profileForm.controls['phoneNumber'].errors){
+          !this.profileForm.controls['phoneNumber'].errors && !this.profileForm.controls['city'].errors
+          && !this.profileForm.controls['state'].errors && !this.profileForm.controls['zipCode'].errors){
           //Submit Form if there are no errors
           if(!this.profileForm.get('isStudent')?.value){
             this.profileForm.get('university')?.patchValue("");
           }
-          //Validation to make Picture mandatory
-          // if(this.profileForm.get('isApplyForVolunteer')?.value && !this.profileForm.get('profilePicture')?.value){
-          //   this.profileForm.controls['profilePicture'].markAsTouched();
-          //   this.profileForm.get('profilePicture')?.setErrors({'required': true});
-          // }else{
-          //   this.profileForm.get('profilePicture')?.setErrors(null);
-          // }
           if(this.profileForm.status === 'INVALID'){
             return;
           }

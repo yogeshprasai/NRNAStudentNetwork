@@ -12,7 +12,7 @@
 
 <ion-content [fullscreen]="true">
   <div id="container">
-    <ion-card class="white mt-3">
+    <ion-card class="m-3">
       <ion-card-header>
         <ion-card-subtitle class="white"></ion-card-subtitle>
         <ion-card-title class="nrna-card-title ion-text-center">Search Students</ion-card-title>
@@ -31,12 +31,15 @@
 
           <ion-item class="mb-15 green" *ngFor="let eachMember of studentsFilteredList">
             <ion-label class="white profile-container">
-              <div class="profile-picture">
-                <ion-thumbnail slot="start">
-                  <img src="../../assets/icon/volunteer.png">
-                </ion-thumbnail>
-              </div>
-              <div>
+                <div class="profile-picture">
+                    <div *ngIf="eachMember.profilePicture">
+                        <img src= {{getProfilePic(eachMember.profilePicture)}}>
+                    </div>
+                    <div *ngIf="!eachMember.profilePicture">
+                        <img src="../../assets/icon/volunteer.png">
+                    </div>
+                </div>
+              <div class="ml-3">
                 <h2 *ngIf="eachMember.firstName && eachMember.lastName" class="font-bold">{{eachMember.firstName}} {{eachMember.lastName}}</h2>
                 <div class="white mt-1" *ngIf="eachMember.userAddress && eachMember.userAddress.city && eachMember.userAddress && eachMember.userAddress.state">{{eachMember.userAddress.city}}, {{eachMember.userAddress.state}}</div>
                 <div class="nrna-phone mt-1" *ngIf="eachMember.phoneNumber"><ion-icon name="call-outline"></ion-icon> {{eachMember.phoneNumber}}</div>

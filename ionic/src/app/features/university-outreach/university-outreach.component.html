@@ -13,7 +13,7 @@
 <ion-content [fullscreen]="true">
 
     <div id="container">
-        <ion-card class="white mt-3">
+        <ion-card class="m-3">
             <ion-card-header>
                 <ion-card-subtitle class="white"></ion-card-subtitle>
                 <ion-card-title class="nrna-card-title ion-text-center">University Outreach</ion-card-title>
@@ -28,6 +28,8 @@
                 </div>
 
                 <ion-button size="small" color="tertiary" expand="full" (click)="openPopOver($event)">Select University</ion-button>
+                <ion-button *ngIf="universityOutreachForm.get('university')?.value" size="small" color="tertiary" expand="full"
+                            fill="clear" (click)="clearSelectedUniversity()">Clear Selected University</ion-button>
 
                 <ng-container *ngIf="selectedUniversityOutreachers.length">
                     <div class="university-outreach-list mt-3" *ngFor="let eachMember of selectedUniversityOutreachers; let i = index" >
@@ -54,12 +56,14 @@
                 <ion-list *ngIf="selectedUniversityOutreachers.length === 0 && this.universityOutreachForm.get('university')?.value">
                     <ion-item>
                         <ion-label>
-                            <div class="nrna-flex-center">No Contact Exist</div>
-                            <div class="nrna-flex-center">Please Select Another University.</div>
+                            <div class="nrna-flex-image">
+                                <img class="mt-10" src="../../../../assets/no-contact.png">
+                                <div class="mt-3"></div>
+                                <img class="mt-10" src="../../../../assets/another-university.png">
+                            </div>
                         </ion-label>
                     </ion-item>
                 </ion-list>
-
             </ion-card-content>
 
         </ion-card>

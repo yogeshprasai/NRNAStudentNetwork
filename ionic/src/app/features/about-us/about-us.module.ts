@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { BoardComponent } from './board/board.component';
 import { OurMissionComponent } from './our-mission/our-mission.component';
+import { DevTeamComponent } from './dev-team/dev-team.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { OurMissionComponent } from './our-mission/our-mission.component';
     SharedModule,
     ReactiveFormsModule
   ],
-  declarations: [AboutUsComponent, OurMissionComponent, BoardComponent]
+  declarations: [AboutUsComponent, OurMissionComponent, BoardComponent, DevTeamComponent]
 })
 export class AboutUsModule { }

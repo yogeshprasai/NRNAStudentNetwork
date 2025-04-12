@@ -3,3 +3,12 @@ hr {
     margin: 1rem auto 1rem auto;
     width: 50%;
 }
+
+img{
+    margin: auto;
+    height: 80%;
+    width: 80%;
+    border-radius: 50%;
+    box-shadow: 0 0 40px #6c6ce2;
+    display: block;
+}

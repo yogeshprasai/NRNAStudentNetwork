@@ -15,6 +15,9 @@ public class UserProfile implements Serializable {
 	private String lastName;
 	private String email;
 	private String phoneNumber;
+	private String city;
+	private String state;
+	private String zipCode;
 	private boolean showPhoneNumber;
 	private boolean isStudent;
 	private String university;
@@ -28,12 +31,16 @@ public class UserProfile implements Serializable {
 	}
 
 	public UserProfile(String firstName, String middleName, String lastName, String email, String phoneNumber,
+					   String city, String state, String zipCode,
 					   boolean applyForVolunteer, boolean isVolunteer, boolean isAdmin) {
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
+		this.city = city;
+		this.state = state;
+		this.zipCode = zipCode;
 		this.showPhoneNumber = showPhoneNumber;
 		this.isStudent = isStudent;
 		this.university = university;
@@ -80,6 +87,30 @@ public class UserProfile implements Serializable {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 
 	public boolean isShowPhoneNumber() {
@@ -154,6 +185,9 @@ public class UserProfile implements Serializable {
 		userProfile.setEmail(user.getEmail());
 		userProfile.setPhoneNumber(user.getPhoneNumber());
 		userProfile.setShowPhoneNumber(user.isShowPhoneNumber());
+		userProfile.setCity(user.getAddress().getCity());
+		userProfile.setState(user.getAddress().getState());
+		userProfile.setZipCode(user.getAddress().getZipCode());
 		userProfile.setStudent(user.isStudent());
 		userProfile.setUniversity(user.getUniversity());
 		userProfile.setApplyForVolunteer(user.isApplyForVolunteer());

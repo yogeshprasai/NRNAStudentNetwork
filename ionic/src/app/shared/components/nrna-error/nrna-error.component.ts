@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
-  Validation_AddressPage,
   Validation_Login,
   Validation_Password_Reset_Send, Validation_Password_Reset_Verify,
   Validation_ProfilePage,
@@ -20,7 +19,6 @@ export class NrnaErrorComponent  implements OnInit {
   readonly validationPasswordResetSendPage: any = Validation_Password_Reset_Send;
   readonly validataionPasswordResetVerifyPage: any = Validation_Password_Reset_Verify;
   readonly validationProfilePage: any = Validation_ProfilePage;
-  readonly validationAddressPage: any = Validation_AddressPage;
 
   @Input('form') form: FormGroup = new FormGroup({});
   @Input('controlName') controlName: string = '';
@@ -41,8 +39,6 @@ export class NrnaErrorComponent  implements OnInit {
       this.validations = this.validataionPasswordResetVerifyPage[this.controlName];
     }else if(this.page === 'profile'){
       this.validations = this.validationProfilePage[this.controlName];
-    }else if(this.page === 'address'){
-      this.validations = this.validationAddressPage[this.controlName];
     }
     
   }

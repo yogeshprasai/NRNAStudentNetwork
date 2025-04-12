@@ -5,7 +5,6 @@ import {university} from "../../shared/model/constants";
 import {universities} from "../../../assets/json/world_universities_and_domains";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {MiscService} from "../../shared/service/misc.service";
-import {UsersService} from "../../shared/service/users.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../shared/service/auth.service";
 import {NrnaRoutes} from "../../shared/service/constant";
@@ -91,6 +90,13 @@ export class UniversityOutreachComponent implements OnInit, ViewWillEnter {
       this.dataReturned = data?.selectedItem;
       this.memo = this?.dataReturned + "/" + this.memo;
     }
+  }
+
+  clearSelectedUniversity(){
+    if(this.universityOutreachForm.get("university")){
+      this.universityOutreachForm.get('university')?.reset();
+    }
+    this.selectedUniversityOutreachers = this.universityOutreachers;
   }
 
   getProfilePic(email: string): string {

@@ -32,7 +32,7 @@ export class AdminComponent implements OnInit {
             if(res.message === "Success"){
               volunteer.isApplyForVolunteer = true;
               this.volunteerUpdateSuccess = true;
-              return this.usersService.getAllVolunteers();
+              return this.usersService.getAllApplyForVolunteerRequest();
             }else{
               this.showErrorAlert("Failed to approve volunteer. Please try again.")
               return of(null);
@@ -42,8 +42,7 @@ export class AdminComponent implements OnInit {
     ).subscribe({
       next: (userProfiles: UserProfile[]) => {
         if(typeof(userProfiles) == "object"){
-          this.appliedForVolunteers = userProfiles
-              .filter((user: UserProfile) => user.isApplyForVolunteer);
+          this.appliedForVolunteers = userProfiles;
         }
       },
       error: (error: any) => {

@@ -13,7 +13,7 @@
 <ion-content [fullscreen]="true">
 
   <div id="container">
-    <ion-card class="white mt-3">
+    <ion-card class="m-3">
       <ion-card-header>
         <ion-card-subtitle class="white"></ion-card-subtitle>
         <ion-card-title class="nrna-card-title ion-text-center">All Students</ion-card-title>
@@ -31,12 +31,11 @@
                   <div *ngIf="!eachMember.profilePicture">
                       <img src="../../assets/icon/volunteer.png">
                   </div>
-                
               </div>
               <div class="student-info">
                   <h2 *ngIf="eachMember.firstName && eachMember.lastName" class="font-bold">{{eachMember.firstName}} {{eachMember.lastName}}</h2>
                   <div class="white mt-1" *ngIf="eachMember.userAddress && eachMember.userAddress.city && eachMember.userAddress && eachMember.userAddress.state">{{eachMember.userAddress.city}}, {{eachMember.userAddress.state}}</div>
-                  <div *ngIf="eachMember.showPhoneNumber && eachMember.phoneNumber" class="nrna-phone mt-1"><ion-icon name="call-outline"></ion-icon>  <a class=" ml-2 text-decoration-none" href="{{'tel:' + eachMember.phoneNumber}}">{{eachMember.phoneNumber}}</a></div>
+                  <div *ngIf="eachMember.showPhoneNumber && eachMember.phoneNumber" class="nrna-phone mt-1"><ion-icon name="call-outline"></ion-icon>  <a class=" ml-2 text-decoration-none" href="{{'tel:' + eachMember.phoneNumber}}">{{eachMember.phoneNumber | phoneFormat}}</a></div>
                   <div class="nrna-email mt-1" *ngIf="eachMember.email"><ion-icon name="mail-outline" class="mr-2 mail-icon"></ion-icon><span><a class="text-decoration-none" href="{{'mailto:' + eachMember.email }}">{{eachMember.email}}</a></span></div>
                   <div class="nrna-university mt-1"><ion-icon name="school" class="mr-2 mail-icon"></ion-icon><span><span class="text-decoration-none">{{eachMember.university ? eachMember.university : 'N/A'}}</span></span></div>
               </div>

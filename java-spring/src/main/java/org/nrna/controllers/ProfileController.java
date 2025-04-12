@@ -59,26 +59,6 @@ public class ProfileController {
 		userService.updateProfileForVolunteer(userProfile);
 		return ResponseEntity.ok(new MessageResponse("Success"));
 	}
-	
-	@PostMapping("/address")
-	public ResponseEntity<?> saveOrUpdateAddress(HttpServletRequest request, @Valid @RequestBody Address userAddress) {
-		UserDetailsImpl sessionUser = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		userService.saveOrUpdateAddress(sessionUser, userAddress);
-		return ResponseEntity.ok(new MessageResponse("Success"));
-	}
-
-	@GetMapping("/address")
-	public ResponseEntity<?> getUserAddress() {
-		UserDetailsImpl sessionUser = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return userService.getAddressForUser(sessionUser);
-	}
-	
-	@PutMapping("/profile/address_delete")
-	public ResponseEntity<?> deleteAddress(HttpServletRequest request, @Valid @RequestBody Address address) {
-		HttpSession session = request.getSession();
-		Long id = (Long) session.getAttribute("id");
-		return userService.deleteAddress(id, address);
-	}
 
 	@PostMapping("/saveOrUpdateProfilePic")
 	public ResponseEntity<?> saveOrUpdateProfilePic(@RequestParam("image") String base64Image) throws IOException {

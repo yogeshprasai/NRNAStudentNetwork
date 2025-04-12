@@ -10,5 +10,8 @@ export interface UserProfile{
     isVolunteer: boolean;
     isStudent: boolean;
     university: string;
+    city: string;
+    state: string;
+    zipCode: string;
     profilePicture: any;
 }

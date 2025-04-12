@@ -33,7 +33,7 @@ public class Address {
 	private String zipCode;
 	
 	@OneToOne
-	@JoinColumn(name="person_user_id", nullable=false)
+	@JoinColumn(name="person_user_id")
 	@JsonIgnore
 	private User user;
 

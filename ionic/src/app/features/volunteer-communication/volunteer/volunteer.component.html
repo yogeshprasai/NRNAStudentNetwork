@@ -13,25 +13,30 @@
 <ion-content [fullscreen]="true">
 
   <div id="container">
-    <ion-card class="white mt-3">
+    <ion-card class="m-3">
       <ion-card-header>
         <ion-card-subtitle class="white"></ion-card-subtitle>
-        <ion-card-title class="nrna-card-title ion-text-center">All Volunteers</ion-card-title>
-        <p class="mt-3">These are all the volunteers throughout United States. If you need local volunteers, please use search button.</p>
+        <ion-card-title class="nrna-card-title ion-text-center">All US Volunteers</ion-card-title>
       </ion-card-header>
     
       <ion-card-content>
-
-        <div class="ion-activatable ripple-parent rounded-rectangle">
-            <ion-ripple-effect>Email Selected Volunteers</ion-ripple-effect>
-        </div>
-        <ion-button size="small" class="nrna-flex-center mb-3">
+          <p class="mt-0">If you need local volunteers, please use search button.</p>
+          <p class="mt-0 mb-3">To email selected volunteers, click the button below.</p>
+        <ion-button *ngIf="!showCheckbox" size="small" class="nrna-flex-center mb-3" (click)="selectVolunteersToEmail()">
           <ion-icon slot="start" name="star"></ion-icon>
-                Click to Email Selected Volunteers
+          <span>Click to Email Selected Volunteers</span>
         </ion-button>
+        <div *ngIf="showSendEmailButton" class="nrna-flex-between">
+          <ion-button color="tertiary" size="small" class="nrna-flex-center mb-3" (click)="sendEmailToVoluntters()">Send Email To Selected Volunteers ({{allSelectedVolunteersEmails.length}})</ion-button>
+          <ion-button color="warning" size="small" class="nrna-flex-center mb-3" (click)="cancelEmailToVolunteers()">Cancel</ion-button>
+        </div>
+
         <div>
-          <ion-item class="mb-15 green" *ngFor="let eachMember of volunteers">
+          <ion-item class="mb-15 green" *ngFor="let eachMember of volunteers; let i = index">
             <ion-label class="white profile-container">
+              <div *ngIf="showCheckbox">
+                  <ion-checkbox (click)="selectedCheckbox(eachMember.email)"></ion-checkbox>
+              </div>
               <div class="profile-picture">
                   <div *ngIf="eachMember.profilePicture">
                     <img src= {{getProfilePic(eachMember.profilePicture)}}>
@@ -43,7 +48,7 @@
               <div class="volunteer-info">
                   <h2 *ngIf="eachMember.firstName && eachMember.lastName" class="font-bold">{{eachMember.firstName}} {{eachMember.lastName}}</h2>
                   <div class="white mt-1" *ngIf="eachMember.userAddress && eachMember.userAddress.city && eachMember.userAddress && eachMember.userAddress.state">{{eachMember.userAddress.city}}, {{eachMember.userAddress.state}}</div>
-                  <div *ngIf="eachMember.showPhoneNumber && eachMember.phoneNumber" class="nrna-phone mt-1"><ion-icon name="call-outline"></ion-icon>  <a class=" ml-2 text-decoration-none" href="{{'tel:' + eachMember.phoneNumber}}">{{eachMember.phoneNumber}}</a></div>
+                  <div *ngIf="eachMember.showPhoneNumber && eachMember.phoneNumber" class="nrna-phone mt-1"><ion-icon name="call-outline"></ion-icon>  <a class=" ml-2 text-decoration-none" href="{{'tel:' + eachMember.phoneNumber}}">{{eachMember.phoneNumber | phoneFormat}}</a></div>
                   <div class="nrna-email mt-1" *ngIf="eachMember.email"><ion-icon name="mail-outline" class="mr-2 mail-icon"></ion-icon><span><a class="text-decoration-none" href="{{'mailto:' + eachMember.email }}">{{eachMember.email}}</a></span></div>
               </div>
             </ion-label>

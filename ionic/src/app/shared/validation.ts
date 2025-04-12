@@ -22,7 +22,6 @@ export const Validation_Login = {
         ]
 }
 
-
 export const Validation_Password_Reset_Send = {
     'email': [
             { type: 'required', message: 'Email is required.' },
@@ -82,18 +81,6 @@ export  const Validation_ProfilePage = {
     'university': [
         { type: 'required', message: 'Please select your University.' }
     ],
-}
-
-export  const Validation_AddressPage = {
-    'addressLine1': [
-        { type: 'required', message: 'AddressLine1 is required.' },
-        { type: 'maxlength', message: 'Address Line 1 should not be more than 32 characters long.' },
-        { type: 'pattern', message: 'Please enter a valid address line 1.' },
-    ],
-    'addressLine2': [
-        { type: 'maxlength', message: 'Address Line 2 should not be more than 32 characters long.' },
-        { type: 'pattern', message: 'Please enter a valid address line 2.' },
-    ],
     'city': [
         { type: 'required', message: 'City is required.' },
         { type: 'maxlength', message: 'City should not be more than 32 characters long.' },
@@ -104,7 +91,8 @@ export  const Validation_AddressPage = {
     ],
     'zipCode': [
         { type: 'required', message: 'ZipCode is required.' },
-        { type: 'maxlength', message: 'Zip Code should not be more than 10 characters long.' },
+        { type: 'minlength', message: 'Zip Code should be at least 5 digits long.' },
+        { type: 'maxlength', message: 'Zip Code cannot be more than 5 digits long.' },
         { type: 'pattern', message: 'Please enter a valid Zip Code.' },
     ]
 }

@@ -37,6 +37,10 @@ export class SearchComponent  implements OnInit, ViewWillEnter {
     })
   }
 
+  getProfilePic(base64String: string): string{
+    return "data:image/jpeg;base64," + base64String;
+  }
+
   filterStudentsList(){
     const text = this.searchForm.controls['search']?.value;
     this.studentsFilteredList = this.allStudents.filter((member: any) => {

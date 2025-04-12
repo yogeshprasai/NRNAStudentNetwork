@@ -3,6 +3,7 @@ import { AboutUsComponent } from './about-us.component';
 import { NgModule } from '@angular/core';
 import { OurMissionComponent } from './our-mission/our-mission.component';
 import { BoardComponent } from './board/board.component';
+import { DevTeamComponent } from './dev-team/dev-team.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
       {
         path: 'board',
         component: BoardComponent
+      },
+      {
+        path: 'dev-team',
+        component: DevTeamComponent
       }
     ]
   }

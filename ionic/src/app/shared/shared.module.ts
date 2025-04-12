@@ -6,6 +6,7 @@ import { Validation_ProfilePage } from './validation';
 import { SelectPopoverComponent } from './components/select-popover/select-popover.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CustomDatePipe} from "./pipes/custom-date.pipe";
+import { PhoneFormatPipe } from './pipes/phone-format.pipe';
 
 
 
@@ -13,7 +14,8 @@ import {CustomDatePipe} from "./pipes/custom-date.pipe";
   declarations: [
     NrnaErrorComponent,
     SelectPopoverComponent,
-    CustomDatePipe
+    CustomDatePipe,
+    PhoneFormatPipe
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,8 @@ import {CustomDatePipe} from "./pipes/custom-date.pipe";
   exports: [
     NrnaErrorComponent,
     SelectPopoverComponent,
-    CustomDatePipe
+    CustomDatePipe,
+    PhoneFormatPipe
   ]
 })
 export class SharedModule { }

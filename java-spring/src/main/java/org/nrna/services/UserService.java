@@ -2,6 +2,7 @@ package org.nrna.services;
 
 import org.nrna.dto.request.CreateNewPassword;
 import org.nrna.dto.response.LoginResponse;
+import org.nrna.repository.AddressRepository;
 import org.nrna.services.exception.CustomGenericException;
 import org.nrna.services.exception.ResourceNotFoundException;
 import org.nrna.dto.response.UserAddress;
@@ -59,7 +60,9 @@ public class UserService {
 
 	@Autowired
 	EmailService emailService;
-	
+    @Autowired
+    private AddressRepository addressRepository;
+
 	UserService(){
 		
 	}
@@ -259,6 +262,18 @@ public class UserService {
 			user.setPhoneNumber(userProfile.getPhoneNumber());
 		}
 
+		if(user.getAddress().getCity() == null || !user.getAddress().getCity().equals(userProfile.getCity())) {
+			user.getAddress().setCity(userProfile.getCity());
+		}
+
+		if(user.getAddress().getState() == null || !user.getAddress().getState().equals(userProfile.getState())) {
+			user.getAddress().setState(userProfile.getState());
+		}
+
+		if(user.getAddress().getZipCode() == null || !user.getAddress().getZipCode().equals(userProfile.getZipCode())) {
+			user.getAddress().setZipCode(userProfile.getZipCode());
+		}
+
 		if(user.isShowPhoneNumber() != userProfile.isShowPhoneNumber()){
 			user.setShowPhoneNumber(userProfile.isShowPhoneNumber());
 		}
@@ -281,6 +296,7 @@ public class UserService {
 
 		try{
 			logger.info("User to be updated " + user);
+			user.getAddress().setUser(user);
 			userRepository.save(user);
 		} catch (Exception e) {
 			throw new CustomGenericException("Error Saving User " + e);
@@ -390,6 +406,7 @@ public class UserService {
 					}
 
 					)
+					.sorted(Comparator.comparing(UserProfileAndAddress::getFirstName))
 					.collect(Collectors.toList());
 			if(userProfileAndAddresses.isEmpty()){
 				return new ResponseEntity<>(new MessageResponse("No Volunteers Found"),HttpStatus.NOT_FOUND);
@@ -444,6 +461,7 @@ public class UserService {
 							new UserAddress(user.getAddress().getCity(), user.getAddress().getState(), user.getAddress().getZipCode())
 					);
 					})
+					.sorted(Comparator.comparing(UserProfileAndAddress::getFirstName))
 					.collect(Collectors.toList());
 			return new ResponseEntity<>(userProfileAndAddress,HttpStatus.OK);
 		} catch(Exception e){
