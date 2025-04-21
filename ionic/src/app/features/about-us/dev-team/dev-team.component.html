@@ -41,13 +41,12 @@
                     <p class="white medium-text ml-3 mt-3 mr-3 mb-3">
                         If you have any questions, suggestions, or feedback about App related features, please feel free to reach out to us.
                         We are always open to hearing from you and improving our platform.<br/><br/>
-                        Phone: 240-993-66466
                     </p>
-<!--                    <button (click)="{{'mailto:' + devEmail }}">Contact Me</button>-->
-                    <ion-button expand="block" fill="solid" href="{{'mailto:' + devEmail }}">
-                        Email
-                        <ion-icon name="mail-outline" slot="end"></ion-icon>
-                    </ion-button>
+                    <div class="text-center">
+                        <p class="font-size-16"><ion-icon name="call" class="mr-2 icon"></ion-icon><a href="{{'tel:' + 2409936466}}">240-993-6466</a></p>
+                        <p class="font-size-16"><ion-icon name="mail" class="mr-2 icon"></ion-icon><a href="{{'mailto:' + devEmail}}">{{devEmail}}</a></p>
+
+                    </div>
 
                     <footer>
                         <div class="likes">

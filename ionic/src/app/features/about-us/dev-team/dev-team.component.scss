@@ -28,13 +28,14 @@ body {
     color: #222
 }
 #login-container {
-    height: 515px;
+    height: 475px;
     width: 350px;
     padding: 20px;
     border-radius: 5px;
     background: $background;
     position: relative;
     box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+    background-color: #d4f2f2;
     .profile-img {
         height: 100px;
         width: 100px;
