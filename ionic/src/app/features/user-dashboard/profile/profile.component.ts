@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   public wantToBeRemovedAsVolunteer: boolean = false;
   public originalProfileValues: UserProfile = <UserProfile>{};
   public profilePicture: any = null;
-  public usaUniversityList: university[] = []
+  public usaUniversityList: university[] = [];
   public dataReturned: any = null;
   public memo: any = null;
 

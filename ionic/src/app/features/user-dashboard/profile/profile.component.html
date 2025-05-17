@@ -26,6 +26,7 @@
                 trigger="present-alert"
                 header="Any unsaved data will be lost"
                 [buttons]="navigateToStudentNetworkButtons"
+                [backdropDismiss]="false"
         ></ion-alert>
 
         <ion-alert
@@ -33,6 +34,7 @@
                 trigger="present-alert"
                 header="Profile Update Successful! Since Email has changed, Please login again."
                 [buttons]="successButtonsWithLogout"
+                [backdropDismiss]="false"
         ></ion-alert>
 
         <ion-alert
@@ -40,6 +42,7 @@
                 trigger="present-alert"
                 header="Profile Update Successful!"
                 [buttons]="successButtons"
+                [backdropDismiss]="false"
         ></ion-alert>
 
         <ion-alert
@@ -47,6 +50,7 @@
                 trigger="present-alert"
                 header="Do you want to remove yourself as a volunteer ?"
                 [buttons]="cancelOkButtonsForVolunteer"
+                [backdropDismiss]="false"
         ></ion-alert>
       
       <form [formGroup]="profileForm">

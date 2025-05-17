@@ -1,7 +1,9 @@
 package org.nrna.dto.response.news;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchMetadata {
     private String id;
     private String status;

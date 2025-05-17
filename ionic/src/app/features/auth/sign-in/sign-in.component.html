@@ -38,6 +38,7 @@
           message="Please try again"
           [buttons]="LoginFailButtons"
           (didDismiss)="resetButtons()"
+          [backdropDismiss]="false"
         ></ion-alert>
 
         <form [formGroup]="loginForm">

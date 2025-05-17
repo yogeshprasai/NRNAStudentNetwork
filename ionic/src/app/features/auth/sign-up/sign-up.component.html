@@ -25,6 +25,7 @@
           trigger="present-alert"
           header="User Registration Successful!"
           [buttons]="successButtons"
+          [backdropDismiss]="false"
         ></ion-alert>
 
         <ion-alert
@@ -33,6 +34,7 @@
           header="User Registration Failed!"
           message="Email Already Exist"
           [buttons]="failureButtons"
+          [backdropDismiss]="false"
         ></ion-alert>
 
         <form [formGroup]="signUpForm">
