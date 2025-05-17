@@ -8,7 +8,7 @@ export class CustomDatePipe implements PipeTransform {
   transform(dbDate: any, args?: any): any {
     if(dbDate){
       const todayDateInDBFormat: string = this.formatDate(new Date().toString());
-      if(dbDate === todayDateInDBFormat){
+      if(dbDate.includes("minute") || dbDate.includes("minutes") || dbDate.includes("hour") || dbDate.includes("hours")){
         return "Today";
       }
       const displayDate = new Date(dbDate).toDateString();

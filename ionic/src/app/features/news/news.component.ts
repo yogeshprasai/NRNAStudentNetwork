@@ -42,7 +42,7 @@ export class NewsComponent implements OnInit {
                 bInMilliSeconds =  currentInMilliSeconds - bToMilliSeconds;
             }
 
-             return bInMilliSeconds - aInMilliSeconds;
+            return bInMilliSeconds - aInMilliSeconds;
         });
       }
     });
