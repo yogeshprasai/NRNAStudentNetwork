@@ -26,15 +26,18 @@
           <ion-icon slot="start" name="star"></ion-icon>
           <span>Click to Email Selected Volunteers</span>
         </ion-button>
-        <div *ngIf="showSendEmailButton" class="nrna-flex-between">
+        <div *ngIf="showSendEmailButton" class="nrna-flex-center">
           <ion-button color="tertiary" size="small" class="nrna-flex-center mb-3" (click)="sendEmailToVoluntters()">Send Email To Selected Volunteers ({{allSelectedVolunteersEmails.length}})</ion-button>
-          <ion-button color="warning" size="small" class="nrna-flex-center mb-3" (click)="cancelEmailToVolunteers()">Cancel</ion-button>
+        </div>
+        <div *ngIf="showSendEmailButton" class="nrna-flex-center">
+          <ion-button color="warning" size="small" class="nrna-flex-center mb-3" (click)="cancelEmailToVolunteers()">Reset Email List</ion-button>
         </div>
 
-        <div>
+
+          <div>
           <ion-item class="mb-15 green" *ngFor="let eachMember of volunteers; let i = index">
             <ion-label class="white profile-container">
-              <div *ngIf="showCheckbox">
+              <div *ngIf="showCheckbox" class="mr-3">
                   <ion-checkbox (click)="selectedCheckbox(eachMember.email)"></ion-checkbox>
               </div>
               <div class="profile-picture">
